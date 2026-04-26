@@ -1,0 +1,11 @@
+{
+  "architectures": [
+    {
+      "id": "FEATURE-001-gym-pwa",
+      "title": "Strength Trainer PWA Core Architecture",
+      "status": "Ready for Implementation",
+      "path": ".pipeline/architecture/FEATURE-001-gym-pwa/design.md",
+      "last_updated": "2023-10-27"
+    }
+  ]
+}
