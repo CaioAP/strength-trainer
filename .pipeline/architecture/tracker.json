@@ -6,6 +6,13 @@
       "status": "Ready for Implementation",
       "path": ".pipeline/architecture/FEATURE-001-gym-pwa/design.md",
       "last_updated": "2023-10-27"
+    },
+    {
+      "id": "FEATURE-002-admin-dashboard-v2",
+      "title": "Expanded Admin Dashboard (V2)",
+      "status": "Ready for Implementation",
+      "path": ".pipeline/architecture/FEATURE-002-admin-dashboard-v2/design.md",
+      "last_updated": "2024-04-24"
     }
   ]
 }
