@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Send, CheckCircle2 } from "lucide-react";
-import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
+import { SettingsSection } from "@/components/ui/SettingsSection";
 import ErrorBanner from "@/components/ui/ErrorBanner";
 import { useReportBugForm } from "./useReportBugForm";
 
@@ -38,12 +38,12 @@ export const ReportBugForm = (): React.JSX.Element => {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-4">
-        <div className="px-1">
-          <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Issue Details</h3>
-          <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Describe what happened so our team can investigate.</p>
-        </div>
-
-        <Card variant="default" className="space-y-6">
+        <SettingsSection
+          title="Issue Details"
+          description="Describe what happened so our team can investigate."
+          padding="md"
+          cardClassName="space-y-6"
+        >
           <Input
             label="Title"
             required
@@ -82,7 +82,7 @@ export const ReportBugForm = (): React.JSX.Element => {
               ))}
             </div>
           </div>
-        </Card>
+        </SettingsSection>
       </div>
 
       {error && <ErrorBanner message={error} />}

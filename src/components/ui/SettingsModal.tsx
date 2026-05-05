@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
+import { SettingsSection } from "@/components/ui/SettingsSection";
 
 interface User {
   id: string;
@@ -61,87 +62,78 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
 
       <div className="flex-1 p-4 space-y-8 pb-12">
         {/* Profile Section */}
-        <section>
-          <h3 className="text-2.5 font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_profile")}</h3>
-          <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden">
-            <div className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 bg-brand-primary/10 rounded-full flex items-center justify-center border border-brand-primary/20">
-                <UserIcon className="text-brand-primary w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-white leading-none">{profile?.full_name || "User"}</p>
-                <p className="text-xs text-text-subtle mt-1">{user?.email}</p>
-              </div>
+        <SettingsSection title={t("account_profile")} titleVariant="primary">
+          <div className="p-4 flex items-center gap-4">
+            <div className="w-12 h-12 bg-brand-primary/10 rounded-full flex items-center justify-center border border-brand-primary/20">
+              <UserIcon className="text-brand-primary w-6 h-6" />
             </div>
-            
-            <div className="bg-white/5 divide-y divide-white/5">
-              <SettingsItem 
-                icon={<Mail className="w-4 h-4" />} 
-                label={t("email_preferences")} 
-                onClick={() => {
-                  setNavigating(true);
-                  router.push("/settings/email");
-                }}
-              />
-              <SettingsItem 
-                icon={<Shield className="w-4 h-4" />} 
-                label={t("security_privacy")} 
-                onClick={() => {
-                  setNavigating(true);
-                  router.push("/settings/security");
-                }}
-              />
+            <div>
+              <p className="font-bold text-white leading-none">{profile?.full_name || "User"}</p>
+              <p className="text-xs text-text-subtle mt-1">{user?.email}</p>
             </div>
           </div>
-        </section>
+          
+          <div className="bg-white/5 divide-y divide-white/5">
+            <SettingsItem 
+              icon={<Mail className="w-4 h-4" />} 
+              label={t("email_preferences")} 
+              onClick={() => {
+                setNavigating(true);
+                router.push("/settings/email");
+              }}
+            />
+            <SettingsItem 
+              icon={<Shield className="w-4 h-4" />} 
+              label={t("security_privacy")} 
+              onClick={() => {
+                setNavigating(true);
+                router.push("/settings/security");
+              }}
+            />
+          </div>
+        </SettingsSection>
 
         {/* Role Specific Info */}
-        <section>
-          <h3 className="text-2.5 font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_info")}</h3>
-          <div className="bg-brand-surface rounded-lg shadow-card p-4 space-y-4 overflow-hidden">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-text-subtle font-medium">{t("access_role")}</span>
-              <span className="bg-brand-primary/10 text-brand-primary text-2.5 px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
-                {profile?.role}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-text-subtle font-medium">{t("account_id")}</span>
-              <span className="text-2.5 text-white font-mono">{user?.id.slice(0, 12)}...</span>
-            </div>
+        <SettingsSection title={t("account_info")} titleVariant="primary" padding="sm" className="space-y-4">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-text-subtle font-medium">{t("access_role")}</span>
+            <span className="bg-brand-primary/10 text-brand-primary text-2.5 px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
+              {profile?.role}
+            </span>
           </div>
-        </section>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-text-subtle font-medium">{t("account_id")}</span>
+            <span className="text-2.5 text-white font-mono">{user?.id.slice(0, 12)}...</span>
+          </div>
+        </SettingsSection>
 
         {/* Support Section */}
-        <section>
-          <h3 className="text-2.5 font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("support")}</h3>
-          <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden divide-y divide-white/5">
-             <SettingsItem 
-               icon={<HelpCircle className="w-4 h-4" />} 
-               label={t("help_center")} 
-               onClick={() => {
-                 setNavigating(true);
-                 router.push("/settings/help");
-               }}
-             />
-             <SettingsItem 
-               icon={<Bug className="w-4 h-4" />} 
-               label={t("report_bug")} 
-               onClick={() => {
-                 setNavigating(true);
-                 router.push("/settings/bug");
-               }}
-             />
-             <SettingsItem 
-                icon={<FileText className="w-4 h-4" />} 
-                label={t("privacy_policy")} 
-                onClick={() => {
-                  setNavigating(true);
-                  router.push("/settings/privacy");
-                }}
-              />
-          </div>
-        </section>
+        <SettingsSection title={t("support")} titleVariant="primary">
+           <SettingsItem 
+             icon={<HelpCircle className="w-4 h-4" />} 
+             label={t("help_center")} 
+             onClick={() => {
+               setNavigating(true);
+               router.push("/settings/help");
+             }}
+           />
+           <SettingsItem 
+             icon={<Bug className="w-4 h-4" />} 
+             label={t("report_bug")} 
+             onClick={() => {
+               setNavigating(true);
+               router.push("/settings/bug");
+             }}
+           />
+           <SettingsItem 
+              icon={<FileText className="w-4 h-4" />} 
+              label={t("privacy_policy")} 
+              onClick={() => {
+                setNavigating(true);
+                router.push("/settings/privacy");
+              }}
+            />
+        </SettingsSection>
 
         {/* Logout Section */}
         <button
