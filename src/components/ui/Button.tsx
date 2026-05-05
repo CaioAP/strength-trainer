@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "danger" | "ghost" | "plain";
+  variant?: "primary" | "secondary" | "danger" | "danger-subtle" | "ghost" | "plain";
   size?: "sm" | "md" | "lg" | "none";
   loading?: boolean;
   loadingText?: string;
@@ -25,6 +25,7 @@ export const Button = ({
     primary: "bg-brand-primary text-black shadow-subtle hover:opacity-90 rounded-md font-black uppercase tracking-widest",
     secondary: "bg-brand-surface text-white border border-white/10 hover:bg-gray-800 shadow-card rounded-md font-black uppercase tracking-widest",
     danger: "bg-status-error text-white hover:bg-status-error/90 shadow-subtle rounded-md font-black uppercase tracking-widest",
+    "danger-subtle": "bg-status-error/10 text-status-error border border-status-error/20 hover:bg-status-error/20 rounded-md font-black uppercase tracking-widest",
     ghost: "bg-transparent text-text-subtle hover:bg-white/5 hover:text-white rounded-md font-black uppercase tracking-widest",
     plain: "",
   };

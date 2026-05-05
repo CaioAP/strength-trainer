@@ -6,7 +6,7 @@ interface SettingsSectionProps {
   description?: string;
   children: React.ReactNode;
   className?: string;
-  titleVariant?: "subtle" | "primary";
+  titleVariant?: "subtle" | "primary" | "danger";
   padding?: "none" | "sm" | "md" | "lg";
   cardVariant?: "default" | "interactive" | "modal" | "panel";
   cardClassName?: string;
@@ -25,6 +25,7 @@ export const SettingsSection = ({
   const titleColors = {
     subtle: "text-text-subtle mb-1",
     primary: "text-brand-primary mb-4",
+    danger: "text-status-error mb-1",
   };
 
   return (
