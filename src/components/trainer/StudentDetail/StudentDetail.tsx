@@ -13,6 +13,9 @@ import PlanAssignmentModal from "@/components/ui/PlanAssignmentModal";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import EmptyState from "@/components/ui/EmptyState";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { StatCard } from "@/components/ui/StatCard";
 import { useStudentDetail } from "./useStudentDetail";
 
 interface StudentDetailProps {
@@ -55,8 +58,20 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
 
       <section className="space-y-8 animate-in fade-in duration-500">
         <div className="grid grid-cols-2 gap-4">
-          <StatCard icon={<CheckCircle2 className="w-5 h-5" />} label={t("compliance")} value={completedSessions.toString()} color="text-brand-primary" subLabel={t("sessions_done")} />
-          <StatCard icon={<Activity className="w-5 h-5" />} label={t("avg_effort")} value={avgRpe} color="text-brand-accent" subLabel={t("overall_rpe")} />
+          <StatCard 
+            icon={<CheckCircle2 className="w-5 h-5" />} 
+            label={t("compliance")} 
+            value={completedSessions.toString()} 
+            color="text-brand-primary" 
+            subLabel={t("sessions_done")} 
+          />
+          <StatCard 
+            icon={<Activity className="w-5 h-5" />} 
+            label={t("avg_effort")} 
+            value={avgRpe} 
+            color="text-brand-accent" 
+            subLabel={t("overall_rpe")} 
+          />
         </div>
 
         <div className="space-y-4">
@@ -67,9 +82,14 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
             </h2>
             {activePlan && (
               <div className="flex items-center gap-2">
-                <button onClick={() => setAssignModalOpen(true)} className="text-[9px] font-black uppercase tracking-widest text-brand-primary hover:opacity-80 transition-all">
+                <Button 
+                  variant="ghost" 
+                  size="none"
+                  onClick={() => setAssignModalOpen(true)} 
+                  className="text-[9px] font-black uppercase tracking-widest text-brand-primary hover:opacity-80"
+                >
                   {t("assign_new")}
-                </button>
+                </Button>
                 <span className="text-gray-800 text-[9px]">|</span>
                 <Link href={`/trainer/plan/new?student_id=${studentId}`} className="text-[9px] font-black uppercase tracking-widest text-brand-accent hover:opacity-80 transition-all">
                   {t("custom")}
@@ -79,7 +99,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
           </div>
 
           {activePlan ? (
-            <div className="bg-brand-surface p-5 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] transition-all duration-300 flex justify-between items-center group">
+            <Card variant="interactive" padding="sm" className="flex justify-between items-center group">
               <div>
                 <h3 className="font-bold text-white text-lg tracking-tight group-hover:text-brand-primary transition-colors">{activePlan.name}</h3>
                 <p className="text-[10px] text-text-subtle uppercase font-black tracking-widest mt-1 opacity-60">
@@ -87,22 +107,26 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => router.push(`/trainer/plan/new?plan_id=${activePlan.id}&student_id=${studentId}`)}
-                  className="p-3 bg-brand-secondary rounded-md text-brand-primary shadow-card hover:shadow-card-hover transition-all active:scale-95"
+                  className="bg-brand-secondary text-brand-primary"
                 >
                   <ExternalLink className="w-4 h-4" />
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setRemoveModalOpen(true)}
-                  className="p-3 bg-brand-secondary rounded-md text-status-error shadow-card hover:shadow-card-hover hover:bg-status-error/10 transition-all active:scale-95"
+                  className="bg-brand-secondary text-status-error hover:bg-status-error/10"
                 >
                   <Trash2 className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
-            </div>
+            </Card>
           ) : (
-            <div className="bg-brand-surface p-8 rounded-lg shadow-card text-center">
+            <Card variant="default" padding="lg" className="text-center">
               <div className="w-12 h-12 bg-brand-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-primary/10">
                 <Dumbbell className="w-6 h-6 text-brand-primary opacity-40" />
               </div>
@@ -110,20 +134,23 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
                 {t("no_plan")}<br />{t("no_plan_desc")}
               </p>
               <div className="flex gap-3">
-                <button
+                <Button
+                  variant="secondary"
+                  className="flex-1"
                   onClick={() => setAssignModalOpen(true)}
-                  className="flex-1 py-3 bg-brand-surface text-white rounded-md text-[10px] font-black uppercase tracking-widest hover:bg-gray-800 transition-all active:scale-95 shadow-card"
                 >
                   {t("use_template")}
-                </button>
+                </Button>
                 <Link
                   href={`/trainer/plan/new?student_id=${studentId}`}
-                  className="flex-1 py-3 bg-brand-primary text-black rounded-md text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-card hover:shadow-card-hover active:scale-95"
+                  className="flex-1"
                 >
-                  <Plus className="w-3.5 h-3.5" /> {t("custom_plan")}
+                  <Button variant="primary" fullWidth className="gap-2">
+                    <Plus className="w-3.5 h-3.5" /> {t("custom_plan")}
+                  </Button>
                 </Link>
               </div>
-            </div>
+            </Card>
           )}
         </div>
 
@@ -135,7 +162,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
 
           <div className="space-y-3">
             {history.map((session) => (
-              <div key={session.id} className="bg-brand-surface p-4 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] transition-all duration-300 flex justify-between items-center group">
+              <Card key={session.id} variant="interactive" padding="sm" className="flex justify-between items-center group">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-brand-secondary rounded-full flex items-center justify-center">
                     <Clock className="w-4 h-4 text-text-subtle" />
@@ -159,7 +186,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
                     <span className="text-brand-primary font-black text-sm">RPE {session.effort_rpe}</span>
                   </div>
                 )}
-              </div>
+              </Card>
             ))}
 
             {history.length === 0 && <EmptyState message={t("no_activity")} />}
@@ -188,17 +215,3 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
     </main>
   );
 };
-
-function StatCard({ icon, label, value, color, subLabel }: { icon: React.ReactNode; label: string; value: string; color: string; subLabel: string }): React.JSX.Element {
-  return (
-    <div className="bg-brand-surface p-5 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.02] flex flex-col items-center justify-center text-center relative overflow-hidden group transition-all duration-300">
-      <div className={`${color} mb-2 transition-transform group-hover:scale-110 duration-500`}>{icon}</div>
-      <span className="text-3xl font-black text-white leading-none tracking-tighter italic">{value}</span>
-      <div className="mt-2">
-        <span className="text-[9px] uppercase text-white font-black tracking-widest block group-hover:text-brand-primary transition-colors">{label}</span>
-        <span className="text-[8px] uppercase text-text-subtle font-bold tracking-tighter opacity-60 block mt-0.5">{subLabel}</span>
-      </div>
-      <div className={`absolute top-0 right-0 w-8 h-8 ${color} opacity-5 -mr-4 -mt-4 rounded-full blur-xl`} />
-    </div>
-  );
-}

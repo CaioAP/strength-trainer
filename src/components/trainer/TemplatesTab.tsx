@@ -3,6 +3,8 @@ import { useTranslations } from "next-intl";
 import { FileText, Plus, Dumbbell, Trash2 } from "lucide-react";
 import Link from "next/link";
 import EmptyState from "@/components/ui/EmptyState";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { WorkoutTemplate } from "./TrainerDashboard.types";
 
 interface TemplatesTabProps {
@@ -25,19 +27,20 @@ export default function TemplatesTab({
             {t("title")}
           </h2>
         </div>
-        <Link
-          href="/trainer/plan/new"
-          className="p-1.5 bg-brand-primary text-black rounded-md hover:opacity-90 transition-all shadow-card hover:shadow-card-hover"
-        >
-          <Plus className="w-4 h-4" />
+        <Link href="/trainer/plan/new">
+          <Button variant="primary" size="sm" className="p-1.5">
+            <Plus className="w-4 h-4" />
+          </Button>
         </Link>
       </div>
 
       <div className="grid gap-3">
         {templates.map((template) => (
-          <div 
+          <Card 
             key={template.id} 
-            className="bg-brand-surface p-4 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] transition-all duration-300 flex items-center justify-between group overflow-hidden"
+            variant="interactive"
+            padding="sm"
+            className="flex items-center justify-between group"
           >
             <div className="flex items-center gap-4 min-w-0">
               <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center text-brand-primary group-hover:bg-brand-primary/10 transition-all shrink-0">
@@ -52,14 +55,15 @@ export default function TemplatesTab({
                 </p>
               </div>
             </div>
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => onDelete(template.id)}
-              className="p-2 text-text-subtle hover:text-status-error transition-colors shrink-0 ml-4"
+              className="text-text-subtle hover:text-status-error ml-4"
             >
               <Trash2 className="w-4 h-4" />
-            </button>
-          </div>
+            </Button>
+          </Card>
         ))}
         {templates.length === 0 && <EmptyState message={t("no_templates")} />}
       </div>

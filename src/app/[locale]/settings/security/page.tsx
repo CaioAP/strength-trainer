@@ -1,22 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Trash2, Loader2, Check } from "lucide-react";
+import { Trash2, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { validatePassword } from "@/lib/utils/validatePassword";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import SubPageHeader from "@/components/ui/SubPageHeader";
 import ToggleRow from "@/components/ui/ToggleRow";
+import { ChangePasswordForm } from "@/components/settings/ChangePasswordForm";
 
 export default function SecurityPrivacyPage(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [passwordData, setPasswordData] = useState({ newPassword: "", confirmPassword: "" });
-  const [passwordStatus, setPasswordStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [privacy, setPrivacy] = useState({ show_history_to_trainer: true });
 
   const supabase = createClient();
@@ -58,29 +56,6 @@ export default function SecurityPrivacyPage(): React.JSX.Element {
     setTimeout(() => setSuccess(false), 2000);
   };
 
-  const handleChangePassword = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
-    setPasswordStatus(null);
-
-    const { newPassword, confirmPassword } = passwordData;
-    const validationError = validatePassword(newPassword, confirmPassword);
-    if (validationError) {
-      setPasswordStatus({ type: "error", message: validationError });
-      return;
-    }
-
-    setSaving(true);
-    const { error } = await supabase.auth.updateUser({ password: newPassword });
-
-    if (error) {
-      setPasswordStatus({ type: "error", message: error.message });
-    } else {
-      setPasswordStatus({ type: "success", message: "Password updated successfully" });
-      setPasswordData({ newPassword: "", confirmPassword: "" });
-    }
-    setSaving(false);
-  };
-
   const handleDeleteAccount = async (): Promise<void> => {
     setSaving(true);
     try {
@@ -93,7 +68,6 @@ export default function SecurityPrivacyPage(): React.JSX.Element {
     } catch (err: unknown) {
       const error = err as Error;
       console.error("Error scheduling account deletion:", error);
-      setPasswordStatus({ type: "error", message: error.message || "Failed to schedule deletion" });
       setSaving(false);
     }
   };
@@ -128,55 +102,7 @@ export default function SecurityPrivacyPage(): React.JSX.Element {
           </div>
         </section>
 
-        <section className="space-y-4">
-          <div className="px-1">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Update Password</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Secure your account with a strong, unique password.</p>
-          </div>
-
-          <form onSubmit={handleChangePassword} className="bg-brand-surface rounded-xl shadow-card p-5 space-y-4">
-            <div className="space-y-2">
-              <label className="text-[10px] text-text-subtle uppercase font-black tracking-widest ml-1">New Password</label>
-              <input
-                type="password"
-                required
-                value={passwordData.newPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                className="w-full bg-brand-secondary rounded-md p-3 text-white text-sm outline-none focus:ring-1 focus:ring-brand-primary transition-colors shadow-card"
-                placeholder="••••••••"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] text-text-subtle uppercase font-black tracking-widest ml-1">Confirm New Password</label>
-              <input
-                type="password"
-                required
-                value={passwordData.confirmPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                className="w-full bg-brand-secondary rounded-md p-3 text-white text-sm outline-none focus:ring-1 focus:ring-brand-primary transition-colors shadow-card"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {passwordStatus && (
-              <div className={`p-3 rounded text-[10px] font-bold uppercase tracking-widest text-center ${
-                passwordStatus.type === "success"
-                  ? "bg-brand-primary/10 text-brand-primary border border-brand-primary/20"
-                  : "bg-status-error/10 text-status-error border border-status-error/20"
-              }`}>
-                {passwordStatus.message}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={saving || !passwordData.newPassword}
-              className="w-full py-3 bg-brand-primary/10 border border-brand-primary/20 text-brand-primary rounded-md font-black uppercase text-[10px] tracking-widest hover:bg-brand-primary/20 transition-all disabled:opacity-30 shadow-card hover:shadow-card-hover"
-            >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : "Update Password"}
-            </button>
-          </form>
-        </section>
+        <ChangePasswordForm />
 
         <section className="space-y-4 pt-4">
           <div className="px-1 pt-8">

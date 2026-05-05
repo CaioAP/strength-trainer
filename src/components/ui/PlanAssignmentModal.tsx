@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { X, FileText, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { WorkoutTemplate } from "@/lib/types/common.types";
+import { Card } from "./Card";
+import { Button } from "./Button";
 
 interface PlanAssignmentModalProps {
   isOpen: boolean;
@@ -27,30 +29,34 @@ export default function PlanAssignmentModal({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-sm bg-brand-surface border border-gray-800 rounded-lg shadow-elevated flex flex-col max-h-[80vh] overflow-hidden animate-in zoom-in-95 duration-200">
+      <Card variant="modal" padding="none" className="w-full max-w-sm flex flex-col max-h-[80vh] animate-in zoom-in-95 duration-200">
         <header className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-800/20">
           <div>
             <h3 className="text-xl font-bold text-white">{t("assign_template")}</h3>
             <p className="text-[10px] text-text-subtle uppercase font-black tracking-widest mt-1">{t("pick_starting_plan")}</p>
           </div>
-          <button 
+          <Button 
+            variant="ghost"
+            size="sm"
             onClick={onClose}
             disabled={isLoading}
-            className="p-1 text-text-subtle hover:text-white transition-colors"
+            className="p-1"
           >
             <X className="w-5 h-5" />
-          </button>
+          </Button>
         </header>
         
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {templates.map((template) => (
-            <div 
+            <Card 
               key={template.id}
+              variant="interactive"
+              padding="sm"
               onClick={() => !isLoading && setSelectedId(template.id)}
-              className={`p-4 rounded-lg border transition-all cursor-pointer flex justify-between items-center ${
+              className={`border transition-all flex justify-between items-center ${
                 selectedId === template.id 
                 ? "bg-brand-primary/10 border-brand-primary" 
-                : "bg-brand-secondary border-gray-800 hover:border-gray-700"
+                : "bg-brand-secondary border-gray-800"
               }`}
             >
               <div>
@@ -62,7 +68,7 @@ export default function PlanAssignmentModal({
                   <Check className="w-4 h-4 text-black" />
                 </div>
               )}
-            </div>
+            </Card>
           ))}
 
           {templates.length === 0 && (
@@ -74,23 +80,25 @@ export default function PlanAssignmentModal({
         </div>
 
         <footer className="p-4 bg-gray-800/20 border-t border-gray-800 flex gap-3">
-          <button
+          <Button
+            variant="secondary"
+            fullWidth
             onClick={onClose}
             disabled={isLoading}
-            className="flex-1 py-3 px-4 bg-brand-secondary text-white font-bold rounded-md uppercase text-xs border border-gray-800 hover:bg-gray-800 transition-all disabled:opacity-50"
           >
             {t("cancel")}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
+            fullWidth
             onClick={() => selectedId && onAssign(selectedId)}
-            disabled={isLoading || !selectedId}
-            className="flex-1 py-3 px-4 bg-brand-primary text-black font-bold rounded-md uppercase text-xs transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-subtle active:scale-95"
+            loading={isLoading}
+            disabled={!selectedId}
           >
-            {isLoading && <div className="w-3 h-3 border-2 border-black border-t-transparent rounded-full animate-spin" />}
             {t("confirm")}
-          </button>
+          </Button>
         </footer>
-      </div>
+      </Card>
     </div>
   );
 }

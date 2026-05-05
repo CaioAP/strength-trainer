@@ -5,6 +5,9 @@ import { useTranslations } from "next-intl";
 import { Info } from "lucide-react";
 import Link from "next/link";
 import ErrorBanner from "@/components/ui/ErrorBanner";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { useLoginForm } from "./useLoginForm";
 
 export default function LoginForm(): React.JSX.Element {
@@ -23,7 +26,7 @@ export default function LoginForm(): React.JSX.Element {
   } = useLoginForm();
 
   return (
-    <div className="w-full max-w-sm space-y-8 bg-brand-surface p-8 rounded-lg shadow-elevated">
+    <Card variant="panel" padding="lg" className="w-full max-w-sm space-y-8 animate-in fade-in zoom-in duration-300">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-brand-primary italic font-black uppercase tracking-tighter">
           {ct("title")}
@@ -49,24 +52,18 @@ export default function LoginForm(): React.JSX.Element {
 
       <form onSubmit={handleLogin} className="mt-8 space-y-6">
         <div className="space-y-4">
-          <div>
-            <label 
-              htmlFor="email" 
-              className="block text-[10px] font-black text-text-subtle mb-1.5 uppercase tracking-widest ml-1"
-            >
-              {t("email_label")}
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              className="w-full bg-brand-secondary shadow-card rounded-md p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none transition-all placeholder:text-gray-700"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("email_placeholder")}
-            />
-          </div>
-          <div>
+          <Input
+            label={t("email_label")}
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={t("email_placeholder")}
+            disabled={loading}
+          />
+          
+          <div className="space-y-2">
             <div className="flex items-center justify-between mb-1.5 ml-1">
               <label 
                 htmlFor="password" 
@@ -81,28 +78,31 @@ export default function LoginForm(): React.JSX.Element {
                 {t("forgot_password")}
               </Link>
             </div>
-            <input
+            <Input
               id="password"
               type="password"
               required
-              className="w-full bg-brand-secondary shadow-card rounded-md p-3 text-white focus:ring-1 focus:ring-brand-primary outline-none transition-all"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t("password_placeholder")}
+              disabled={loading}
             />
           </div>
         </div>
 
         {error && <ErrorBanner message={error} />}
 
-        <button
+        <Button
           type="submit"
-          disabled={loading}
-          className="w-full py-4 bg-brand-primary text-black font-black rounded-md hover:opacity-90 disabled:opacity-50 transition-all uppercase text-sm tracking-widest shadow-subtle active:scale-[0.98]"
+          variant="primary"
+          fullWidth
+          size="lg"
+          loading={loading}
+          loadingText={t("submitting")}
         >
-          {loading ? t("submitting") : t("submit")}
-        </button>
+          {t("submit")}
+        </Button>
       </form>
-    </div>
+    </Card>
   );
 }

@@ -2,12 +2,13 @@
 
 import React, { Suspense } from "react";
 import { useTranslations } from "next-intl";
-import { Users, Settings, FileText } from "lucide-react";
+import { Users, FileText } from "lucide-react";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import SettingsModal from "@/components/ui/SettingsModal";
 import BottomNav from "@/components/ui/BottomNav";
 import SuspenseLoader from "@/components/ui/SuspenseLoader";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import { DashboardHeader } from "@/components/ui/DashboardHeader";
 import { useSettingsModal } from "@/hooks/useSettingsModal";
 import { useTrainerDashboard } from "./useTrainerDashboard";
 import StudentsTab from "./StudentsTab";
@@ -53,21 +54,11 @@ function TrainerDashboardContent({ user }: TrainerDashboardProps): React.JSX.Ele
 
   return (
     <main className="flex-1 flex flex-col p-4 bg-brand-secondary min-h-screen pb-24">
-      <header className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-brand-primary">{ct("title")}</h1>
-          <p className="text-text-subtle text-sm uppercase tracking-widest font-bold mt-0.5">
-            {pt("Portal")}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setSettingsOpen(true)}
-          className="p-2 rounded-full hover:bg-brand-surface text-white transition-all active:rotate-45"
-        >
-          <Settings className="w-5 h-5" />
-        </button>
-      </header>
+      <DashboardHeader
+        title={ct("title")}
+        subtitle={pt("Portal")}
+        onSettingsClick={() => setSettingsOpen(true)}
+      />
 
       {loading && (activeTab === "students" ? students.length === 0 : templates.length === 0) ? (
         <LoadingScreen fullPage={false} />

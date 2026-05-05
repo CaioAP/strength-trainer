@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/Button";
 
 interface User {
   id: string;
@@ -47,13 +48,15 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       )}
       <header className="p-4 flex items-center justify-between border-b border-gray-800 bg-brand-surface">
         <h2 className="text-xl font-bold text-white">{t("title")}</h2>
-        <button 
+        <Button 
+          variant="ghost"
+          size="sm"
           onClick={onClose}
           disabled={navigating}
-          className="p-2 hover:bg-brand-secondary rounded-full transition-colors text-text-subtle hover:text-white disabled:opacity-30"
+          className="p-2 rounded-full text-text-subtle hover:text-white disabled:opacity-30"
         >
           <X className="w-6 h-6" />
-        </button>
+        </Button>
       </header>
 
       <div className="flex-1 p-4 space-y-8 pb-12">

@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import SearchInput from "@/components/ui/SearchInput";
 import { StudentProfile } from "./AdminDashboard.types";
+import { Card } from "@/components/ui/Card";
 
 interface StudentsTabProps {
   students: StudentProfile[];
@@ -30,9 +31,11 @@ export default function StudentsTab({
 
       <div className="space-y-3">
         {filteredStudents.map((s) => (
-          <div 
+          <Card 
             key={s.id} 
-            className="bg-brand-surface p-4 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] flex justify-between items-center group transition-all duration-300 overflow-hidden"
+            variant="interactive"
+            padding="sm"
+            className="flex justify-between items-center group"
           >
             <div className="min-w-0 flex-1">
               <h3 className="font-medium text-white group-hover:text-brand-primary transition-colors truncate">
@@ -42,7 +45,7 @@ export default function StudentsTab({
                 {t("trainer")}: {s.trainer?.profiles?.email || t("unassigned")}
               </p>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { Activity, Dumbbell, Trophy } from "lucide-react";
 import Link from "next/link";
+import { Card } from "@/components/ui/Card";
 import { ActivePlan } from "./StudentDashboard.types";
 
 interface WorkoutViewProps {
@@ -40,41 +41,43 @@ export default function WorkoutView({
                 <Link
                   key={workout.id}
                   href={`/student/session?workout_id=${workout.id}`}
-                  className="bg-brand-surface p-5 rounded-lg shadow-card hover:shadow-card-hover group hover:scale-[1.01] transition-all duration-300 active:scale-[0.98] overflow-hidden"
+                  className="block group"
                 >
-                  <div className="flex justify-between items-center gap-4">
-                    <div className="min-w-0">
-                      <p className="text-white text-lg font-bold tracking-tight group-hover:text-brand-primary transition-colors truncate">
-                        {workout.name}
-                      </p>
-                      <p className="text-brand-accent text-[10px] font-black uppercase tracking-widest mt-1 flex items-center gap-2 opacity-70 truncate">
-                        <Dumbbell className="w-3 h-3 shrink-0" />
-                        {t("exercises_count", { count: workout.plan_exercises?.length || 0 })}
-                      </p>
+                  <Card variant="interactive" padding="md">
+                    <div className="flex justify-between items-center gap-4">
+                      <div className="min-w-0">
+                        <p className="text-white text-lg font-bold tracking-tight group-hover:text-brand-primary transition-colors truncate">
+                          {workout.name}
+                        </p>
+                        <p className="text-brand-accent text-[10px] font-black uppercase tracking-widest mt-1 flex items-center gap-2 opacity-70 truncate">
+                          <Dumbbell className="w-3 h-3 shrink-0" />
+                          {t("exercises_count", { count: workout.plan_exercises?.length || 0 })}
+                        </p>
+                      </div>
+                      <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center group-hover:bg-brand-primary/10 transition-all shrink-0">
+                        <Activity className="w-4 h-4 text-brand-primary" />
+                      </div>
                     </div>
-                    <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center group-hover:bg-brand-primary/10 transition-all shrink-0">
-                      <Activity className="w-4 h-4 text-brand-primary" />
-                    </div>
-                  </div>
+                  </Card>
                 </Link>
               ))}
             </div>
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center py-20 bg-brand-surface rounded-lg shadow-card animate-in fade-in duration-700">
+        <Card variant="default" padding="lg" className="flex flex-col items-center justify-center py-20 animate-in fade-in duration-700">
           <Dumbbell className="w-12 h-12 text-gray-700 mb-4" />
           <p className="text-text-subtle font-black uppercase tracking-widest text-sm text-center px-8 leading-relaxed">
             {t("no_plan")}
           </p>
-        </div>
+        </Card>
       )}
 
       <div className="space-y-4">
         <h3 className="text-[10px] uppercase font-black tracking-widest text-text-subtle px-1">
           {t("weekly_progress")}
         </h3>
-        <div className="bg-brand-surface p-5 rounded-lg grid grid-cols-7 gap-2 shadow-card hover:shadow-card-hover transition-all duration-300">
+        <Card variant="default" padding="md" className="grid grid-cols-7 gap-2">
           {["M", "T", "W", "T", "F", "S", "S"].map((day, i) => (
             <div key={i} className="flex flex-col items-center gap-2">
               <span className="text-[8px] font-black text-text-subtle uppercase">{day}</span>
@@ -85,7 +88,7 @@ export default function WorkoutView({
               </div>
             </div>
           ))}
-        </div>
+        </Card>
       </div>
     </section>
   );

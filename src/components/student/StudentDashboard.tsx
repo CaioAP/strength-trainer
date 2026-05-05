@@ -2,11 +2,12 @@
 
 import React, { Suspense } from "react";
 import { useTranslations } from "next-intl";
-import { Activity, Calendar, Settings } from "lucide-react";
+import { Activity, Calendar } from "lucide-react";
 import SettingsModal from "@/components/ui/SettingsModal";
 import BottomNav from "@/components/ui/BottomNav";
 import SuspenseLoader from "@/components/ui/SuspenseLoader";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import { DashboardHeader } from "@/components/ui/DashboardHeader";
 import { useSettingsModal } from "@/hooks/useSettingsModal";
 import { useStudentDashboard } from "./useStudentDashboard";
 import WorkoutView from "./WorkoutView";
@@ -48,23 +49,12 @@ function StudentDashboardContent({ user }: StudentDashboardProps): React.JSX.Ele
 
   return (
     <main className="flex-1 flex flex-col p-4 bg-brand-secondary min-h-screen pb-24">
-      <header className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-brand-primary leading-tight font-black uppercase italic tracking-tighter">
-            {ct("title")}
-          </h1>
-          <p className="text-text-subtle text-sm font-medium">
-            {loading ? ct("synchronizing") : welcomeMessage}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setSettingsOpen(true)}
-          className="p-2 rounded-full hover:bg-brand-surface text-white transition-all active:rotate-45"
-        >
-          <Settings className="w-6 h-6" />
-        </button>
-      </header>
+      <DashboardHeader
+        title={ct("title")}
+        subtitle={loading ? ct("synchronizing") : welcomeMessage}
+        onSettingsClick={() => setSettingsOpen(true)}
+        titleClassName="leading-tight font-black uppercase italic tracking-tighter"
+      />
 
       {loading && (activeTab === "workout" ? !activePlan : fullHistory.length === 0) ? (
         <LoadingScreen fullPage={false} />

@@ -5,6 +5,8 @@ import InviteCard from "@/components/ui/InviteCard";
 import SearchInput from "@/components/ui/SearchInput";
 import EmptyState from "@/components/ui/EmptyState";
 import { TrainerProfile } from "./AdminDashboard.types";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 
 interface TrainersTabProps {
   trainers: TrainerProfile[];
@@ -49,9 +51,11 @@ export default function TrainersTab({
 
         <div className="grid gap-3">
           {filteredTrainers.map((tr) => (
-            <div 
+            <Card 
               key={tr.id} 
-              className="bg-brand-surface p-4 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] flex justify-between items-center group transition-all duration-300 overflow-hidden"
+              variant="interactive"
+              padding="sm"
+              className="flex justify-between items-center group"
             >
               <div className="min-w-0 flex-1 pr-4">
                 <div className="flex items-center gap-2">
@@ -75,27 +79,31 @@ export default function TrainersTab({
               </div>
               <div className="flex gap-1">
                 {!tr.is_approved && (
-                  <button 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => onApprove(tr.user_id)} 
                     disabled={actionLoading} 
-                    className="p-2 text-status-success hover:bg-status-success/10 rounded-md transition-all disabled:opacity-50" 
+                    className="text-status-success hover:bg-status-success/10"
                     title={t("approve")}
                   >
                     <CheckCircle2 className="w-5 h-5" />
-                  </button>
+                  </Button>
                 )}
                 {tr.is_active && (
-                  <button 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => onRevoke(tr.user_id)} 
                     disabled={actionLoading} 
-                    className="p-2 text-status-error hover:bg-status-error/10 rounded-md transition-all disabled:opacity-50" 
+                    className="text-status-error hover:bg-status-error/10"
                     title={t("revoke")}
                   >
                     <XCircle className="w-5 h-5" />
-                  </button>
+                  </Button>
                 )}
               </div>
-            </div>
+            </Card>
           ))}
           {trainers.length === 0 && <EmptyState message={t("no_trainers")} />}
         </div>

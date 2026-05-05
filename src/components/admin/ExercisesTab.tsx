@@ -4,6 +4,10 @@ import { Plus, Dumbbell, Trash2 } from "lucide-react";
 import CustomSelect from "@/components/ui/CustomSelect";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { ExerciseMaster, MuscleGroup, NewExercise } from "./AdminDashboard.types";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { TextArea } from "@/components/ui/TextArea";
 
 interface ExercisesTabProps {
   exercises: ExerciseMaster[];
@@ -45,44 +49,44 @@ export default function ExercisesTab({
 
   return (
     <div className="space-y-6">
-      <form onSubmit={onAdd} className="bg-brand-surface p-6 rounded-lg shadow-card space-y-4">
-        <div className="flex items-center gap-3 mb-2">
-          <Plus className="text-brand-primary w-5 h-5" />
-          <h2 className="text-lg font-semibold">{t("new_title")}</h2>
-        </div>
-        <div className="space-y-3">
-          <input
-            placeholder={t("name_placeholder")}
-            className="w-full bg-brand-secondary shadow-inner rounded-md p-3 text-white outline-none focus:ring-1 focus:ring-brand-primary disabled:opacity-50"
-            value={newEx.name}
-            onChange={(e) => setNewEx({ ...newEx, name: e.target.value })}
-            required
-            disabled={actionLoading}
-          />
-          <CustomSelect
-            options={muscleGroups.map(g => ({ name: g.name }))}
-            value={newEx.muscle_group}
-            onChange={(val) => setNewEx({ ...newEx, muscle_group: val })}
-            placeholder={t("select_muscle_group")}
-            disabled={actionLoading}
-          />
-          <textarea
-            placeholder={t("description_placeholder")}
-            className="w-full bg-brand-secondary shadow-inner rounded-md p-3 text-white outline-none focus:ring-1 focus:ring-brand-primary disabled:opacity-50 min-h-[100px] text-sm"
-            value={newEx.description}
-            onChange={(e) => setNewEx({ ...newEx, description: e.target.value })}
-            disabled={actionLoading}
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={actionLoading}
-          className="w-full bg-brand-primary text-black py-3 rounded-md font-bold uppercase text-sm disabled:opacity-50 flex items-center justify-center gap-2 shadow-subtle hover:opacity-90 transition-opacity"
-        >
-          {actionLoading ? (
-            <><div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />{ct("processing")}</>
-          ) : t("add_button")}
-        </button>
+      <form onSubmit={onAdd}>
+        <Card variant="default" padding="lg" className="space-y-4">
+          <div className="flex items-center gap-3 mb-2">
+            <Plus className="text-brand-primary w-5 h-5" />
+            <h2 className="text-lg font-semibold">{t("new_title")}</h2>
+          </div>
+          <div className="space-y-3">
+            <Input
+              placeholder={t("name_placeholder")}
+              value={newEx.name}
+              onChange={(e) => setNewEx({ ...newEx, name: e.target.value })}
+              required
+              disabled={actionLoading}
+            />
+            <CustomSelect
+              options={muscleGroups.map(g => ({ name: g.name }))}
+              value={newEx.muscle_group}
+              onChange={(val) => setNewEx({ ...newEx, muscle_group: val })}
+              placeholder={t("select_muscle_group")}
+              disabled={actionLoading}
+            />
+            <TextArea
+              placeholder={t("description_placeholder")}
+              className="min-h-[100px]"
+              value={newEx.description}
+              onChange={(e) => setNewEx({ ...newEx, description: e.target.value })}
+              disabled={actionLoading}
+            />
+          </div>
+          <Button
+            type="submit"
+            fullWidth
+            loading={actionLoading}
+            loadingText={ct("processing")}
+          >
+            {t("add_button")}
+          </Button>
+        </Card>
       </form>
 
       <div className="space-y-4">
@@ -101,9 +105,11 @@ export default function ExercisesTab({
         </div>
         <div className="grid gap-3">
           {filteredExercises.map((ex) => (
-            <div 
+            <Card 
               key={ex.id} 
-              className="bg-brand-surface p-4 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] flex justify-between items-center group transition-all duration-300 overflow-hidden"
+              variant="interactive"
+              padding="sm"
+              className="flex justify-between items-center group"
             >
               <div className="flex-1 min-w-0 pr-4">
                 <div className="flex items-center justify-between gap-2">
@@ -126,17 +132,19 @@ export default function ExercisesTab({
                     <div className="w-4 h-4 border-2 border-status-error border-t-transparent rounded-full animate-spin" />
                   </div>
                 ) : (
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => onDelete(ex.id)}
                     disabled={actionLoading}
-                    className="p-2 text-status-error hover:bg-status-error/10 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 disabled:opacity-50"
+                    className="text-status-error hover:bg-status-error/10 opacity-0 group-hover:opacity-100 focus:opacity-100"
                     title={ct("delete")}
                   >
                     <Trash2 className="w-4 h-4" />
-                  </button>
+                  </Button>
                 )}
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Clock } from "lucide-react";
 import EmptyState from "@/components/ui/EmptyState";
 import { formatDuration } from "@/lib/utils/time";
+import { Card } from "@/components/ui/Card";
 import { WorkoutExecution } from "./StudentDashboard.types";
 
 interface HistoryViewProps {
@@ -27,9 +28,11 @@ export default function HistoryView({
 
       <div className="grid gap-4 pb-8">
         {fullHistory.map((session) => (
-          <div 
+          <Card 
             key={session.id} 
-            className="bg-brand-surface p-4 rounded-lg flex justify-between items-center group shadow-card hover:shadow-card-hover hover:scale-[1.01] transition-all duration-300 overflow-hidden"
+            variant="interactive"
+            padding="sm"
+            className="flex justify-between items-center group"
           >
             <div className="flex items-center gap-4 min-w-0">
               <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center text-brand-primary shrink-0">
@@ -75,7 +78,7 @@ export default function HistoryView({
                 </span>
               )}
             </div>
-          </div>
+          </Card>
         ))}
 
         {fullHistory.length === 0 && <EmptyState message={t("no_sessions")} />}

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronLeft, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/Button";
 
 interface Option {
   id?: string;
@@ -92,12 +93,14 @@ export default function CustomSelect({
         </div>
         <div className="flex items-center gap-2 ml-2">
           {searchQuery && (
-            <button 
+            <Button 
+              variant="ghost"
+              size="none"
               onClick={(e) => { e.stopPropagation(); setSearchQuery(""); }}
-              className="p-1 hover:text-white text-text-subtle"
+              className="p-1 text-text-subtle hover:text-white"
             >
               <X className="w-3 h-3" />
-            </button>
+            </Button>
           )}
           <ChevronLeft className={`w-4 h-4 text-text-subtle transition-transform duration-200 ${isOpen ? "rotate-90" : "-rotate-90"}`} />
         </div>
