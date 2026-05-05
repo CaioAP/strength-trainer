@@ -1,108 +1,244 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Users, Plus, Activity, Settings } from 'lucide-react';
+import { useState, useEffect, Suspense } from 'react';
+import { Users, Settings, Dumbbell, ChevronRight, FileText, Trash2, Loader2, Plus } from 'lucide-react';
 import { inviteStudent } from '@/app/actions/invite';
+import { createClient } from '@/lib/supabase/client';
+import Link from 'next/link';
+import ConfirmationModal from '@/components/ui/ConfirmationModal';
+import SettingsModal from '@/components/ui/SettingsModal';
+import InviteCard from '@/components/ui/InviteCard';
+import SearchInput from '@/components/ui/SearchInput';
+import EmptyState from '@/components/ui/EmptyState';
+import BottomNav from '@/components/ui/BottomNav';
+import SuspenseLoader from '@/components/ui/SuspenseLoader';
+import { useSettingsModal } from '@/hooks/useSettingsModal';
+import { useDeleteConfirm } from '@/hooks/useDeleteConfirm';
 
-export default function TrainerDashboard({ user }: { user: any }) {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+type Tab = 'students' | 'templates';
 
-  const handleInvite = async (e: React.FormEvent) => {
-    e.preventDefault();
+const NAV_TABS = [
+  { id: 'students', label: 'Students', icon: <Users className="w-5 h-5" /> },
+  { id: 'templates', label: 'Templates', icon: <FileText className="w-5 h-5" /> },
+];
+
+function DashboardContent({ user }: { user: any }) {
+  const [activeTab, setActiveTab] = useState<Tab>('students');
+  const [students, setStudents] = useState<any[]>([]);
+  const [templates, setTemplates] = useState<any[]>([]);
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const supabase = createClient();
+  const { settingsOpen, setSettingsOpen } = useSettingsModal();
+
+  const { confirmModal, openModal, closeModal, handleDelete, deletingId } = useDeleteConfirm(
+    async (id) => {
+      setActionLoading(true);
+      const { error } = await supabase.from('plans').delete().eq('id', id);
+      if (!error) await fetchTemplates();
+      setActionLoading(false);
+    }
+  );
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+      if (data) setProfile(data);
+    }
+    fetchProfile();
+
+    if (activeTab === 'students') fetchStudents();
+    else if (activeTab === 'templates') fetchTemplates();
+  }, [activeTab]);
+
+  async function fetchStudents() {
     setLoading(true);
-    setMessage(null);
+    const { data, error } = await supabase
+      .from('student_profiles')
+      .select('id, status, profiles:user_id (email, full_name)')
+      .order('created_at', { ascending: false });
+    if (!error) setStudents(data);
+    setLoading(false);
+  }
+
+  async function fetchTemplates() {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('plans')
+      .select('*')
+      .eq('is_template', true)
+      .order('created_at', { ascending: false });
+    if (!error) setTemplates(data);
+    setLoading(false);
+  }
+
+  const handleInvite = async (email: string) => {
+    setActionLoading(true);
     try {
       await inviteStudent(email);
-      setMessage('Invite sent successfully!');
-      setEmail('');
-    } catch (err: any) {
-      setMessage(err.message);
+      await fetchStudents();
     } finally {
-      setLoading(false);
+      setActionLoading(false);
     }
   };
 
+  const filteredStudents = students.filter(
+    (s) =>
+      s.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.profiles?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <main className="flex-1 flex flex-col p-4 bg-brand-secondary min-h-screen pb-20">
-      <header className="flex justify-between items-center mb-8">
+    <main className="flex-1 flex flex-col p-4 bg-brand-secondary min-h-screen pb-24">
+      <header className="flex justify-between items-start mb-8">
         <div>
           <h1 className="text-2xl font-bold text-brand-primary">Strength</h1>
-          <p className="text-text-subtle text-sm">Trainer Dashboard</p>
+          <p className="text-text-subtle text-sm uppercase tracking-widest font-bold mt-0.5">Trainer Portal</p>
         </div>
-        <button className="p-2 rounded-full hover:bg-brand-surface">
-          <Settings className="w-6 h-6 text-white" />
+        <button
+          onClick={() => setSettingsOpen(true)}
+          className="p-2 rounded-full hover:bg-brand-surface text-white transition-all active:rotate-45"
+        >
+          <Settings className="w-5 h-5" />
         </button>
       </header>
 
-      <section className="space-y-6">
-        {/* Quick Invite Card */}
-        <div className="bg-brand-surface p-6 rounded-lg border border-gray-800">
-          <div className="flex items-center gap-3 mb-4">
-            <Plus className="text-brand-primary w-5 h-5" />
-            <h2 className="text-lg font-semibold">Invite New Student</h2>
-          </div>
-          <form onSubmit={handleInvite} className="flex gap-2">
-            <input
-              type="email"
-              placeholder="student@email.com"
-              required
-              className="flex-1 bg-brand-secondary border border-gray-800 rounded-md p-2 text-white outline-none focus:ring-1 focus:ring-brand-primary"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-brand-primary text-black px-4 py-2 rounded-md font-bold text-sm disabled:opacity-50"
-            >
-              {loading ? 'Sending...' : 'Invite'}
-            </button>
-          </form>
-          {message && <p className="mt-2 text-xs text-brand-accent">{message}</p>}
+      {loading && (activeTab === 'students' ? students.length === 0 : templates.length === 0) ? (
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <div className="w-8 h-8 border-2 border-brand-primary border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-text-subtle text-xs uppercase tracking-widest font-bold">Synchronizing...</p>
         </div>
+      ) : (
+        <div className="flex-1 p-1">
+          {activeTab === 'students' ? (
+            <section className="space-y-6 animate-in fade-in duration-300">
+              <InviteCard
+                title="Invite New Student"
+                placeholder="student@email.com"
+                loading={actionLoading}
+                onSubmit={handleInvite}
+              />
 
-        {/* Student Roster */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center px-1">
-            <h2 className="text-lg font-semibold flex items-center gap-2">
-              <Users className="w-5 h-5 text-brand-accent" />
-              Your Roster
-            </h2>
-          </div>
-          
-          <div className="space-y-3">
-            {/* Example Student Card */}
-            <div className="bg-brand-surface p-4 rounded-lg border border-gray-800 flex justify-between items-center">
-              <div>
-                <h3 className="font-medium text-white">John Doe</h3>
-                <p className="text-xs text-text-subtle">Last active: 2 days ago</p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between px-1">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-brand-primary" />
+                    <h2 className="text-[10px] font-black uppercase tracking-widest text-text-subtle">My Students ({filteredStudents.length})</h2>
+                  </div>
+                </div>
+                
+                <SearchInput 
+                  placeholder="Search students..." 
+                  value={searchQuery} 
+                  onChange={setSearchQuery} 
+                />
+
+                <div className="grid gap-3">
+                  {filteredStudents.map((student) => (
+                    <Link
+                      key={student.id}
+                      href={`/trainer/student/${student.id}`}
+                      className="bg-brand-surface p-4 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] transition-all duration-300 flex items-center justify-between group overflow-hidden"
+                    >
+                      <div className="flex items-center gap-4 min-w-0">
+                        <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center group-hover:bg-brand-primary/10 transition-all font-black text-brand-primary text-xs italic shrink-0">
+                          {student.profiles?.full_name?.split(' ').map((n: string) => n[0]).join('') || '?'}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">{student.profiles?.full_name || 'Pending Name'}</p>
+                          <p className="text-[10px] text-text-subtle lowercase truncate">{student.profiles?.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0 ml-4">
+                        <span className={`text-[8px] px-2 py-0.5 rounded-full font-black uppercase tracking-widest border ${
+                          student.status === 'active'
+                            ? 'bg-brand-primary/10 text-brand-primary border-brand-primary/20'
+                            : 'bg-status-warning/10 text-status-warning border-status-warning/20'
+                        }`}>
+                          {student.status}
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-text-subtle group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+                      </div>
+                    </Link>
+                  ))}
+                  {filteredStudents.length === 0 && <EmptyState message="No students found." />}
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-brand-primary font-bold">85%</p>
-                <p className="text-[10px] uppercase text-text-subtle">Compliance</p>
+            </section>
+          ) : (
+            <section className="space-y-6 animate-in fade-in duration-300">
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-brand-primary" />
+                  <h2 className="text-[10px] font-black uppercase tracking-widest text-text-subtle">Workout Templates</h2>
+                </div>
+                <Link
+                  href="/trainer/plan/new"
+                  className="p-1.5 bg-brand-primary text-black rounded-md hover:opacity-90 transition-all shadow-card hover:shadow-card-hover"
+                >
+                  <Plus className="w-4 h-4" />
+                </Link>
               </div>
-            </div>
-            
-            <p className="text-center py-8 text-text-subtle text-sm">
-              More students will appear here as they accept your invites.
-            </p>
-          </div>
+
+              <div className="grid gap-3">
+                {templates.map((template) => (
+                  <div key={template.id} className="bg-brand-surface p-4 rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.01] transition-all duration-300 flex items-center justify-between group overflow-hidden">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center text-brand-primary group-hover:bg-brand-primary/10 transition-all shrink-0">
+                        <Dumbbell className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">{template.name}</p>
+                        <p className="text-[10px] text-text-subtle uppercase tracking-widest font-bold truncate">
+                          {new Date(template.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => openModal(template.id)}
+                      className="p-2 text-text-subtle hover:text-status-error transition-colors shrink-0 ml-4"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                {templates.length === 0 && <EmptyState message="No templates created yet." />}
+              </div>
+            </section>
+          )}
         </div>
-      </section>
+      )}
 
-      {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-brand-surface border-t border-gray-800 p-2 flex justify-around items-center">
-        <button className="flex flex-col items-center p-2 text-brand-primary">
-          <Users className="w-6 h-6" />
-          <span className="text-[10px] uppercase mt-1">Students</span>
-        </button>
-        <button className="flex flex-col items-center p-2 text-text-subtle">
-          <Activity className="w-6 h-6" />
-          <span className="text-[10px] uppercase mt-1">Templates</span>
-        </button>
-      </nav>
+      <BottomNav tabs={NAV_TABS} activeTab={activeTab} onTabChange={(id) => setActiveTab(id as Tab)} />
+
+      <ConfirmationModal
+        isOpen={confirmModal.isOpen}
+        onClose={closeModal}
+        onConfirm={handleDelete}
+        title="Delete Template"
+        message="Are you sure you want to delete this workout template? This action cannot be undone."
+        confirmText="Delete"
+        variant="danger"
+        isLoading={actionLoading && deletingId === confirmModal.id}
+      />
+
+      <SettingsModal
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        user={user}
+        profile={profile}
+      />
     </main>
+  );
+}
+
+export default function TrainerDashboard({ user }: { user: any }) {
+  return (
+    <Suspense fallback={<SuspenseLoader />}>
+      <DashboardContent user={user} />
+    </Suspense>
   );
 }

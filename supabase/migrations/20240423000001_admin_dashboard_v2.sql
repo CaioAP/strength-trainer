@@ -28,43 +28,51 @@ CREATE POLICY "Admins can view all audit logs" ON admin_audit_logs
     );
 
 -- 3. GLOBAL RLS HARDENING (Admins bypass restrictions)
--- For each table, add a policy that allows admins ALL access.
+
+-- Create a helper function to check admin status safely (prevents recursion)
+CREATE OR REPLACE FUNCTION is_admin()
+RETURNS BOOLEAN AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid() AND role = 'admin'
+  );
+$$ LANGUAGE sql SECURITY DEFINER;
 
 -- profiles
 CREATE POLICY "Admins have full access to profiles" ON profiles
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- trainer_profiles
 CREATE POLICY "Admins have full access to trainer_profiles" ON trainer_profiles
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- student_profiles
 CREATE POLICY "Admins have full access to student_profiles" ON student_profiles
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- exercise_master
 CREATE POLICY "Admins have full access to exercise_master" ON exercise_master
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- plans
 CREATE POLICY "Admins have full access to plans" ON plans
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- workouts
 CREATE POLICY "Admins have full access to workouts" ON workouts
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- plan_exercises
 CREATE POLICY "Admins have full access to plan_exercises" ON plan_exercises
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- workout_executions
 CREATE POLICY "Admins have full access to workout_executions" ON workout_executions
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 -- session_param_modifications
 CREATE POLICY "Admins have full access to session_param_modifications" ON session_param_modifications
-    FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+    FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 
 -- 4. ADMINISTRATIVE RPC FUNCTIONS

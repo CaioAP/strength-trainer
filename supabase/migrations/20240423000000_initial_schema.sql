@@ -3,12 +3,16 @@
 -- BE-002: RLS Policy Implementation
 
 -- 1. ENUMS AND TYPES
-CREATE TYPE app_role AS ENUM ('admin', 'trainer', 'student');
+DO $$ BEGIN
+    CREATE TYPE app_role AS ENUM ('admin', 'trainer', 'student');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- 2. TABLES
 
 -- Profiles (Extends auth.users)
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
     id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
     email TEXT NOT NULL,
     full_name TEXT,
@@ -18,7 +22,7 @@ CREATE TABLE profiles (
 );
 
 -- Trainer Profiles
-CREATE TABLE trainer_profiles (
+CREATE TABLE IF NOT EXISTS trainer_profiles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL UNIQUE,
     bio TEXT,
@@ -26,7 +30,7 @@ CREATE TABLE trainer_profiles (
 );
 
 -- Student Profiles
-CREATE TABLE student_profiles (
+CREATE TABLE IF NOT EXISTS student_profiles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL UNIQUE,
     trainer_id UUID REFERENCES trainer_profiles(id) ON DELETE SET NULL,
@@ -34,7 +38,7 @@ CREATE TABLE student_profiles (
 );
 
 -- Master Exercise Library
-CREATE TABLE exercise_master (
+CREATE TABLE IF NOT EXISTS exercise_master (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     description TEXT,
@@ -44,7 +48,7 @@ CREATE TABLE exercise_master (
 );
 
 -- Training Plans
-CREATE TABLE plans (
+CREATE TABLE IF NOT EXISTS plans (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     trainer_id UUID REFERENCES trainer_profiles(id) ON DELETE CASCADE NOT NULL,
     student_id UUID REFERENCES student_profiles(id) ON DELETE CASCADE, -- NULL means it is a template
@@ -55,7 +59,7 @@ CREATE TABLE plans (
 );
 
 -- Workouts (Specific sessions within a plan)
-CREATE TABLE workouts (
+CREATE TABLE IF NOT EXISTS workouts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     plan_id UUID REFERENCES plans(id) ON DELETE CASCADE NOT NULL,
     name TEXT NOT NULL,
@@ -64,7 +68,7 @@ CREATE TABLE workouts (
 );
 
 -- Plan Exercises (The prescription)
-CREATE TABLE plan_exercises (
+CREATE TABLE IF NOT EXISTS plan_exercises (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     workout_id UUID REFERENCES workouts(id) ON DELETE CASCADE NOT NULL,
     exercise_id UUID REFERENCES exercise_master(id) ON DELETE CASCADE NOT NULL,
@@ -77,7 +81,7 @@ CREATE TABLE plan_exercises (
 );
 
 -- Workout Executions (The actual performance)
-CREATE TABLE workout_executions (
+CREATE TABLE IF NOT EXISTS workout_executions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID REFERENCES student_profiles(id) ON DELETE CASCADE NOT NULL,
     workout_id UUID REFERENCES workouts(id) ON DELETE CASCADE NOT NULL,
@@ -87,7 +91,7 @@ CREATE TABLE workout_executions (
 );
 
 -- Session Modifications (Changes made during execution)
-CREATE TABLE session_param_modifications (
+CREATE TABLE IF NOT EXISTS session_param_modifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     execution_id UUID REFERENCES workout_executions(id) ON DELETE CASCADE NOT NULL,
     plan_exercise_id UUID REFERENCES plan_exercises(id) ON DELETE CASCADE NOT NULL,

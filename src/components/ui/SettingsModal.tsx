@@ -1,0 +1,161 @@
+'use client';
+
+import { X, LogOut, User, Mail, Shield, ChevronRight, Loader2, HelpCircle, Bug, FileText } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+interface SettingsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  user: any;
+  profile: any;
+}
+
+export default function SettingsModal({ isOpen, onClose, user, profile }: SettingsModalProps) {
+  const supabase = createClient();
+  const router = useRouter();
+  const [navigating, setNavigating] = useState(false);
+
+  if (!isOpen) return null;
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push('/login');
+    router.refresh();
+  }
+
+  return (
+    <div className="fixed inset-0 z-[300] flex flex-col bg-brand-secondary animate-in slide-in-from-bottom duration-300">
+      {navigating && (
+        <div className="absolute inset-0 z-[400] flex flex-col items-center justify-center bg-brand-secondary/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <Loader2 className="w-8 h-8 text-brand-primary animate-spin mb-4" />
+          <p className="text-text-subtle text-[10px] font-black uppercase tracking-widest animate-pulse">Redirecting...</p>
+        </div>
+      )}
+      <header className="p-4 flex items-center justify-between border-b border-gray-800 bg-brand-surface">
+        <h2 className="text-xl font-bold text-white">Settings</h2>
+        <button 
+          onClick={onClose}
+          disabled={navigating}
+          className="p-2 hover:bg-brand-secondary rounded-full transition-colors text-text-subtle hover:text-white disabled:opacity-30"
+        >
+          <X className="w-6 h-6" />
+        </button>
+      </header>
+
+      <div className="flex-1 p-4 space-y-8 pb-12">
+        {/* Profile Section */}
+        <section>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">Account Profile</h3>
+          <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden">
+            <div className="p-4 flex items-center gap-4">
+              <div className="w-12 h-12 bg-brand-primary/10 rounded-full flex items-center justify-center border border-brand-primary/20">
+                <User className="text-brand-primary w-6 h-6" />
+              </div>
+              <div>
+                <p className="font-bold text-white leading-none">{profile?.full_name || 'User'}</p>
+                <p className="text-xs text-text-subtle mt-1">{user?.email}</p>
+              </div>
+            </div>
+            
+            <div className="bg-white/5 divide-y divide-white/5">
+              <SettingsItem 
+                icon={<Mail className="w-4 h-4" />} 
+                label="Email Preferences" 
+                onClick={() => {
+                  setNavigating(true);
+                  router.push('/settings/email');
+                }}
+              />
+              <SettingsItem 
+                icon={<Shield className="w-4 h-4" />} 
+                label="Security & Privacy" 
+                onClick={() => {
+                  setNavigating(true);
+                  router.push('/settings/security');
+                }}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Role Specific Info */}
+        <section>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">Account Info</h3>
+          <div className="bg-brand-surface rounded-lg shadow-card p-4 space-y-4 overflow-hidden">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-text-subtle font-medium">Access Role</span>
+              <span className="bg-brand-primary/10 text-brand-primary text-[10px] px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
+                {profile?.role}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-text-subtle font-medium">Account ID</span>
+              <span className="text-[10px] text-white font-mono">{user?.id.slice(0, 12)}...</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Support Section */}
+        <section>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">Support</h3>
+          <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden divide-y divide-white/5">
+             <SettingsItem 
+               icon={<HelpCircle className="w-4 h-4" />} 
+               label="Help Center" 
+               onClick={() => {
+                 setNavigating(true);
+                 router.push('/settings/help');
+               }}
+             />
+             <SettingsItem 
+               icon={<Bug className="w-4 h-4" />} 
+               label="Report a Bug" 
+               onClick={() => {
+                 setNavigating(true);
+                 router.push('/settings/bug');
+               }}
+             />
+             <SettingsItem 
+                icon={<FileText className="w-4 h-4" />} 
+                label="Privacy Policy" 
+                onClick={() => {
+                  setNavigating(true);
+                  router.push('/settings/privacy');
+                }}
+              />
+          </div>
+        </section>
+
+        {/* Logout Section */}
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-3 p-4 bg-status-error/10 border border-status-error/20 rounded-lg text-status-error font-bold uppercase text-xs tracking-widest hover:bg-status-error/20 transition-all active:scale-[0.98]"
+        >
+          <LogOut className="w-4 h-4" />
+          Log Out
+        </button>
+      </div>
+
+      <footer className="p-8 text-center bg-brand-secondary">
+        <p className="text-[10px] text-text-subtle uppercase tracking-widest font-black opacity-30">Strength v1.0.0</p>
+      </footer>
+    </div>
+  );
+}
+
+function SettingsItem({ icon, label, onClick }: { icon?: any, label: string, onClick?: () => void }) {
+  return (
+    <div 
+      onClick={onClick}
+      className="flex items-center justify-between p-4 hover:bg-white/5 transition-all cursor-pointer group"
+    >
+      <div className="flex items-center gap-3">
+        {icon && <div className="text-text-subtle group-hover:text-brand-primary transition-colors">{icon}</div>}
+        <span className="text-sm text-white font-medium">{label}</span>
+      </div>
+      <ChevronRight className="w-4 h-4 text-text-subtle group-hover:text-brand-primary group-hover:translate-x-0.5 transition-all" />
+    </div>
+  );
+}

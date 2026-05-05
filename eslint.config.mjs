@@ -5,9 +5,20 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
+  {
+    rules: {
+      "import/prefer-default-export": "off",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/explicit-function-return-type": "error",
+      "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+      "react/react-in-jsx-scope": "off",
+      "no-unused-vars": "warn",
+      "semi": ["error", "always"],
+      "quotes": ["error", "double"],
+    },
+  },
   globalIgnores([
-    // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
     "build/**",

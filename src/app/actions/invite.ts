@@ -3,51 +3,80 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-export async function inviteStudent(email: string) {
-  const supabase = await createClient();
-  const adminClient = createAdminClient();
-
-  // 1. Get current user (must be a trainer)
+async function assertRole(supabase: SupabaseClient, expectedRole: string): Promise<string> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authenticated');
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, role')
+    .select('role')
     .eq('id', user.id)
     .single();
 
-  if (profile?.role !== 'trainer') {
-    throw new Error('Only trainers can invite students');
+  if (profile?.role !== expectedRole) {
+    throw new Error(
+      expectedRole === 'admin'
+        ? 'Unauthorized. Admin role required.'
+        : `Only ${expectedRole}s can perform this action`
+    );
   }
+
+  return user.id;
+}
+
+export async function inviteStudent(email: string) {
+  const supabase = await createClient();
+  const adminClient = createAdminClient();
+
+  const callerId = await assertRole(supabase, 'trainer');
 
   const { data: trainerProfile } = await supabase
     .from('trainer_profiles')
     .select('id')
-    .eq('user_id', user.id)
+    .eq('user_id', callerId)
     .single();
 
   if (!trainerProfile) throw new Error('Trainer profile not found');
 
-  // 2. Invite user via Supabase Auth
   const { data: inviteData, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email, {
-    data: { full_name: 'Student' } // Default name, they can change it later
+    data: { full_name: 'Student', role: 'student' },
   });
 
   if (inviteError) throw inviteError;
 
-  // 3. Link student to trainer in student_profiles
-  // Note: The profile might not exist yet if the trigger hasn't fired or if we want to pre-allocate.
-  // Actually, the trigger handles profile creation. But we need to link student_profile to trainer.
-  // We can upsert the student_profile if the ID is known, but it's not until they sign up.
-  // Better: Create a 'pending_invites' table or just wait for them to sign up?
-  // Architecture says: "Trainer creates student email and triggers invite".
-  // Let's assume we want to track this student immediately.
-  
-  // Actually, the migration has student_profiles linked to user_id.
-  // We'll have to link them AFTER they accept the invite, or use a lookup table.
-  // For now, let's just log the invite.
+  await adminClient.from('profiles').update({ role: 'student' }).eq('id', inviteData.user.id);
+
+  const { error: profileError } = await adminClient
+    .from('student_profiles')
+    .insert([{ user_id: inviteData.user.id, trainer_id: trainerProfile.id }]);
+
+  if (profileError) throw profileError;
+
+  revalidatePath('/');
+  return { success: true };
+}
+
+export async function inviteTrainer(email: string) {
+  const supabase = await createClient();
+  const adminClient = createAdminClient();
+
+  await assertRole(supabase, 'admin');
+
+  const { data: inviteData, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email, {
+    data: { full_name: 'Trainer', role: 'trainer' },
+  });
+
+  if (inviteError) throw inviteError;
+
+  await adminClient.from('profiles').update({ role: 'trainer' }).eq('id', inviteData.user.id);
+
+  const { error: profileError } = await adminClient
+    .from('trainer_profiles')
+    .insert([{ user_id: inviteData.user.id, is_approved: true, is_active: true }]);
+
+  if (profileError) throw profileError;
 
   revalidatePath('/');
   return { success: true };
