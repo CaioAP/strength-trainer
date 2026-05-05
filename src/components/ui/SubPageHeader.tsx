@@ -22,7 +22,7 @@ export default function SubPageHeader({ category, title, rightContent }: SubPage
           <ChevronLeft className="w-5 h-5 text-text-subtle" />
         </button>
         <div className="flex flex-col">
-          <span className="text-[10px] font-black uppercase tracking-widest text-brand-primary">{category}</span>
+          <span className="text-2.5 font-black uppercase tracking-widest text-brand-primary">{category}</span>
           <span className="text-sm font-black uppercase tracking-tight text-white italic">{title}</span>
         </div>
       </div>

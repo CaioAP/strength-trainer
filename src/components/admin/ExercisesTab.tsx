@@ -72,7 +72,7 @@ export default function ExercisesTab({
             />
             <TextArea
               placeholder={t("description_placeholder")}
-              className="min-h-[100px]"
+              className="min-h-25"
               value={newEx.description}
               onChange={(e) => setNewEx({ ...newEx, description: e.target.value })}
               disabled={actionLoading}
@@ -116,12 +116,12 @@ export default function ExercisesTab({
                   <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate">
                     {ex.name}
                   </h3>
-                  <span className="text-[8px] bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap">
+                  <span className="text-2 bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap">
                     {ex.muscle_group}
                   </span>
                 </div>
                 {ex.description && (
-                  <p className="text-[10px] text-text-subtle line-clamp-1 mt-1">
+                  <p className="text-2.5 text-text-subtle line-clamp-1 mt-1">
                     {ex.description}
                   </p>
                 )}

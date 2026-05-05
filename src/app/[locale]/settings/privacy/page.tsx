@@ -34,23 +34,23 @@ export default function PrivacyPolicyPage(): React.JSX.Element {
 
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
         <div className="px-1">
-          <p className="text-[11px] text-text-subtle/80 leading-relaxed italic">Last updated: April 29, 2026. Your privacy is our priority.</p>
+          <p className="text-2.75 text-text-subtle/80 leading-relaxed italic">Last updated: April 29, 2026. Your privacy is our priority.</p>
         </div>
 
         {sections.map((section, index) => (
           <section key={index} className="space-y-4">
             <div className="flex items-center gap-2 px-1 group">
               {section.icon}
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-white group-hover:text-brand-primary transition-colors">{section.title}</h3>
+              <h3 className="text-2.5 font-black uppercase tracking-widest text-white group-hover:text-brand-primary transition-colors">{section.title}</h3>
             </div>
-            <div className="bg-brand-surface rounded-xl shadow-card hover:shadow-card-hover hover:scale-[1.01] transition-all duration-300 p-5">
-              <p className="text-[11px] text-text-subtle leading-relaxed">{section.content}</p>
+            <div className="bg-brand-surface rounded-xl shadow-card hover:shadow-card-hover hover:scale-101 transition-all duration-300 p-5">
+              <p className="text-2.75 text-text-subtle leading-relaxed">{section.content}</p>
             </div>
           </section>
         ))}
 
         <section className="space-y-4 pt-4">
-          <p className="text-[10px] text-text-subtle/40 text-center leading-relaxed px-4 italic">
+          <p className="text-2.5 text-text-subtle/40 text-center leading-relaxed px-4 italic">
             By using Strength, you agree to the collection and use of information in accordance with this policy. If you have questions, please contact us at support@strengthtrainer.app.
           </p>
         </section>

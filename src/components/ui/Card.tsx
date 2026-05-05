@@ -17,7 +17,7 @@ export const Card = ({
   
   const variantStyles = {
     default: "shadow-card",
-    interactive: "shadow-card hover:shadow-card-hover hover:scale-[1.01] cursor-pointer",
+    interactive: "shadow-card hover:shadow-card-hover hover:scale-101 cursor-pointer",
     modal: "border border-gray-800 shadow-elevated",
     panel: "shadow-elevated rounded-xl",
   };

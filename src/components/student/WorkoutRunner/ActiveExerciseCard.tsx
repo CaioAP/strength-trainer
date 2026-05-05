@@ -30,7 +30,7 @@ export const ActiveExerciseCard = ({
     >
       <div className={`p-4 flex justify-between items-start ${isDone ? "bg-brand-primary/5" : ""}`}>
         <div className="flex gap-3">
-          <span className="text-[10px] font-black text-text-subtle mt-1">
+          <span className="text-2.5 font-black text-text-subtle mt-1">
             {String(index + 1).padStart(2, "0")}
           </span>
           <div>
@@ -40,7 +40,7 @@ export const ActiveExerciseCard = ({
               {exercise.exercise?.name}
             </h3>
             {exercise.exercise?.description && !isDone && (
-              <p className="text-[10px] text-text-subtle mt-1 italic opacity-60 line-clamp-1">
+              <p className="text-2.5 text-text-subtle mt-1 italic opacity-60 line-clamp-1">
                 {exercise.exercise.description}
               </p>
             )}

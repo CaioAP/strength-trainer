@@ -43,7 +43,7 @@ export default function LoginForm(): React.JSX.Element {
             <p className="text-white text-xs font-bold uppercase tracking-tight">
               {t("deactivation_title")}
             </p>
-            <p className="text-[10px] text-text-subtle mt-1 leading-relaxed">
+            <p className="text-2.5 text-text-subtle mt-1 leading-relaxed">
               {t("deactivation_desc")}
             </p>
           </div>
@@ -67,13 +67,13 @@ export default function LoginForm(): React.JSX.Element {
             <div className="flex items-center justify-between mb-1.5 ml-1">
               <label 
                 htmlFor="password" 
-                className="block text-[10px] font-black text-text-subtle uppercase tracking-widest"
+                className="block text-2.5 font-black text-text-subtle uppercase tracking-widest"
               >
                 {t("password_label")}
               </label>
               <Link
                 href="/forgot-password"
-                className="text-[10px] font-black text-brand-primary uppercase tracking-widest hover:opacity-80 transition-opacity"
+                className="text-2.5 font-black text-brand-primary uppercase tracking-widest hover:opacity-80 transition-opacity"
               >
                 {t("forgot_password")}
               </Link>

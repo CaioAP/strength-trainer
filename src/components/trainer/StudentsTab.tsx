@@ -44,7 +44,7 @@ export default function StudentsTab({
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4 text-brand-primary" />
-            <h2 className="text-[10px] font-black uppercase tracking-widest text-text-subtle">
+            <h2 className="text-2.5 font-black uppercase tracking-widest text-text-subtle">
               {t("my_students", { count: filteredStudents.length })}
             </h2>
           </div>
@@ -76,13 +76,13 @@ export default function StudentsTab({
                     <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">
                       {student.profiles?.full_name || t("pending_name")}
                     </p>
-                    <p className="text-[10px] text-text-subtle lowercase truncate">
+                    <p className="text-2.5 text-text-subtle lowercase truncate">
                       {student.profiles?.email}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0 ml-4">
-                  <span className={`text-[8px] px-2 py-0.5 rounded-full font-black uppercase tracking-widest border ${
+                  <span className={`text-2 px-2 py-0.5 rounded-full font-black uppercase tracking-widest border ${
                     student.status === "active"
                       ? "bg-brand-primary/10 text-brand-primary border-brand-primary/20"
                       : "bg-status-warning/10 text-status-warning border-status-warning/20"

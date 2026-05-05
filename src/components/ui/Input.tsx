@@ -31,7 +31,7 @@ export const Input = ({
       {label && (
         <label
           htmlFor={inputId}
-          className="text-[10px] font-black text-text-subtle uppercase tracking-widest ml-1"
+          className="text-2.5 font-black text-text-subtle uppercase tracking-widest ml-1"
         >
           {label}
         </label>
@@ -44,7 +44,7 @@ export const Input = ({
         {...props}
       />
       {error && (
-        <p className="text-[10px] font-bold text-status-error ml-1 animate-in fade-in slide-in-from-top-1">
+        <p className="text-2.5 font-bold text-status-error ml-1 animate-in fade-in slide-in-from-top-1">
           {error}
         </p>
       )}

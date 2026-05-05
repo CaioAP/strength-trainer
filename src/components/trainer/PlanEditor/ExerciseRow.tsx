@@ -26,7 +26,7 @@ export const ExerciseRow = ({
     <div className="bg-brand-secondary/30 rounded-xl p-4 shadow-inner relative group/ex transition-all border border-white/5">
       <div className="space-y-4">
         <div>
-          <label className="text-[10px] text-text-subtle uppercase font-black tracking-widest mb-1.5 block ml-1">
+          <label className="text-2.5 text-text-subtle uppercase font-black tracking-widest mb-1.5 block ml-1">
             {t("exercise_label")}
           </label>
           <CustomSelect

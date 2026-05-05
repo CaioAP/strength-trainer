@@ -52,7 +52,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
         </Link>
         <div>
           <h1 className="text-xl font-black text-white uppercase tracking-tight italic">{student?.profiles?.full_name}</h1>
-          <p className="text-[10px] font-bold text-brand-primary uppercase tracking-widest">{student?.profiles?.email}</p>
+          <p className="text-2.5 font-bold text-brand-primary uppercase tracking-widest">{student?.profiles?.email}</p>
         </div>
       </header>
 
@@ -76,7 +76,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
 
         <div className="space-y-4">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-[10px] font-black uppercase tracking-widest text-text-subtle flex items-center gap-2">
+            <h2 className="text-2.5 font-black uppercase tracking-widest text-text-subtle flex items-center gap-2">
               <FileText className="w-3.5 h-3.5" />
               {t("active_assignment")}
             </h2>
@@ -86,12 +86,12 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
                   variant="ghost" 
                   size="none"
                   onClick={() => setAssignModalOpen(true)} 
-                  className="text-[9px] font-black uppercase tracking-widest text-brand-primary hover:opacity-80"
+                  className="text-2.25 font-black uppercase tracking-widest text-brand-primary hover:opacity-80"
                 >
                   {t("assign_new")}
                 </Button>
-                <span className="text-gray-800 text-[9px]">|</span>
-                <Link href={`/trainer/plan/new?student_id=${studentId}`} className="text-[9px] font-black uppercase tracking-widest text-brand-accent hover:opacity-80 transition-all">
+                <span className="text-gray-800 text-2.25">|</span>
+                <Link href={`/trainer/plan/new?student_id=${studentId}`} className="text-2.25 font-black uppercase tracking-widest text-brand-accent hover:opacity-80 transition-all">
                   {t("custom")}
                 </Link>
               </div>
@@ -102,7 +102,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
             <Card variant="interactive" padding="sm" className="flex justify-between items-center group">
               <div>
                 <h3 className="font-bold text-white text-lg tracking-tight group-hover:text-brand-primary transition-colors">{activePlan.name}</h3>
-                <p className="text-[10px] text-text-subtle uppercase font-black tracking-widest mt-1 opacity-60">
+                <p className="text-2.5 text-text-subtle uppercase font-black tracking-widest mt-1 opacity-60">
                   {t("assigned_on", { date: new Date(activePlan.created_at).toLocaleDateString() })}
                 </p>
               </div>
@@ -155,7 +155,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
         </div>
 
         <div className="space-y-4 pb-12">
-          <h2 className="text-[10px] font-black uppercase tracking-widest text-text-subtle flex items-center gap-2 px-1">
+          <h2 className="text-2.5 font-black uppercase tracking-widest text-text-subtle flex items-center gap-2 px-1">
             <BarChart3 className="w-3.5 h-3.5" />
             {t("session_history")}
           </h2>
@@ -171,12 +171,12 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
                     <div className="flex items-center gap-2">
                       <h3 className="font-bold text-white text-sm tracking-tight group-hover:text-brand-primary transition-colors">{session.workout?.name}</h3>
                       {session.workout?.plan?.name && (
-                        <span className="text-[8px] px-1.5 py-0.5 bg-brand-primary/10 text-brand-primary rounded font-black uppercase tracking-widest">
+                        <span className="text-2 px-1.5 py-0.5 bg-brand-primary/10 text-brand-primary rounded font-black uppercase tracking-widest">
                           {session.workout.plan.name}
                         </span>
                       )}
                     </div>
-                    <p className="text-[9px] text-text-subtle uppercase font-black mt-1 opacity-60 tracking-wider">
+                    <p className="text-2.25 text-text-subtle uppercase font-black mt-1 opacity-60 tracking-wider">
                       {new Date(session.started_at).toLocaleDateString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>

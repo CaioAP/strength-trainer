@@ -77,7 +77,7 @@ export default function SecurityPrivacyPage(): React.JSX.Element {
   const successIndicator = success ? (
     <div className="flex items-center gap-1.5 text-brand-primary animate-in fade-in zoom-in duration-300">
       <Check className="w-4 h-4" />
-      <span className="text-[10px] font-black uppercase tracking-widest">Updated</span>
+      <span className="text-2.5 font-black uppercase tracking-widest">Updated</span>
     </div>
   ) : undefined;
 
@@ -88,8 +88,8 @@ export default function SecurityPrivacyPage(): React.JSX.Element {
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
         <section className="space-y-4">
           <div className="px-1">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Privacy Controls</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Manage who can see your training data and history.</p>
+            <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Privacy Controls</h3>
+            <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Manage who can see your training data and history.</p>
           </div>
 
           <div className="bg-brand-surface rounded-xl shadow-card overflow-hidden divide-y divide-white/5">
@@ -106,8 +106,8 @@ export default function SecurityPrivacyPage(): React.JSX.Element {
 
         <section className="space-y-4 pt-4">
           <div className="px-1 pt-8">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-status-error mb-1">Danger Zone</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Irreversible actions regarding your account data.</p>
+            <h3 className="text-2.5 font-black uppercase tracking-widest text-status-error mb-1">Danger Zone</h3>
+            <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Irreversible actions regarding your account data.</p>
           </div>
 
           <button
@@ -116,7 +116,7 @@ export default function SecurityPrivacyPage(): React.JSX.Element {
           >
             <div className="text-left">
               <p className="font-bold text-status-error text-sm">Delete Account</p>
-              <p className="text-[10px] text-status-error/60 mt-0.5">Permanently remove your profile and all training data.</p>
+              <p className="text-2.5 text-status-error/60 mt-0.5">Permanently remove your profile and all training data.</p>
             </div>
             <Trash2 className="w-5 h-5 text-status-error opacity-40 group-hover:opacity-100 transition-opacity" />
           </button>

@@ -77,7 +77,7 @@ export default function EmailPreferencesPage(): React.JSX.Element {
   const successIndicator = success ? (
     <div className="flex items-center gap-1.5 text-brand-primary animate-in fade-in zoom-in duration-300">
       <Check className="w-4 h-4" />
-      <span className="text-[10px] font-black uppercase tracking-widest">Saved</span>
+      <span className="text-2.5 font-black uppercase tracking-widest">Saved</span>
     </div>
   ) : undefined;
 
@@ -88,8 +88,8 @@ export default function EmailPreferencesPage(): React.JSX.Element {
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
         <section className="space-y-4">
           <div className="px-1">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">System Notifications</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Essential updates about your account and training sessions.</p>
+            <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">System Notifications</h3>
+            <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Essential updates about your account and training sessions.</p>
           </div>
 
           <div className="bg-brand-surface rounded-xl shadow-card overflow-hidden divide-y divide-white/5">
@@ -110,8 +110,8 @@ export default function EmailPreferencesPage(): React.JSX.Element {
 
         <section className="space-y-4">
           <div className="px-1">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Training Insights</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Stay motivated with periodic reports on your progress.</p>
+            <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Training Insights</h3>
+            <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Stay motivated with periodic reports on your progress.</p>
           </div>
 
           <div className="bg-brand-surface rounded-xl shadow-card overflow-hidden divide-y divide-white/5">
@@ -126,8 +126,8 @@ export default function EmailPreferencesPage(): React.JSX.Element {
 
         <section className="space-y-4">
           <div className="px-1">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Marketing</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Optional updates about new features and platform news.</p>
+            <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Marketing</h3>
+            <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Optional updates about new features and platform news.</p>
           </div>
 
           <div className="bg-brand-surface rounded-xl shadow-card overflow-hidden divide-y divide-white/5">
@@ -145,7 +145,7 @@ export default function EmailPreferencesPage(): React.JSX.Element {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full py-4 bg-brand-primary text-black rounded-md font-black uppercase text-sm tracking-widest shadow-elevated transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50"
+          className="w-full py-4 bg-brand-primary text-black rounded-md font-black uppercase text-sm tracking-widest shadow-elevated transition-all active:scale-98 flex items-center justify-center gap-3 disabled:opacity-50"
         >
           {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
           {saving ? "Saving Changes..." : "Save Preferences"}

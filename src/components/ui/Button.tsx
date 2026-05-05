@@ -19,7 +19,7 @@ export const Button = ({
   disabled,
   ...props
 }: ButtonProps): React.JSX.Element => {
-  const baseStyles = "inline-flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center gap-2 transition-all active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed";
   
   const variantStyles = {
     primary: "bg-brand-primary text-black shadow-subtle hover:opacity-90 rounded-md font-black uppercase tracking-widest",
@@ -30,8 +30,8 @@ export const Button = ({
   };
 
   const sizeStyles = {
-    sm: "px-3 py-2 text-[9px]",
-    md: "px-5 py-3 text-[10px]",
+    sm: "px-3 py-2 text-2.25",
+    md: "px-5 py-3 text-2.5",
     lg: "px-8 py-4 text-xs",
     none: "",
   };

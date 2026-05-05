@@ -29,11 +29,11 @@ export default function PlanAssignmentModal({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <Card variant="modal" padding="none" className="w-full max-w-sm flex flex-col max-h-[80vh] animate-in zoom-in-95 duration-200">
+      <Card variant="modal" padding="none" className="w-full max-w-sm flex flex-col max-h-80vh animate-in zoom-in-95 duration-200">
         <header className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-800/20">
           <div>
             <h3 className="text-xl font-bold text-white">{t("assign_template")}</h3>
-            <p className="text-[10px] text-text-subtle uppercase font-black tracking-widest mt-1">{t("pick_starting_plan")}</p>
+            <p className="text-2.5 text-text-subtle uppercase font-black tracking-widest mt-1">{t("pick_starting_plan")}</p>
           </div>
           <Button 
             variant="ghost"
@@ -61,7 +61,7 @@ export default function PlanAssignmentModal({
             >
               <div>
                 <h4 className="font-bold text-white text-sm">{template.name}</h4>
-                <p className="text-[10px] text-text-subtle mt-1 line-clamp-1">{template.description || t("standard_template")}</p>
+                <p className="text-2.5 text-text-subtle mt-1 line-clamp-1">{template.description || t("standard_template")}</p>
               </div>
               {selectedId === template.id && (
                 <div className="w-6 h-6 bg-brand-primary rounded-full flex items-center justify-center">

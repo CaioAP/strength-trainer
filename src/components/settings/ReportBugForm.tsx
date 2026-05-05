@@ -39,8 +39,8 @@ export const ReportBugForm = (): React.JSX.Element => {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-4">
         <div className="px-1">
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Issue Details</h3>
-          <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Describe what happened so our team can investigate.</p>
+          <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Issue Details</h3>
+          <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Describe what happened so our team can investigate.</p>
         </div>
 
         <Card variant="default" className="space-y-6">
@@ -64,17 +64,17 @@ export const ReportBugForm = (): React.JSX.Element => {
           />
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-text-subtle uppercase tracking-widest ml-1">Severity</label>
+            <label className="text-2.5 font-black text-text-subtle uppercase tracking-widest ml-1">Severity</label>
             <div className="grid grid-cols-2 gap-2">
               {["low", "medium", "high", "critical"].map((s) => (
                 <button
                   key={s}
                   type="button"
                   onClick={(): void => setSeverity(s)}
-                  className={`py-2.5 rounded text-[10px] font-black uppercase tracking-widest transition-all ${
+                  className={`py-2.5 rounded text-2.5 font-black uppercase tracking-widest transition-all ${
                     formData.severity === s
-                      ? "bg-brand-primary text-black shadow-[0_0_15px_rgba(206,255,5,0.4)] scale-[1.02]"
-                      : "bg-brand-secondary text-text-subtle shadow-card hover:bg-white/5 hover:scale-[1.02]"
+                      ? "bg-brand-primary text-black shadow-[0_0_15px_rgba(206,255,5,0.4)] scale-102"
+                      : "bg-brand-secondary text-text-subtle shadow-card hover:bg-white/5 hover:scale-102"
                   }`}
                 >
                   {s}

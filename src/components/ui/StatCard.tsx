@@ -30,11 +30,11 @@ export const StatCard = ({
         {value}
       </span>
       <div className="mt-2">
-        <span className="text-[9px] uppercase text-white font-black tracking-widest block group-hover:text-brand-primary transition-colors">
+        <span className="text-2.25 uppercase text-white font-black tracking-widest block group-hover:text-brand-primary transition-colors">
           {label}
         </span>
         {subLabel && (
-          <span className="text-[8px] uppercase text-text-subtle font-bold tracking-tighter opacity-60 block mt-0.5">
+          <span className="text-2 uppercase text-text-subtle font-bold tracking-tighter opacity-60 block mt-0.5">
             {subLabel}
           </span>
         )}

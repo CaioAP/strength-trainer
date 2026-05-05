@@ -30,7 +30,7 @@ export default function BottomNav({ tabs, activeTab, onTabChange }: BottomNavPro
           >
             {tab.icon}
           </div>
-          <span className="text-[10px] font-black uppercase tracking-tighter">{tab.label}</span>
+          <span className="text-2.5 font-black uppercase tracking-tighter">{tab.label}</span>
         </button>
       ))}
     </nav>

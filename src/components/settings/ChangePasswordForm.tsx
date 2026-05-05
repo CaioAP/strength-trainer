@@ -18,8 +18,8 @@ export const ChangePasswordForm = (): React.JSX.Element => {
   return (
     <section className="space-y-4">
       <div className="px-1">
-        <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Update Password</h3>
-        <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Secure your account with a strong, unique password.</p>
+        <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Update Password</h3>
+        <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Secure your account with a strong, unique password.</p>
       </div>
 
       <form onSubmit={handleChangePassword}>
@@ -44,7 +44,7 @@ export const ChangePasswordForm = (): React.JSX.Element => {
           />
 
           {status && (
-            <div className={`p-3 rounded text-[10px] font-bold uppercase tracking-widest text-center ${
+            <div className={`p-3 rounded text-2.5 font-bold uppercase tracking-widest text-center ${
               status.type === "success"
                 ? "bg-brand-primary/10 text-brand-primary border border-brand-primary/20"
                 : "bg-status-error/10 text-status-error border border-status-error/20"

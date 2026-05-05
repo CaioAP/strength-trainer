@@ -43,7 +43,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       {navigating && (
         <div className="absolute inset-0 z-[400] flex flex-col items-center justify-center bg-brand-secondary/80 backdrop-blur-sm animate-in fade-in duration-200">
           <Loader2 className="w-8 h-8 text-brand-primary animate-spin mb-4" />
-          <p className="text-text-subtle text-[10px] font-black uppercase tracking-widest animate-pulse">{t("redirecting")}</p>
+          <p className="text-text-subtle text-2.5 font-black uppercase tracking-widest animate-pulse">{t("redirecting")}</p>
         </div>
       )}
       <header className="p-4 flex items-center justify-between border-b border-gray-800 bg-brand-surface">
@@ -62,7 +62,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       <div className="flex-1 p-4 space-y-8 pb-12">
         {/* Profile Section */}
         <section>
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_profile")}</h3>
+          <h3 className="text-2.5 font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_profile")}</h3>
           <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden">
             <div className="p-4 flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-primary/10 rounded-full flex items-center justify-center border border-brand-primary/20">
@@ -97,24 +97,24 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
 
         {/* Role Specific Info */}
         <section>
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_info")}</h3>
+          <h3 className="text-2.5 font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_info")}</h3>
           <div className="bg-brand-surface rounded-lg shadow-card p-4 space-y-4 overflow-hidden">
             <div className="flex justify-between items-center">
               <span className="text-sm text-text-subtle font-medium">{t("access_role")}</span>
-              <span className="bg-brand-primary/10 text-brand-primary text-[10px] px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
+              <span className="bg-brand-primary/10 text-brand-primary text-2.5 px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
                 {profile?.role}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-text-subtle font-medium">{t("account_id")}</span>
-              <span className="text-[10px] text-white font-mono">{user?.id.slice(0, 12)}...</span>
+              <span className="text-2.5 text-white font-mono">{user?.id.slice(0, 12)}...</span>
             </div>
           </div>
         </section>
 
         {/* Support Section */}
         <section>
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("support")}</h3>
+          <h3 className="text-2.5 font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("support")}</h3>
           <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden divide-y divide-white/5">
              <SettingsItem 
                icon={<HelpCircle className="w-4 h-4" />} 
@@ -146,7 +146,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
         {/* Logout Section */}
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-3 p-4 bg-status-error/10 border border-status-error/20 rounded-lg text-status-error font-bold uppercase text-xs tracking-widest hover:bg-status-error/20 transition-all active:scale-[0.98]"
+          className="w-full flex items-center justify-center gap-3 p-4 bg-status-error/10 border border-status-error/20 rounded-lg text-status-error font-bold uppercase text-xs tracking-widest hover:bg-status-error/20 transition-all active:scale-98"
         >
           <LogOut className="w-4 h-4" />
           {t("logout")}
@@ -154,7 +154,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       </div>
 
       <footer className="p-8 text-center bg-brand-secondary">
-        <p className="text-[10px] text-text-subtle uppercase tracking-widest font-black opacity-30">Strength v1.0.0</p>
+        <p className="text-2.5 text-text-subtle uppercase tracking-widest font-black opacity-30">Strength v1.0.0</p>
       </footer>
     </div>
   );

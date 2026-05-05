@@ -31,8 +31,8 @@ export default function HelpCenterPage(): React.JSX.Element {
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
         <section className="space-y-4">
           <div className="px-1">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Contact Support</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Get help directly from our team.</p>
+            <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Contact Support</h3>
+            <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Get help directly from our team.</p>
           </div>
 
           <div className="bg-brand-surface rounded-xl shadow-card overflow-hidden divide-y divide-white/5">
@@ -46,7 +46,7 @@ export default function HelpCenterPage(): React.JSX.Element {
                 </div>
                 <div>
                   <p className="font-bold text-white text-sm group-hover:text-brand-primary transition-colors">Email Support</p>
-                  <p className="text-[10px] text-text-subtle mt-1 leading-normal">Typically replies within 24 hours</p>
+                  <p className="text-2.5 text-text-subtle mt-1 leading-normal">Typically replies within 24 hours</p>
                 </div>
               </div>
               <ExternalLink className="w-4 h-4 text-text-subtle group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
@@ -56,15 +56,15 @@ export default function HelpCenterPage(): React.JSX.Element {
 
         <section className="space-y-4">
           <div className="px-1">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-subtle mb-1">Frequently Asked Questions</h3>
-            <p className="text-[11px] text-text-subtle/60 leading-relaxed italic">Quick answers to common questions.</p>
+            <h3 className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">Frequently Asked Questions</h3>
+            <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">Quick answers to common questions.</p>
           </div>
 
           <div className="bg-brand-surface rounded-xl shadow-card overflow-hidden divide-y divide-white/5">
             {faqs.map((faq, index) => (
               <div key={index} className="p-4 hover:bg-white/5 transition-colors group">
                 <p className="font-bold text-white text-sm mb-2 group-hover:text-brand-primary transition-colors">{faq.question}</p>
-                <p className="text-[11px] text-text-subtle leading-relaxed">{faq.answer}</p>
+                <p className="text-2.75 text-text-subtle leading-relaxed">{faq.answer}</p>
               </div>
             ))}
           </div>
