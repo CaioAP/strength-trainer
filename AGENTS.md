@@ -9,7 +9,9 @@ This document serves as the primary source of truth for all AI agents working on
 - **Logic Separation**: Always separate the component logic (hooks/actions) and the rendering (view) into different files.
 - **DRY & SOLID**: Never write the same code twice. Apply SOLID principles and design patterns (Factory, Strategy, Observer) to solve coding construction.
 - **Airbnb Style**: Follow Airbnb linting styles strictly.
-- **i18n Mandatory**: Always use i18n code for user-facing text. Never use static strings in components. Use translation keys and appropriate hooks/functions (e.g., `t('key')`).
+- **Validation**: Always run `npm run lint` and `npm run typecheck` before finishing a task.
+- **i18n Mandatory**: Always use i18n code for user-facing text.
+ Never use static strings in components. Use translation keys and appropriate hooks/functions (e.g., `t('key')`).
 
 ## TypeScript Standards
 - **Strict Mode**: Apply strict TypeScript rules.

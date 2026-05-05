@@ -13,7 +13,12 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/explicit-function-return-type": "error",
       "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
       "react/react-in-jsx-scope": "off",
-      "no-unused-vars": "warn",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { 
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }],
       "semi": ["error", "always"],
       "quotes": ["error", "double"],
     },

@@ -1,25 +1,26 @@
-'use client';
+"use client";
 
-import { ExternalLink, Mail } from 'lucide-react';
-import SubPageHeader from '@/components/ui/SubPageHeader';
+import React from "react";
+import { ExternalLink, Mail } from "lucide-react";
+import SubPageHeader from "@/components/ui/SubPageHeader";
 
-export default function HelpCenterPage() {
+export default function HelpCenterPage(): React.JSX.Element {
   const faqs = [
     {
-      question: 'How do I contact my trainer?',
-      answer: 'You can reach out to your trainer directly via email. In-app messaging will be available in a future update.',
+      question: "How do I contact my trainer?",
+      answer: "You can reach out to your trainer directly via email. In-app messaging will be available in a future update.",
     },
     {
-      question: 'Can I change my assigned plan?',
-      answer: 'Your trainer is responsible for assigning and updating your training plans. Please contact them if you need adjustments.',
+      question: "Can I change my assigned plan?",
+      answer: "Your trainer is responsible for assigning and updating your training plans. Please contact them if you need adjustments.",
     },
     {
-      question: 'How is my RPE calculated?',
-      answer: 'RPE (Rate of Perceived Exertion) is a subjective measure of how hard an exercise felt on a scale of 1 to 10, where 10 is maximum effort.',
+      question: "How is my RPE calculated?",
+      answer: "RPE (Rate of Perceived Exertion) is a subjective measure of how hard an exercise felt on a scale of 1 to 10, where 10 is maximum effort.",
     },
     {
-      question: 'What happens if I miss a workout?',
-      answer: 'Missed workouts are simply left unlogged. Your trainer can see your completion history and adjust your plan accordingly if needed.',
+      question: "What happens if I miss a workout?",
+      answer: "Missed workouts are simply left unlogged. Your trainer can see your completion history and adjust your plan accordingly if needed.",
     },
   ];
 

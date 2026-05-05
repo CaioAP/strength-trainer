@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
-import { Shield, Loader2, Save, CheckCircle2 } from 'lucide-react';
-import { validatePassword } from '@/lib/utils/validatePassword';
-import ErrorBanner from '@/components/ui/ErrorBanner';
-import SuspenseLoader from '@/components/ui/SuspenseLoader';
-import LoadingScreen from '@/components/ui/LoadingScreen';
+import React, { useState, useEffect, Suspense } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { Shield, Loader2, Save, CheckCircle2 } from "lucide-react";
+import { validatePassword } from "@/lib/utils/validatePassword";
+import ErrorBanner from "@/components/ui/ErrorBanner";
+import SuspenseLoader from "@/components/ui/SuspenseLoader";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
-function ResetPasswordForm() {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+function ResetPasswordForm(): React.JSX.Element {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,17 +21,17 @@ function ResetPasswordForm() {
   const router = useRouter();
 
   useEffect(() => {
-    async function checkSession() {
+    async function checkSession(): Promise<void> {
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
-        setError('Invalid or expired reset link. Please request a new one.');
+        setError("Invalid or expired reset link. Please request a new one.");
       }
       setInitializing(false);
     }
     checkSession();
   }, [supabase]);
 
-  const handleReset = async (e: React.FormEvent) => {
+  const handleReset = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setError(null);
 
@@ -48,9 +48,10 @@ function ResetPasswordForm() {
       if (authError) throw authError;
 
       setSuccess(true);
-      setTimeout(() => router.push('/login'), 3000);
-    } catch (err: any) {
-      setError(err.message);
+      setTimeout(() => router.push("/login"), 3000);
+    } catch (err: unknown) {
+      const error = err as Error;
+      setError(error.message);
       setLoading(false);
     }
   };
@@ -121,14 +122,14 @@ function ResetPasswordForm() {
           className="w-full py-4 bg-brand-primary text-black font-black rounded-md hover:opacity-90 disabled:opacity-50 transition-all uppercase text-sm tracking-widest shadow-subtle active:scale-[0.98] flex items-center justify-center gap-3"
         >
           {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-          {loading ? 'Updating...' : 'Set New Password'}
+          {loading ? "Updating..." : "Set New Password"}
         </button>
       </form>
     </div>
   );
 }
 
-export default function ResetPasswordPage() {
+export default function ResetPasswordPage(): React.JSX.Element {
   return (
     <div className="flex-1 flex flex-col justify-center items-center p-6 bg-brand-secondary min-h-screen">
       <Suspense fallback={<SuspenseLoader />}>
@@ -137,4 +138,3 @@ export default function ResetPasswordPage() {
     </div>
   );
 }
-

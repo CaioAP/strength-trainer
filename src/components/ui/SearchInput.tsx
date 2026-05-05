@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react';
+import { Search } from "lucide-react";
 
 interface SearchInputProps {
   placeholder: string;
@@ -7,7 +7,7 @@ interface SearchInputProps {
   className?: string;
 }
 
-export default function SearchInput({ placeholder, value, onChange, className = '' }: SearchInputProps) {
+export default function SearchInput({ placeholder, value, onChange, className = "" }: SearchInputProps): React.JSX.Element {
   return (
     <div className={`relative ${className}`}>
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-subtle" />

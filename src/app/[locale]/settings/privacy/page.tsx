@@ -1,29 +1,30 @@
-'use client';
+"use client";
 
-import { ShieldCheck, Lock, Eye, Server } from 'lucide-react';
-import SubPageHeader from '@/components/ui/SubPageHeader';
+import React from "react";
+import { ShieldCheck, Lock, Eye, Server } from "lucide-react";
+import SubPageHeader from "@/components/ui/SubPageHeader";
 
-export default function PrivacyPolicyPage() {
+export default function PrivacyPolicyPage(): React.JSX.Element {
   const sections = [
     {
-      title: 'Data Collection',
+      title: "Data Collection",
       icon: <Server className="w-4 h-4 text-brand-primary" />,
-      content: 'We collect only the data necessary to provide our training services. This includes your name, email address, workout logs, and performance metrics provided by you or your trainer.',
+      content: "We collect only the data necessary to provide our training services. This includes your name, email address, workout logs, and performance metrics provided by you or your trainer.",
     },
     {
-      title: 'Information Sharing',
+      title: "Information Sharing",
       icon: <Eye className="w-4 h-4 text-brand-primary" />,
-      content: 'Your training data is shared exclusively with your assigned trainer to help them optimize your plans. You can revoke this access at any time through the Security & Privacy settings.',
+      content: "Your training data is shared exclusively with your assigned trainer to help them optimize your plans. You can revoke this access at any time through the Security & Privacy settings.",
     },
     {
-      title: 'Security Measures',
+      title: "Security Measures",
       icon: <Lock className="w-4 h-4 text-brand-primary" />,
-      content: 'We use industry-standard encryption and secure authentication protocols to protect your account and personal information from unauthorized access.',
+      content: "We use industry-standard encryption and secure authentication protocols to protect your account and personal information from unauthorized access.",
     },
     {
-      title: 'Account Deletion',
+      title: "Account Deletion",
       icon: <ShieldCheck className="w-4 h-4 text-brand-primary" />,
-      content: 'You have the right to delete your account at any time. We provide a 30-day grace period where you can restore your data before it is permanently removed from our servers.',
+      content: "You have the right to delete your account at any time. We provide a 30-day grace period where you can restore your data before it is permanently removed from our servers.",
     },
   ];
 

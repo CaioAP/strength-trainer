@@ -1,4 +1,4 @@
-import Dexie, { type Table } from 'dexie';
+import Dexie, { type Table } from "dexie";
 
 export interface ExerciseMaster {
   id: string;
@@ -68,14 +68,14 @@ export class AppDatabase extends Dexie {
   session_param_modifications!: Table<SessionParamModification>;
 
   constructor() {
-    super('StrengthTrainerDB');
+    super("StrengthTrainerDB");
     this.version(1).stores({
-      exercise_master: 'id, name, muscle_group',
-      plans: 'id, trainer_id, student_id, is_template',
-      workouts: 'id, plan_id, order_index',
-      plan_exercises: 'id, workout_id, exercise_id',
-      workout_executions: 'id, student_id, workout_id, started_at',
-      session_param_modifications: 'id, execution_id, plan_exercise_id'
+      exercise_master: "id, name, muscle_group",
+      plans: "id, trainer_id, student_id, is_template",
+      workouts: "id, plan_id, order_index",
+      plan_exercises: "id, workout_id, exercise_id",
+      workout_executions: "id, student_id, workout_id, started_at",
+      session_param_modifications: "id, execution_id, plan_exercise_id"
     });
   }
 }

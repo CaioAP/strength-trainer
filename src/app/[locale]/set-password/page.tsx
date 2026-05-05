@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Shield, Loader2 } from 'lucide-react';
-import { validatePassword } from '@/lib/utils/validatePassword';
-import ErrorBanner from '@/components/ui/ErrorBanner';
-import SuspenseLoader from '@/components/ui/SuspenseLoader';
-import LoadingScreen from '@/components/ui/LoadingScreen';
+import { useState, useEffect, Suspense } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Shield } from "lucide-react";
+import { validatePassword } from "@/lib/utils/validatePassword";
+import ErrorBanner from "@/components/ui/ErrorBanner";
+import SuspenseLoader from "@/components/ui/SuspenseLoader";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 function SetPasswordForm(): React.JSX.Element {
-  const [fullName, setFullName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,24 +26,21 @@ function SetPasswordForm(): React.JSX.Element {
 
     async function initializeSession(): Promise<void> {
       try {
-        console.log('Initializing session...');
-
-        const code = searchParams.get('code');
-        const token = searchParams.get('token');
-        const type = searchParams.get('type') as 'invite' | 'recovery' | 'signup' | 'email_change' | 'email' | null;
+        const code = searchParams.get("code");
+        const token = searchParams.get("token");
+        const type = searchParams.get("type") as "invite" | "recovery" | "signup" | "email_change" | "email" | null;
 
         if (code) {
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if (error) throw error;
-        } else if (token && type === 'invite') {
-          const { error } = await supabase.auth.verifyOtp({ token_hash: token, type: 'invite' });
+        } else if (token && type === "invite") {
+          const { error } = await supabase.auth.verifyOtp({ token_hash: token, type: "invite" });
           if (error) throw error;
         } else if (window.location.hash) {
-          console.log('Parsing hash manually...');
           const hash = window.location.hash.substring(1);
           const params = new URLSearchParams(hash);
-          const accessToken = params.get('access_token');
-          const refreshToken = params.get('refresh_token');
+          const accessToken = params.get("access_token");
+          const refreshToken = params.get("refresh_token");
 
           if (accessToken && refreshToken) {
             const { error: setSessionError } = await supabase.auth.setSession({
@@ -51,7 +48,6 @@ function SetPasswordForm(): React.JSX.Element {
               refresh_token: refreshToken,
             });
             if (setSessionError) throw setSessionError;
-            console.log('Session set manually from hash');
           }
         }
 
@@ -66,15 +62,13 @@ function SetPasswordForm(): React.JSX.Element {
         }
 
         if (!session && mounted) {
-          const debugInfo = `URL: ${window.location.pathname} | Query: ${window.location.search ? 'Yes' : 'No'} | Hash: ${window.location.hash ? 'Yes' : 'No'}`;
+          const debugInfo = `URL: ${window.location.pathname} | Query: ${window.location.search ? "Yes" : "No"} | Hash: ${window.location.hash ? "Yes" : "No"}`;
           throw new Error(`Auth session missing! ${debugInfo}`);
         }
-
-        console.log('Session confirmed');
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (mounted) {
-          console.error('Auth error:', err);
-          setError(err.message || 'Failed to initialize session');
+          const error = err as Error;
+          setError(error.message || "Failed to initialize session");
         }
       } finally {
         if (mounted) setInitializing(false);
@@ -82,15 +76,15 @@ function SetPasswordForm(): React.JSX.Element {
     }
 
     initializeSession();
-    return () => {
+    return (): void => {
       mounted = false;
     };
   }, [supabase, searchParams]);
 
-  const handleSetPassword = async (e: React.FormEvent) => {
+  const handleSetPassword = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     if (!fullName.trim()) {
-      setError('Please enter your full name');
+      setError("Please enter your full name");
       return;
     }
 
@@ -110,15 +104,16 @@ function SetPasswordForm(): React.JSX.Element {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { error: profError } = await supabase
-          .from('profiles')
+          .from("profiles")
           .update({ full_name: fullName })
-          .eq('id', user.id);
+          .eq("id", user.id);
         if (profError) throw profError;
       }
 
-      router.push('/');
-    } catch (err: any) {
-      setError(err.message);
+      router.push("/");
+    } catch (err: unknown) {
+      const error = err as Error;
+      setError(error.message);
       setLoading(false);
     }
   };
@@ -188,14 +183,14 @@ function SetPasswordForm(): React.JSX.Element {
           disabled={loading || !!error}
           className="w-full touch-target bg-brand-primary text-black font-bold rounded-md hover:opacity-90 disabled:opacity-50 transition-all uppercase text-sm"
         >
-          {loading ? 'Updating...' : 'Set Password & Login'}
+          {loading ? "Updating..." : "Set Password & Login"}
         </button>
       </form>
     </div>
   );
 }
 
-export default function SetPasswordPage() {
+export default function SetPasswordPage(): React.JSX.Element {
   return (
     <div className="flex-1 flex flex-col justify-center items-center p-6 bg-brand-secondary min-h-screen">
       <Suspense fallback={<SuspenseLoader />}>
@@ -204,4 +199,3 @@ export default function SetPasswordPage() {
     </div>
   );
 }
-

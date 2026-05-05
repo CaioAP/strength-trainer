@@ -1,18 +1,31 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-export function useDeleteConfirm(onDelete: (id: string) => Promise<void>) {
-  const [confirmModal, setConfirmModal] = useState<{ isOpen: boolean; id: string | null }>({
+interface ConfirmModalState {
+  isOpen: boolean;
+  id: string | null;
+}
+
+interface UseDeleteConfirmReturn {
+  confirmModal: ConfirmModalState;
+  openModal: (_id: string) => void;
+  closeModal: () => void;
+  handleDelete: () => Promise<void>;
+  deletingId: string | null;
+}
+
+export function useDeleteConfirm(onDelete: (_id: string) => Promise<void>): UseDeleteConfirmReturn {
+  const [confirmModal, setConfirmModal] = useState<ConfirmModalState>({
     isOpen: false,
     id: null,
   });
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const openModal = (id: string) => setConfirmModal({ isOpen: true, id });
-  const closeModal = () => setConfirmModal({ isOpen: false, id: null });
+  const openModal = (id: string): void => setConfirmModal({ isOpen: true, id });
+  const closeModal = (): void => setConfirmModal({ isOpen: false, id: null });
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     if (!confirmModal.id) return;
     const id = confirmModal.id;
     setDeletingId(id);

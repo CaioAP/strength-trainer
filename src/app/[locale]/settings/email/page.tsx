@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Loader2, Save, Check } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-import LoadingScreen from '@/components/ui/LoadingScreen';
-import SubPageHeader from '@/components/ui/SubPageHeader';
-import ToggleRow from '@/components/ui/ToggleRow';
+import React, { useState, useEffect } from "react";
+import { Loader2, Save, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import LoadingScreen from "@/components/ui/LoadingScreen";
+import SubPageHeader from "@/components/ui/SubPageHeader";
+import ToggleRow from "@/components/ui/ToggleRow";
 
-export default function EmailPreferencesPage() {
+export default function EmailPreferencesPage(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -23,21 +23,21 @@ export default function EmailPreferencesPage() {
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchPreferences() {
+    async function fetchPreferences(): Promise<void> {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        router.push('/login');
+        router.push("/login");
         return;
       }
 
       const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('email_notifications, marketing_emails, session_reminders, progress_reports')
-        .eq('id', user.id)
+        .from("profiles")
+        .select("email_notifications, marketing_emails, session_reminders, progress_reports")
+        .eq("id", user.id)
         .single();
 
       if (error) {
-        console.error('Error fetching preferences:', error);
+        console.error("Error fetching preferences:", error);
       } else if (profile) {
         setPreferences({
           email_notifications: profile.email_notifications ?? true,
@@ -52,19 +52,19 @@ export default function EmailPreferencesPage() {
     fetchPreferences();
   }, [supabase, router]);
 
-  const handleToggle = (key: keyof typeof preferences) => {
+  const handleToggle = (key: keyof typeof preferences): void => {
     setPreferences((prev) => ({ ...prev, [key]: !prev[key] }));
     setSuccess(false);
   };
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<void> => {
     setSaving(true);
     const { data: { user } } = await supabase.auth.getUser();
 
-    const { error } = await supabase.from('profiles').update(preferences).eq('id', user?.id);
+    const { error } = await supabase.from("profiles").update(preferences).eq("id", user?.id);
 
     if (error) {
-      console.error('Error saving preferences:', error);
+      console.error("Error saving preferences:", error);
     } else {
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
@@ -97,13 +97,13 @@ export default function EmailPreferencesPage() {
               label="Account Activity"
               description="Security alerts and important account updates."
               checked={preferences.email_notifications}
-              onToggle={() => handleToggle('email_notifications')}
+              onToggle={(): void => handleToggle("email_notifications")}
             />
             <ToggleRow
               label="Session Reminders"
               description="Daily reminders for your scheduled workouts."
               checked={preferences.session_reminders}
-              onToggle={() => handleToggle('session_reminders')}
+              onToggle={(): void => handleToggle("session_reminders")}
             />
           </div>
         </section>
@@ -119,7 +119,7 @@ export default function EmailPreferencesPage() {
               label="Weekly Progress Reports"
               description="Summaries of your volume, RPE, and consistency."
               checked={preferences.progress_reports}
-              onToggle={() => handleToggle('progress_reports')}
+              onToggle={(): void => handleToggle("progress_reports")}
             />
           </div>
         </section>
@@ -135,7 +135,7 @@ export default function EmailPreferencesPage() {
               label="News & Feature Updates"
               description="Be the first to know about new platform features."
               checked={preferences.marketing_emails}
-              onToggle={() => handleToggle('marketing_emails')}
+              onToggle={(): void => handleToggle("marketing_emails")}
             />
           </div>
         </section>
@@ -148,7 +148,7 @@ export default function EmailPreferencesPage() {
           className="w-full py-4 bg-brand-primary text-black rounded-md font-black uppercase text-sm tracking-widest shadow-elevated transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50"
         >
           {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-          {saving ? 'Saving Changes...' : 'Save Preferences'}
+          {saving ? "Saving Changes..." : "Save Preferences"}
         </button>
       </div>
     </main>

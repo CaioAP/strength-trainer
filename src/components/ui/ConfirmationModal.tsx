@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface ConfirmationModalProps {
   message: string;
   confirmText?: string;
   cancelText?: string;
-  variant?: 'danger' | 'primary';
+  variant?: "danger" | "primary";
   isLoading?: boolean;
   children?: React.ReactNode;
 }
@@ -21,17 +21,17 @@ export default function ConfirmationModal({
   onConfirm,
   title,
   message,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
-  variant = 'primary',
+  confirmText = "Confirm",
+  cancelText = "Cancel",
+  variant = "primary",
   isLoading = false,
   children
-}: ConfirmationModalProps) {
+}: ConfirmationModalProps): React.JSX.Element | null {
   if (!isOpen) return null;
 
-  const confirmColors = variant === 'danger' 
-    ? 'bg-status-error text-white hover:bg-status-error/90' 
-    : 'bg-brand-primary text-black hover:opacity-90';
+  const confirmColors = variant === "danger" 
+    ? "bg-status-error text-white hover:bg-status-error/90" 
+    : "bg-brand-primary text-black hover:opacity-90";
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">

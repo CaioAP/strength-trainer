@@ -1,12 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { X, FileText, ChevronRight, Check } from 'lucide-react';
+import { useState } from "react";
+import { X, FileText, Check } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { WorkoutTemplate } from "@/lib/types/common.types";
 
 interface PlanAssignmentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  templates: any[];
+  templates: WorkoutTemplate[];
   onAssign: (templateId: string) => void;
   isLoading: boolean;
 }
@@ -17,7 +19,8 @@ export default function PlanAssignmentModal({
   templates,
   onAssign,
   isLoading
-}: PlanAssignmentModalProps) {
+}: PlanAssignmentModalProps): React.JSX.Element | null {
+  const t = useTranslations("Common");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -27,8 +30,8 @@ export default function PlanAssignmentModal({
       <div className="w-full max-w-sm bg-brand-surface border border-gray-800 rounded-lg shadow-elevated flex flex-col max-h-[80vh] overflow-hidden animate-in zoom-in-95 duration-200">
         <header className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-800/20">
           <div>
-            <h3 className="text-xl font-bold text-white">Assign Template</h3>
-            <p className="text-[10px] text-text-subtle uppercase font-black tracking-widest mt-1">Pick a starting plan</p>
+            <h3 className="text-xl font-bold text-white">{t("assign_template")}</h3>
+            <p className="text-[10px] text-text-subtle uppercase font-black tracking-widest mt-1">{t("pick_starting_plan")}</p>
           </div>
           <button 
             onClick={onClose}
@@ -46,13 +49,13 @@ export default function PlanAssignmentModal({
               onClick={() => !isLoading && setSelectedId(template.id)}
               className={`p-4 rounded-lg border transition-all cursor-pointer flex justify-between items-center ${
                 selectedId === template.id 
-                ? 'bg-brand-primary/10 border-brand-primary' 
-                : 'bg-brand-secondary border-gray-800 hover:border-gray-700'
+                ? "bg-brand-primary/10 border-brand-primary" 
+                : "bg-brand-secondary border-gray-800 hover:border-gray-700"
               }`}
             >
               <div>
                 <h4 className="font-bold text-white text-sm">{template.name}</h4>
-                <p className="text-[10px] text-text-subtle mt-1 line-clamp-1">{template.description || 'Standard template'}</p>
+                <p className="text-[10px] text-text-subtle mt-1 line-clamp-1">{template.description || t("standard_template")}</p>
               </div>
               {selectedId === template.id && (
                 <div className="w-6 h-6 bg-brand-primary rounded-full flex items-center justify-center">
@@ -65,7 +68,7 @@ export default function PlanAssignmentModal({
           {templates.length === 0 && (
             <div className="text-center py-12 opacity-50">
               <FileText className="w-8 h-8 mx-auto mb-3 text-gray-700" />
-              <p className="text-xs text-text-subtle uppercase font-black tracking-widest">No templates found</p>
+              <p className="text-xs text-text-subtle uppercase font-black tracking-widest">{t("no_templates_found")}</p>
             </div>
           )}
         </div>
@@ -76,7 +79,7 @@ export default function PlanAssignmentModal({
             disabled={isLoading}
             className="flex-1 py-3 px-4 bg-brand-secondary text-white font-bold rounded-md uppercase text-xs border border-gray-800 hover:bg-gray-800 transition-all disabled:opacity-50"
           >
-            Cancel
+            {t("cancel")}
           </button>
           <button
             onClick={() => selectedId && onAssign(selectedId)}
@@ -84,7 +87,7 @@ export default function PlanAssignmentModal({
             className="flex-1 py-3 px-4 bg-brand-primary text-black font-bold rounded-md uppercase text-xs transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-subtle active:scale-95"
           >
             {isLoading && <div className="w-3 h-3 border-2 border-black border-t-transparent rounded-full animate-spin" />}
-            Confirm
+            {t("confirm")}
           </button>
         </footer>
       </div>

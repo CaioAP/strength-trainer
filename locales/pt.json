@@ -1,6 +1,200 @@
 {
   "Common": {
     "title": "Treinador de Força",
-    "welcome": "Bem-vindo de volta"
-  }
-}
+    "welcome": "Bem-vindo de volta",
+    "search": "Buscar...",
+    "loading": "Carregando...",
+    "processing": "Processando...",
+    "delete": "Excluir",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "settings": "Configurações",
+    "admin_panel": "Painel Admin",
+    "no_data": "Nenhum dado encontrado",
+    "synchronizing": "Sincronizando...",
+    "invite": "Convidar",
+    "success": "Convite enviado com sucesso!",
+    "assign_template": "Atribuir Modelo",
+    "pick_starting_plan": "Escolha um plano inicial",
+    "standard_template": "Modelo padrão",
+    "no_templates_found": "Nenhum modelo encontrado",
+    "no_exercises_found": "Nenhum exercício encontrado",
+    "confirm": "Confirmar"
+  },
+  "Auth": {
+    "Login": {
+      "title": "Acesse sua conta",
+      "email_label": "E-mail",
+      "email_placeholder": "nome@exemplo.com",
+      "password_label": "Senha",
+      "password_placeholder": "••••••••",
+      "forgot_password": "Esqueceu a senha?",
+      "submit": "Entrar",
+      "submitting": "Entrando...",
+      "deactivation_title": "Conta Desativada",
+      "deactivation_desc": "Sua conta está programada para exclusão em 30 dias. Faça login novamente a qualquer momento antes disso para restaurar seus dados e cancelar a exclusão."
+    }
+  },
+  "Admin": {
+    "Tabs": {
+      "metrics": "Métricas",
+      "trainers": "Treinadores",
+      "roster": "Relação",
+      "library": "Biblioteca"
+    },
+    "Metrics": {
+      "exercises": "Exercícios",
+      "total_trainers": "Total Treinadores",
+      "pending": "Pendentes",
+      "students": "Alunos",
+      "platform_health": "Saúde da Plataforma",
+      "platform_health_desc": "Exercícios padronizados e integração segura de treinadores estão escalando conforme o esperado. Logs de auditoria rastreiam todas as sobreposições administrativas críticas."
+    },
+    "Trainers": {
+      "invite_title": "Convidar Novo Treinador",
+      "invite_placeholder": "treinador@email.com",
+      "search_placeholder": "Buscar treinadores...",
+      "pending": "Pendente",
+      "revoked": "Revogado",
+      "approve": "Aprovar",
+      "revoke": "Revogar Acesso",
+      "no_trainers": "Nenhum treinador registrado ainda."
+    },
+    "Students": {
+      "search_placeholder": "Buscar alunos...",
+      "trainer": "Treinador",
+      "unassigned": "Não atribuído"
+    },
+    "Exercises": {
+      "new_title": "Novo Exercício Mestre",
+      "name_placeholder": "Nome (ex: Levantamento Terra)",
+      "select_muscle_group": "Selecionar Grupo Muscular",
+      "description_placeholder": "Descrição (Opcional)",
+      "add_button": "Adicionar à Biblioteca",
+      "library_title": "Biblioteca",
+      "filter_all": "Todos os Grupos",
+      "delete_confirm_title": "Excluir Exercício",
+      "delete_confirm_msg": "Tem certeza que deseja remover este exercício da biblioteca mestre? Esta ação não pode ser desfeita."
+    }
+  },
+  "Student": {
+    "Tabs": {
+      "workout": "Treino",
+      "history": "Histórico"
+    },
+    "Header": {
+      "ready_prefix": "Pronto, ",
+      "ready_suffix": "?"
+    },
+    "Workout": {
+      "active_plan": "Plano Ativo",
+      "available_workouts": "Treinos Disponíveis",
+      "exercises_count": "{count} exercícios",
+      "no_plan": "Nenhum plano atribuído. Entre em contato com seu treinador para começar.",
+      "weekly_progress": "Progresso Semanal"
+    },
+    "History": {
+      "title": "Histórico de Sessões",
+      "subtitle": "Sua Jornada",
+      "effort": "Esforço",
+      "incomplete": "Incompleto",
+      "no_sessions": "Nenhuma sessão registrada ainda."
+    }
+  },
+  "Session": {
+    "active_session": "Sessão Ativa",
+    "preparing": "Preparando Sessão...",
+    "error_title": "Erro na Sessão",
+    "error_no_exercises": "Nenhum exercício encontrado para este treino.",
+    "error_not_found": "Este treino não foi encontrado ou você não tem acesso a ele.",
+    "return_to_dashboard": "Voltar ao Painel",
+    "finish_save": "Finalizar e Salvar Sessão",
+    "complete_title": "Concluir Sessão",
+    "complete_message": "Excelente sessão! Você concluiu {count} exercícios em {time}. Avalie seu esforço percebido abaixo.",
+    "submit_progress": "Enviar Progresso",
+    "perceived_effort": "Esforço Percebido",
+    "recovery": "Recuperação",
+    "challenging": "Desafiador",
+    "very_hard": "Muito Difícil",
+    "max_effort": "Esforço Máximo",
+    "light": "Leve",
+    "moderate": "Moderado",
+    "heavy": "Pesado",
+    "discard_title": "Descartar Progresso?",
+    "discard_message": "Você tem uma sessão ativa. Sair agora descartará todos os exercícios registrados e o tempo.",
+    "discard_confirm": "Descartar e Sair",
+    "keep_training": "Continuar Treinando"
+  },
+  "Trainer": {
+    "Tabs": {
+      "students": "Alunos",
+      "templates": "Modelos"
+    },
+    "Portal": "Portal do Treinador",
+    "Students": {
+      "invite_title": "Convidar Novo Aluno",
+      "invite_placeholder": "aluno@email.com",
+      "search_placeholder": "Buscar alunos...",
+      "my_students": "Meus Alunos ({count})",
+      "no_students": "Nenhum aluno encontrado.",
+      "pending_name": "Nome Pendente"
+    },
+    "templates": {
+      "title": "Modelos de Treino",
+      "no_templates": "Nenhum modelo criado ainda.",
+      "delete_confirm_title": "Excluir Modelo",
+      "delete_confirm_msg": "Tem certeza que deseja excluir este modelo de treino? Esta ação não pode ser desfeita."
+    },
+    "PlanEditor": {
+      "edit_title": "Editar Plano de Treino",
+      "create_title": "Criar Novo Plano",
+      "plan_name_label": "Nome do Plano",
+      "plan_name_placeholder": "ex: Hipertrofia Fase 1",
+      "exercise_label": "Exercício",
+      "exercise_placeholder": "Buscar na biblioteca...",
+      "add_exercise": "Adicionar Exercício",
+      "add_workout": "Adicionar Treino",
+      "save_plan": "Salvar Plano",
+      "saving": "Salvando...",
+      "error_name_required": "Por favor, forneça um nome para este plano.",
+      "error_exercise_required": "Por favor, selecione um exercício para todos os campos em \"{name}\".",
+      "error_load_failed": "Falha ao carregar dados do plano.",
+      "error_save_failed": "Falha ao salvar o plano. Por favor, tente novamente.",
+      "loading_library": "Carregando Biblioteca..."
+      },
+      "StudentDetail": {
+      "analyzing_stats": "Analisando estatísticas...",
+      "compliance": "Adesão",
+      "sessions_done": "Sessões concluídas",
+      "avg_effort": "Esforço Médio",
+      "overall_rpe": "RPE Geral",
+      "active_assignment": "Atribuição Ativa",
+      "assign_new": "Atribuir Novo",
+      "custom": "Personalizado",
+      "assigned_on": "Atribuído em {date}",
+      "no_plan": "Nenhum plano atribuído ainda.",
+      "no_plan_desc": "Comece o treinamento escolhendo um ponto de partida.",
+      "use_template": "Usar Modelo",
+      "custom_plan": "Plano Personalizado",
+      "session_history": "Histórico de Sessões",
+      "no_activity": "Nenhuma atividade registrada.",
+      "remove_plan_title": "Remover Plano",
+      "remove_plan_message": "Tem certeza que deseja remover o plano \"{name}\"? Esta ação não pode ser desfeita."
+      }
+      },
+      "Settings": {
+      "title": "Configurações",
+      "account_profile": "Perfil da Conta",
+      "email_preferences": "Preferências de E-mail",
+      "security_privacy": "Segurança e Privacidade",
+      "account_info": "Informações da Conta",
+      "access_role": "Função de Acesso",
+      "account_id": "ID da Conta",
+      "support": "Suporte",
+      "help_center": "Central de Ajuda",
+      "report_bug": "Relatar um Erro",
+      "privacy_policy": "Política de Privacidade",
+      "logout": "Sair",
+      "redirecting": "Redirecionando..."
+      }
+      }

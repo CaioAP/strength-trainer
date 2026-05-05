@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ChevronLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface SubPageHeaderProps {
   category: string;
@@ -9,7 +9,7 @@ interface SubPageHeaderProps {
   rightContent?: React.ReactNode;
 }
 
-export default function SubPageHeader({ category, title, rightContent }: SubPageHeaderProps) {
+export default function SubPageHeader({ category, title, rightContent }: SubPageHeaderProps): React.JSX.Element {
   const router = useRouter();
 
   return (

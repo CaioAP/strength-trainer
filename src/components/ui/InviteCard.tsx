@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { useState } from "react";
+import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface InviteCardProps {
   title: string;
@@ -10,19 +11,21 @@ interface InviteCardProps {
   onSubmit: (email: string) => Promise<void>;
 }
 
-export default function InviteCard({ title, placeholder, loading, onSubmit }: InviteCardProps) {
-  const [email, setEmail] = useState('');
+export default function InviteCard({ title, placeholder, loading, onSubmit }: InviteCardProps): React.JSX.Element {
+  const t = useTranslations("Common");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setMessage(null);
     try {
       await onSubmit(email);
-      setMessage('Invite sent successfully!');
-      setEmail('');
-    } catch (err: any) {
-      setMessage(err.message);
+      setMessage(t("success"));
+      setEmail("");
+    } catch (err) {
+      const error = err as Error;
+      setMessage(error.message);
     }
   };
 
@@ -50,14 +53,14 @@ export default function InviteCard({ title, placeholder, loading, onSubmit }: In
           {loading ? (
             <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
           ) : (
-            'Invite'
+            t("invite")
           )}
         </button>
       </form>
       {message && (
         <p
           className={`mt-3 text-xs font-medium animate-in fade-in slide-in-from-top-1 ${
-            message.includes('success') ? 'text-brand-primary' : 'text-status-error'
+            message === t("success") ? "text-brand-primary" : "text-status-error"
           }`}
         >
           {message}

@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { Mail, ChevronLeft, Loader2, CheckCircle2 } from 'lucide-react';
-import Link from 'next/link';
-import ErrorBanner from '@/components/ui/ErrorBanner';
+import React, { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { Mail, ChevronLeft, Loader2, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import ErrorBanner from "@/components/ui/ErrorBanner";
 
-export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
+export default function ForgotPasswordPage(): React.JSX.Element {
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const supabase = createClient();
 
-  const handleResetRequest = async (e: React.FormEvent) => {
+  const handleResetRequest = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -84,7 +84,7 @@ export default function ForgotPasswordPage() {
               disabled={loading || !email}
               className="w-full py-4 bg-brand-primary text-black font-black rounded-md hover:opacity-90 disabled:opacity-50 transition-all uppercase text-sm tracking-widest shadow-subtle active:scale-[0.98]"
             >
-              {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Send Reset Link'}
+              {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : "Send Reset Link"}
             </button>
 
             <Link

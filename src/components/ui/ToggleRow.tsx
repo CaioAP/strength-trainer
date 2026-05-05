@@ -5,7 +5,7 @@ interface ToggleRowProps {
   onToggle: () => void;
 }
 
-export default function ToggleRow({ label, description, checked, onToggle }: ToggleRowProps) {
+export default function ToggleRow({ label, description, checked, onToggle }: ToggleRowProps): React.JSX.Element {
   return (
     <div
       onClick={onToggle}
@@ -17,12 +17,12 @@ export default function ToggleRow({ label, description, checked, onToggle }: Tog
       </div>
       <div
         className={`w-12 h-6 rounded-full transition-all relative flex items-center px-1 ${
-          checked ? 'bg-brand-primary shadow-[0_0_10px_rgba(206,255,5,0.3)]' : 'bg-gray-800'
+          checked ? "bg-brand-primary shadow-[0_0_10px_rgba(206,255,5,0.3)]" : "bg-gray-800"
         }`}
       >
         <div
           className={`w-4 h-4 rounded-full bg-white transition-all shadow-md ${
-            checked ? 'translate-x-6' : 'translate-x-0'
+            checked ? "translate-x-6" : "translate-x-0"
           }`}
         />
       </div>

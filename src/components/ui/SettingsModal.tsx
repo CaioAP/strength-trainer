@@ -1,27 +1,39 @@
-'use client';
+"use client";
 
-import { X, LogOut, User, Mail, Shield, ChevronRight, Loader2, HelpCircle, Bug, FileText } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { X, LogOut, User as UserIcon, Mail, Shield, ChevronRight, Loader2, HelpCircle, Bug, FileText } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+
+interface User {
+  id: string;
+  email?: string;
+}
+
+interface Profile {
+  full_name: string | null;
+  role: string;
+}
 
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  user: any;
-  profile: any;
+  user: User | null;
+  profile: Profile | null;
 }
 
-export default function SettingsModal({ isOpen, onClose, user, profile }: SettingsModalProps) {
+export default function SettingsModal({ isOpen, onClose, user, profile }: SettingsModalProps): React.JSX.Element | null {
+  const t = useTranslations("Settings");
   const supabase = createClient();
   const router = useRouter();
   const [navigating, setNavigating] = useState(false);
 
   if (!isOpen) return null;
 
-  async function handleLogout() {
+  async function handleLogout(): Promise<void> {
     await supabase.auth.signOut();
-    router.push('/login');
+    router.push("/login");
     router.refresh();
   }
 
@@ -30,11 +42,11 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       {navigating && (
         <div className="absolute inset-0 z-[400] flex flex-col items-center justify-center bg-brand-secondary/80 backdrop-blur-sm animate-in fade-in duration-200">
           <Loader2 className="w-8 h-8 text-brand-primary animate-spin mb-4" />
-          <p className="text-text-subtle text-[10px] font-black uppercase tracking-widest animate-pulse">Redirecting...</p>
+          <p className="text-text-subtle text-[10px] font-black uppercase tracking-widest animate-pulse">{t("redirecting")}</p>
         </div>
       )}
       <header className="p-4 flex items-center justify-between border-b border-gray-800 bg-brand-surface">
-        <h2 className="text-xl font-bold text-white">Settings</h2>
+        <h2 className="text-xl font-bold text-white">{t("title")}</h2>
         <button 
           onClick={onClose}
           disabled={navigating}
@@ -47,14 +59,14 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       <div className="flex-1 p-4 space-y-8 pb-12">
         {/* Profile Section */}
         <section>
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">Account Profile</h3>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_profile")}</h3>
           <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden">
             <div className="p-4 flex items-center gap-4">
               <div className="w-12 h-12 bg-brand-primary/10 rounded-full flex items-center justify-center border border-brand-primary/20">
-                <User className="text-brand-primary w-6 h-6" />
+                <UserIcon className="text-brand-primary w-6 h-6" />
               </div>
               <div>
-                <p className="font-bold text-white leading-none">{profile?.full_name || 'User'}</p>
+                <p className="font-bold text-white leading-none">{profile?.full_name || "User"}</p>
                 <p className="text-xs text-text-subtle mt-1">{user?.email}</p>
               </div>
             </div>
@@ -62,18 +74,18 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
             <div className="bg-white/5 divide-y divide-white/5">
               <SettingsItem 
                 icon={<Mail className="w-4 h-4" />} 
-                label="Email Preferences" 
+                label={t("email_preferences")} 
                 onClick={() => {
                   setNavigating(true);
-                  router.push('/settings/email');
+                  router.push("/settings/email");
                 }}
               />
               <SettingsItem 
                 icon={<Shield className="w-4 h-4" />} 
-                label="Security & Privacy" 
+                label={t("security_privacy")} 
                 onClick={() => {
                   setNavigating(true);
-                  router.push('/settings/security');
+                  router.push("/settings/security");
                 }}
               />
             </div>
@@ -82,16 +94,16 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
 
         {/* Role Specific Info */}
         <section>
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">Account Info</h3>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("account_info")}</h3>
           <div className="bg-brand-surface rounded-lg shadow-card p-4 space-y-4 overflow-hidden">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-text-subtle font-medium">Access Role</span>
+              <span className="text-sm text-text-subtle font-medium">{t("access_role")}</span>
               <span className="bg-brand-primary/10 text-brand-primary text-[10px] px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
                 {profile?.role}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-text-subtle font-medium">Account ID</span>
+              <span className="text-sm text-text-subtle font-medium">{t("account_id")}</span>
               <span className="text-[10px] text-white font-mono">{user?.id.slice(0, 12)}...</span>
             </div>
           </div>
@@ -99,30 +111,30 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
 
         {/* Support Section */}
         <section>
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">Support</h3>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-brand-primary mb-4 ml-1">{t("support")}</h3>
           <div className="bg-brand-surface rounded-lg shadow-card overflow-hidden divide-y divide-white/5">
              <SettingsItem 
                icon={<HelpCircle className="w-4 h-4" />} 
-               label="Help Center" 
+               label={t("help_center")} 
                onClick={() => {
                  setNavigating(true);
-                 router.push('/settings/help');
+                 router.push("/settings/help");
                }}
              />
              <SettingsItem 
                icon={<Bug className="w-4 h-4" />} 
-               label="Report a Bug" 
+               label={t("report_bug")} 
                onClick={() => {
                  setNavigating(true);
-                 router.push('/settings/bug');
+                 router.push("/settings/bug");
                }}
              />
              <SettingsItem 
                 icon={<FileText className="w-4 h-4" />} 
-                label="Privacy Policy" 
+                label={t("privacy_policy")} 
                 onClick={() => {
                   setNavigating(true);
-                  router.push('/settings/privacy');
+                  router.push("/settings/privacy");
                 }}
               />
           </div>
@@ -134,7 +146,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
           className="w-full flex items-center justify-center gap-3 p-4 bg-status-error/10 border border-status-error/20 rounded-lg text-status-error font-bold uppercase text-xs tracking-widest hover:bg-status-error/20 transition-all active:scale-[0.98]"
         >
           <LogOut className="w-4 h-4" />
-          Log Out
+          {t("logout")}
         </button>
       </div>
 
@@ -145,7 +157,13 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
   );
 }
 
-function SettingsItem({ icon, label, onClick }: { icon?: any, label: string, onClick?: () => void }) {
+interface SettingsItemProps {
+  icon?: React.ReactNode;
+  label: string;
+  onClick?: () => void;
+}
+
+function SettingsItem({ icon, label, onClick }: SettingsItemProps): React.JSX.Element {
   return (
     <div 
       onClick={onClick}

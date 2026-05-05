@@ -1,43 +1,43 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Lock, Trash2, Loader2, Check } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-import { validatePassword } from '@/lib/utils/validatePassword';
-import ConfirmationModal from '@/components/ui/ConfirmationModal';
-import LoadingScreen from '@/components/ui/LoadingScreen';
-import SubPageHeader from '@/components/ui/SubPageHeader';
-import ToggleRow from '@/components/ui/ToggleRow';
+import React, { useState, useEffect } from "react";
+import { Trash2, Loader2, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { validatePassword } from "@/lib/utils/validatePassword";
+import ConfirmationModal from "@/components/ui/ConfirmationModal";
+import LoadingScreen from "@/components/ui/LoadingScreen";
+import SubPageHeader from "@/components/ui/SubPageHeader";
+import ToggleRow from "@/components/ui/ToggleRow";
 
-export default function SecurityPrivacyPage() {
+export default function SecurityPrivacyPage(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [passwordData, setPasswordData] = useState({ newPassword: '', confirmPassword: '' });
-  const [passwordStatus, setPasswordStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [passwordData, setPasswordData] = useState({ newPassword: "", confirmPassword: "" });
+  const [passwordStatus, setPasswordStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [privacy, setPrivacy] = useState({ show_history_to_trainer: true });
 
   const supabase = createClient();
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchData(): Promise<void> {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        router.push('/login');
+        router.push("/login");
         return;
       }
 
       const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('show_history_to_trainer')
-        .eq('id', user.id)
+        .from("profiles")
+        .select("show_history_to_trainer")
+        .eq("id", user.id)
         .single();
 
       if (error) {
-        console.error('Error fetching privacy settings:', error);
+        console.error("Error fetching privacy settings:", error);
       } else if (profile) {
         setPrivacy({ show_history_to_trainer: profile.show_history_to_trainer ?? true });
       }
@@ -47,25 +47,25 @@ export default function SecurityPrivacyPage() {
     fetchData();
   }, [supabase, router]);
 
-  const handlePrivacyToggle = async () => {
+  const handlePrivacyToggle = async (): Promise<void> => {
     const newValue = !privacy.show_history_to_trainer;
     setPrivacy({ show_history_to_trainer: newValue });
 
     const { data: { user } } = await supabase.auth.getUser();
-    await supabase.from('profiles').update({ show_history_to_trainer: newValue }).eq('id', user?.id);
+    await supabase.from("profiles").update({ show_history_to_trainer: newValue }).eq("id", user?.id);
 
     setSuccess(true);
     setTimeout(() => setSuccess(false), 2000);
   };
 
-  const handleChangePassword = async (e: React.FormEvent) => {
+  const handleChangePassword = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setPasswordStatus(null);
 
     const { newPassword, confirmPassword } = passwordData;
     const validationError = validatePassword(newPassword, confirmPassword);
     if (validationError) {
-      setPasswordStatus({ type: 'error', message: validationError });
+      setPasswordStatus({ type: "error", message: validationError });
       return;
     }
 
@@ -73,26 +73,27 @@ export default function SecurityPrivacyPage() {
     const { error } = await supabase.auth.updateUser({ password: newPassword });
 
     if (error) {
-      setPasswordStatus({ type: 'error', message: error.message });
+      setPasswordStatus({ type: "error", message: error.message });
     } else {
-      setPasswordStatus({ type: 'success', message: 'Password updated successfully' });
-      setPasswordData({ newPassword: '', confirmPassword: '' });
+      setPasswordStatus({ type: "success", message: "Password updated successfully" });
+      setPasswordData({ newPassword: "", confirmPassword: "" });
     }
     setSaving(false);
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = async (): Promise<void> => {
     setSaving(true);
     try {
-      const { error } = await supabase.rpc('schedule_account_deletion');
+      const { error } = await supabase.rpc("schedule_account_deletion");
       if (error) throw error;
 
       await supabase.auth.signOut();
-      router.push('/login?deletion_scheduled=true');
+      router.push("/login?deletion_scheduled=true");
       router.refresh();
-    } catch (err: any) {
-      console.error('Error scheduling account deletion:', err);
-      setPasswordStatus({ type: 'error', message: err.message || 'Failed to schedule deletion' });
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error("Error scheduling account deletion:", error);
+      setPasswordStatus({ type: "error", message: error.message || "Failed to schedule deletion" });
       setSaving(false);
     }
   };
@@ -159,9 +160,9 @@ export default function SecurityPrivacyPage() {
 
             {passwordStatus && (
               <div className={`p-3 rounded text-[10px] font-bold uppercase tracking-widest text-center ${
-                passwordStatus.type === 'success'
-                  ? 'bg-brand-primary/10 text-brand-primary border border-brand-primary/20'
-                  : 'bg-status-error/10 text-status-error border border-status-error/20'
+                passwordStatus.type === "success"
+                  ? "bg-brand-primary/10 text-brand-primary border border-brand-primary/20"
+                  : "bg-status-error/10 text-status-error border border-status-error/20"
               }`}>
                 {passwordStatus.message}
               </div>
@@ -172,7 +173,7 @@ export default function SecurityPrivacyPage() {
               disabled={saving || !passwordData.newPassword}
               className="w-full py-3 bg-brand-primary/10 border border-brand-primary/20 text-brand-primary rounded-md font-black uppercase text-[10px] tracking-widest hover:bg-brand-primary/20 transition-all disabled:opacity-30 shadow-card hover:shadow-card-hover"
             >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Update Password'}
+              {saving ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : "Update Password"}
             </button>
           </form>
         </section>
@@ -184,7 +185,7 @@ export default function SecurityPrivacyPage() {
           </div>
 
           <button
-            onClick={() => setShowDeleteModal(true)}
+            onClick={(): void => setShowDeleteModal(true)}
             className="w-full p-4 flex items-center justify-between bg-status-error/5 rounded-xl hover:bg-status-error/10 transition-all group shadow-card hover:shadow-card-hover"
           >
             <div className="text-left">
@@ -198,7 +199,7 @@ export default function SecurityPrivacyPage() {
 
       <ConfirmationModal
         isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
+        onClose={(): void => setShowDeleteModal(false)}
         onConfirm={handleDeleteAccount}
         title="Schedule Account Deletion?"
         message="Your account will be deactivated and scheduled for permanent deletion in 30 days. During this period, you can cancel the deletion at any time simply by logging back in. If you do not log in within 30 days, all your training history, plans, and data will be permanently and irreversibly removed."

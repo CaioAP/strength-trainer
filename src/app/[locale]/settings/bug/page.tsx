@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Send, Loader2, CheckCircle2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-import SubPageHeader from '@/components/ui/SubPageHeader';
-import ErrorBanner from '@/components/ui/ErrorBanner';
+import React, { useState } from "react";
+import { Send, Loader2, CheckCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import SubPageHeader from "@/components/ui/SubPageHeader";
+import ErrorBanner from "@/components/ui/ErrorBanner";
 
-export default function ReportBugPage() {
-  const [formData, setFormData] = useState({ title: '', description: '', severity: 'medium' });
+export default function ReportBugPage(): React.JSX.Element {
+  const [formData, setFormData] = useState({ title: "", description: "", severity: "medium" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +16,7 @@ export default function ReportBugPage() {
   const supabase = createClient();
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -24,7 +24,7 @@ export default function ReportBugPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
-      const { error: submitError } = await supabase.from('bug_reports').insert([{
+      const { error: submitError } = await supabase.from("bug_reports").insert([{
         user_id: user?.id,
         title: formData.title,
         description: formData.description,
@@ -35,9 +35,10 @@ export default function ReportBugPage() {
 
       setSuccess(true);
       setTimeout(() => router.back(), 3000);
-    } catch (err: any) {
-      console.error('Error reporting bug:', err);
-      setError(err.message || 'Failed to submit report. Please try again.');
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error("Error reporting bug:", error);
+      setError(error.message || "Failed to submit report. Please try again.");
       setLoading(false);
     }
   };
@@ -95,15 +96,15 @@ export default function ReportBugPage() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-text-subtle uppercase tracking-widest ml-1">Severity</label>
                   <div className="grid grid-cols-2 gap-2">
-                    {['low', 'medium', 'high', 'critical'].map((s) => (
+                    {["low", "medium", "high", "critical"].map((s) => (
                       <button
                         key={s}
                         type="button"
-                        onClick={() => setFormData({ ...formData, severity: s })}
+                        onClick={(): void => setFormData({ ...formData, severity: s })}
                         className={`py-2.5 rounded text-[10px] font-black uppercase tracking-widest transition-all ${
                           formData.severity === s
-                            ? 'bg-brand-primary text-black shadow-[0_0_15px_rgba(206,255,5,0.4)] scale-[1.02]'
-                            : 'bg-brand-secondary text-text-subtle shadow-card hover:bg-white/5 hover:scale-[1.02]'
+                            ? "bg-brand-primary text-black shadow-[0_0_15px_rgba(206,255,5,0.4)] scale-[1.02]"
+                            : "bg-brand-secondary text-text-subtle shadow-card hover:bg-white/5 hover:scale-[1.02]"
                         }`}
                       >
                         {s}
@@ -122,7 +123,7 @@ export default function ReportBugPage() {
               className="w-full py-4 bg-brand-primary text-black rounded-md font-black uppercase text-sm tracking-widest shadow-elevated transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-              {loading ? 'Submitting...' : 'Submit Report'}
+              {loading ? "Submitting..." : "Submit Report"}
             </button>
           </form>
         )}

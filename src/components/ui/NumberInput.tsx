@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus } from "lucide-react";
 
 interface NumberInputProps {
   value: number;
@@ -18,16 +18,16 @@ export default function NumberInput({
   min = 0, 
   step = 1,
   disabled = false 
-}: NumberInputProps) {
-  const handleIncrement = () => onChange(value + step);
-  const handleDecrement = () => onChange(Math.max(min, value - step));
+}: NumberInputProps): React.JSX.Element {
+  const handleIncrement = (): void => onChange(value + step);
+  const handleDecrement = (): void => onChange(Math.max(min, value - step));
 
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-[10px] text-text-subtle uppercase font-black tracking-tighter text-center">
         {label}
       </label>
-      <div className={`flex items-center bg-brand-secondary border border-gray-800 rounded-md overflow-hidden transition-all ${disabled ? 'opacity-50' : 'hover:border-gray-700 focus-within:ring-1 focus-within:ring-brand-primary focus-within:border-brand-primary'}`}>
+      <div className={`flex items-center bg-brand-secondary border border-gray-800 rounded-md overflow-hidden transition-all ${disabled ? "opacity-50" : "hover:border-gray-700 focus-within:ring-1 focus-within:ring-brand-primary focus-within:border-brand-primary"}`}>
         <button
           type="button"
           disabled={disabled}

@@ -1,6 +1,200 @@
 {
   "Common": {
     "title": "Strength Trainer",
-    "welcome": "Welcome back"
-  }
-}
+    "welcome": "Welcome back",
+    "search": "Search...",
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "settings": "Settings",
+    "admin_panel": "Admin Panel",
+    "no_data": "No data found",
+    "synchronizing": "Synchronizing...",
+    "invite": "Invite",
+    "success": "Invite sent successfully!",
+    "assign_template": "Assign Template",
+    "pick_starting_plan": "Pick a starting plan",
+    "standard_template": "Standard template",
+    "no_templates_found": "No templates found",
+    "no_exercises_found": "No exercises found",
+    "confirm": "Confirm"
+  },
+  "Auth": {
+    "Login": {
+      "title": "Sign in to your account",
+      "email_label": "Email",
+      "email_placeholder": "name@example.com",
+      "password_label": "Password",
+      "password_placeholder": "••••••••",
+      "forgot_password": "Forgot Password?",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "deactivation_title": "Account Deactivated",
+      "deactivation_desc": "Your account is scheduled for deletion in 30 days. Log in again at any time before then to restore your data and cancel the deletion."
+    }
+  },
+  "Admin": {
+    "Tabs": {
+      "metrics": "Metrics",
+      "trainers": "Trainers",
+      "roster": "Roster",
+      "library": "Library"
+    },
+    "Metrics": {
+      "exercises": "Exercises",
+      "total_trainers": "Total Trainers",
+      "pending": "Pending",
+      "students": "Students",
+      "platform_health": "Platform Health",
+      "platform_health_desc": "Standardized exercises and secure trainer onboarding are scaling as expected. Audit logs track all critical administrative overrides."
+    },
+    "Trainers": {
+      "invite_title": "Invite New Trainer",
+      "invite_placeholder": "trainer@email.com",
+      "search_placeholder": "Search trainers...",
+      "pending": "Pending",
+      "revoked": "Revoked",
+      "approve": "Approve",
+      "revoke": "Revoke Access",
+      "no_trainers": "No trainers registered yet."
+    },
+    "Students": {
+      "search_placeholder": "Search students...",
+      "trainer": "Trainer",
+      "unassigned": "Unassigned"
+    },
+    "Exercises": {
+      "new_title": "New Master Exercise",
+      "name_placeholder": "Name (e.g. Deadlift)",
+      "select_muscle_group": "Select Muscle Group",
+      "description_placeholder": "Description (Optional)",
+      "add_button": "Add to Library",
+      "library_title": "Library",
+      "filter_all": "All Groups",
+      "delete_confirm_title": "Delete Exercise",
+      "delete_confirm_msg": "Are you sure you want to remove this exercise from the master library? This action cannot be undone."
+    }
+  },
+  "Student": {
+    "Tabs": {
+      "workout": "Workout",
+      "history": "History"
+    },
+    "Header": {
+      "ready_prefix": "Ready, ",
+      "ready_suffix": "?"
+    },
+    "Workout": {
+      "active_plan": "Active Plan",
+      "available_workouts": "Available Workouts",
+      "exercises_count": "{count} exercises",
+      "no_plan": "No plan assigned. Contact your trainer to start.",
+      "weekly_progress": "Weekly Progress"
+    },
+    "History": {
+      "title": "Session History",
+      "subtitle": "Your Journey",
+      "effort": "Effort",
+      "incomplete": "Incomplete",
+      "no_sessions": "No sessions logged yet."
+    }
+  },
+  "Session": {
+    "active_session": "Active Session",
+    "preparing": "Preparing Session...",
+    "error_title": "Session Error",
+    "error_no_exercises": "No exercises found for this workout.",
+    "error_not_found": "This workout could not be found or you don't have access to it.",
+    "return_to_dashboard": "Return to Dashboard",
+    "finish_save": "Finish & Save Session",
+    "complete_title": "Complete Session",
+    "complete_message": "Excellent session! You completed {count} exercises in {time}. Rate your overall perceived effort below.",
+    "submit_progress": "Submit Progress",
+    "perceived_effort": "Perceived Effort",
+    "recovery": "Recovery",
+    "challenging": "Challenging",
+    "very_hard": "Very Hard",
+    "max_effort": "Max Effort",
+    "light": "Light",
+    "moderate": "Moderate",
+    "heavy": "Heavy",
+    "discard_title": "Discard Progress?",
+    "discard_message": "You have an active session. Leaving now will discard all your logged exercises and time.",
+    "discard_confirm": "Discard & Exit",
+    "keep_training": "Keep Training"
+  },
+  "Trainer": {
+    "Tabs": {
+      "students": "Students",
+      "templates": "Templates"
+    },
+    "Portal": "Trainer Portal",
+    "Students": {
+      "invite_title": "Invite New Student",
+      "invite_placeholder": "student@email.com",
+      "search_placeholder": "Search students...",
+      "my_students": "My Students ({count})",
+      "no_students": "No students found.",
+      "pending_name": "Pending Name"
+    },
+    "templates": {
+      "title": "Workout Templates",
+      "no_templates": "No templates created yet.",
+      "delete_confirm_title": "Delete Template",
+      "delete_confirm_msg": "Are you sure you want to delete this workout template? This action cannot be undone."
+    },
+    "PlanEditor": {
+      "edit_title": "Edit Training Plan",
+      "create_title": "Create New Plan",
+      "plan_name_label": "Plan Name",
+      "plan_name_placeholder": "e.g. Hypertrophy Phase 1",
+      "exercise_label": "Exercise",
+      "exercise_placeholder": "Search library...",
+      "add_exercise": "Add Exercise",
+      "add_workout": "Add Workout",
+      "save_plan": "Save Plan",
+      "saving": "Saving...",
+      "error_name_required": "Please provide a name for this plan.",
+      "error_exercise_required": "Please select an exercise for all slots in \"{name}\".",
+      "error_load_failed": "Failed to load plan data.",
+      "error_save_failed": "Failed to save plan. Please try again.",
+      "loading_library": "Loading Library..."
+      },
+      "StudentDetail": {
+      "analyzing_stats": "Analyzing stats...",
+      "compliance": "Compliance",
+      "sessions_done": "Sessions done",
+      "avg_effort": "Avg. Effort",
+      "overall_rpe": "Overall RPE",
+      "active_assignment": "Active Assignment",
+      "assign_new": "Assign New",
+      "custom": "Custom",
+      "assigned_on": "Assigned {date}",
+      "no_plan": "No plan assigned yet.",
+      "no_plan_desc": "Start training by picking a starting point.",
+      "use_template": "Use Template",
+      "custom_plan": "Custom Plan",
+      "session_history": "Session History",
+      "no_activity": "No activity recorded.",
+      "remove_plan_title": "Remove Plan",
+      "remove_plan_message": "Are you sure you want to remove the plan \"{name}\"? This action cannot be undone."
+      }
+      },
+      "Settings": {
+      "title": "Settings",
+      "account_profile": "Account Profile",
+      "email_preferences": "Email Preferences",
+      "security_privacy": "Security & Privacy",
+      "account_info": "Account Info",
+      "access_role": "Access Role",
+      "account_id": "Account ID",
+      "support": "Support",
+      "help_center": "Help Center",
+      "report_bug": "Report a Bug",
+      "privacy_policy": "Privacy Policy",
+      "logout": "Log Out",
+      "redirecting": "Redirecting..."
+      }
+      }
