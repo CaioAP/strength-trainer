@@ -40,9 +40,9 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
   }
 
   return (
-    <div className="fixed inset-0 z-[300] flex flex-col bg-brand-secondary animate-in slide-in-from-bottom duration-300">
+    <div className="fixed inset-0 z-300 flex flex-col bg-brand-secondary animate-in slide-in-from-bottom duration-300">
       {navigating && (
-        <div className="absolute inset-0 z-[400] flex flex-col items-center justify-center bg-brand-secondary/80 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="absolute inset-0 z-400 flex flex-col items-center justify-center bg-brand-secondary/80 backdrop-blur-sm animate-in fade-in duration-200">
           <Loader2 className="w-8 h-8 text-brand-primary animate-spin mb-4" />
           <p className="text-text-subtle text-2.5 font-black uppercase tracking-widest animate-pulse">{t("redirecting")}</p>
         </div>

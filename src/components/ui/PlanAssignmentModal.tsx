@@ -28,7 +28,7 @@ export default function PlanAssignmentModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-200 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
       <Card variant="modal" padding="none" className="w-full max-w-sm flex flex-col max-h-80vh animate-in zoom-in-95 duration-200">
         <header className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-800/20">
           <div>

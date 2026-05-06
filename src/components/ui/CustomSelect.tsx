@@ -107,7 +107,7 @@ export default function CustomSelect({
       </div>
 
       {isOpen && !disabled && (
-        <div className="absolute top-full left-0 w-full mt-2 bg-brand-surface shadow-card rounded-md z-[100] max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute top-full left-0 w-full mt-2 bg-brand-surface shadow-card rounded-md z-100 max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-100">
           <div className="p-1">
             {filteredOptions.map((option) => (
               <div

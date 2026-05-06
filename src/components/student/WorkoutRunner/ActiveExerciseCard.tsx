@@ -56,7 +56,7 @@ export const ActiveExerciseCard = ({
               : "bg-brand-secondary text-text-subtle shadow-inner hover:text-white hover:bg-white/5"
           }`}
         >
-          <Check className={`w-5 h-5 ${isDone ? "stroke-[3px]" : ""}`} />
+          <Check className={`w-5 h-5 ${isDone ? "stroke-3" : ""}`} />
         </Button>
       </div>
 
