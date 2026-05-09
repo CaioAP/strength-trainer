@@ -38,8 +38,8 @@ export default function InviteCard({ title, placeholder, loading, onSubmit }: In
         <Plus className="text-brand-primary w-5 h-5" />
         <h2 className="text-lg font-semibold">{title}</h2>
       </div>
-      <form onSubmit={handleSubmit} className="flex gap-2 items-end">
-        <div className="flex-1">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <div className="w-full">
           <Input
             type="email"
             placeholder={placeholder}
@@ -53,7 +53,7 @@ export default function InviteCard({ title, placeholder, loading, onSubmit }: In
           type="submit"
           variant="primary"
           loading={loading}
-          className="px-6"
+          fullWidth
         >
           {t("invite")}
         </Button>
