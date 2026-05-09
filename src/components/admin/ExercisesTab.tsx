@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { Plus, Dumbbell, Trash2, Video } from "lucide-react";
 import CustomSelect from "@/components/ui/CustomSelect";
+import SearchInput from "@/components/ui/SearchInput";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { ExerciseMaster, MuscleGroup, NewExercise } from "./AdminDashboard.types";
 import { Card } from "@/components/ui/Card";
@@ -48,15 +49,40 @@ export default function ExercisesTab({
   const t = useTranslations("Admin.Exercises");
   const ct = useTranslations("Common");
   const { translateMuscleGroup } = useMuscleGroupTranslation();
+  const [nameSearch, setNameSearch] = React.useState("");
   const [videoModal, setVideoModal] = React.useState<{ isOpen: boolean; url: string; title: string }>({
     isOpen: false,
     url: "",
     title: "",
   });
 
-  const filteredExercises = exercises.filter((ex) => 
-    !exerciseFilter || ex.muscle_group === exerciseFilter
-  );
+  const muscleGroupOptions = React.useMemo(() => {
+    const options = muscleGroups.map(g => ({ 
+      name: g.name, 
+      label: translateMuscleGroup(g.name) 
+    }));
+    
+    // Sort by translated label
+    options.sort((a, b) => a.label.localeCompare(b.label, locale));
+    
+    return [{ name: "", label: t("filter_all") }, ...options];
+  }, [muscleGroups, translateMuscleGroup, locale, t]);
+
+  const filteredExercises = React.useMemo(() => {
+    const result = exercises.filter((ex) => {
+      const { displayName } = getLocalizedExercise(ex, locale);
+      const matchesGroup = !exerciseFilter || ex.muscle_group === exerciseFilter;
+      const matchesName = !nameSearch || displayName.toLowerCase().includes(nameSearch.toLowerCase());
+      return matchesGroup && matchesName;
+    });
+
+    // Sort by localized name
+    return result.sort((a, b) => {
+      const nameA = getLocalizedExercise(a, locale).displayName;
+      const nameB = getLocalizedExercise(b, locale).displayName;
+      return nameA.localeCompare(nameB, locale);
+    });
+  }, [exercises, exerciseFilter, nameSearch, locale]);
 
   return (
     <div className="space-y-6">
@@ -101,19 +127,31 @@ export default function ExercisesTab({
       </form>
 
       <div className="space-y-4">
-        <div className="flex justify-between items-center px-1">
-          <h2 className="text-lg font-semibold flex items-center gap-2">
-            <Dumbbell className="w-5 h-5 text-brand-primary" />
-            {t("library_title")}
-          </h2>
-          <CustomSelect
-            options={[{ name: "", label: t("filter_all") }, ...muscleGroups.map(g => ({ name: g.name, label: translateMuscleGroup(g.name) }))]}
-            value={exerciseFilter}
-            onChange={(val) => setExerciseFilter(val)}
-            className="w-44"
-            placeholder={ct("search")}
-          />
+        <div className="flex flex-col gap-4 px-1">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <Dumbbell className="w-5 h-5 text-brand-primary" />
+              {t("library_title")}
+            </h2>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-3">
+            <SearchInput
+              placeholder={t("name_placeholder")}
+              value={nameSearch}
+              onChange={setNameSearch}
+              className="flex-1"
+            />
+            <CustomSelect
+              options={muscleGroupOptions}
+              value={exerciseFilter}
+              onChange={(val) => setExerciseFilter(val)}
+              className="w-full sm:w-48"
+              placeholder={ct("search")}
+            />
+          </div>
         </div>
+        
         <div className="grid gap-3">
           {filteredExercises.map((ex) => {
             const { displayName, displayDescription } = getLocalizedExercise(ex, locale);
