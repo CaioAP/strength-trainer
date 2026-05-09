@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronLeft, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
+import { Text } from "@/components/ui/Text";
 
 interface Option {
   id?: string;
@@ -16,6 +17,7 @@ interface CustomSelectProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  label?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -25,6 +27,7 @@ export default function CustomSelect({
   value, 
   onChange, 
   placeholder = "Select option", 
+  label,
   disabled = false,
   className = ""
 }: CustomSelectProps): React.JSX.Element {
@@ -69,6 +72,12 @@ export default function CustomSelect({
 
   return (
     <div className={`relative ${className}`} ref={containerRef}>
+      {label && (
+        <Text size="xs" weight="bold" variant="subtle" uppercase tracking="widest" className="mb-1.5 ml-1">
+          {label}
+        </Text>
+      )}
+      
       <div
         onClick={toggleDropdown}
         className={`w-full bg-brand-secondary shadow-inner rounded-md p-3 text-left flex items-center justify-between transition-all outline-none ${

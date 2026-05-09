@@ -47,16 +47,9 @@ function AdminDashboardContent({ user }: AdminDashboardProps): React.JSX.Element
     setSearchQuery,
     exerciseFilter,
     setExerciseFilter,
-    newEx,
-    setNewEx,
-    editingId,
-    startEditing,
-    cancelEditing,
     handleApproveTrainer,
     handleRevokeTrainer,
     handleInviteTrainer,
-    handleAddExercise,
-    handleUpdateExercise,
     confirmModal,
     openModal,
     closeModal,
@@ -110,15 +103,8 @@ function AdminDashboardContent({ user }: AdminDashboardProps): React.JSX.Element
               muscleGroups={muscleGroups}
               exerciseFilter={exerciseFilter}
               setExerciseFilter={setExerciseFilter}
-              newEx={newEx}
-              setNewEx={setNewEx}
-              editingId={editingId}
-              startEditing={startEditing}
-              cancelEditing={cancelEditing}
               actionLoading={actionLoading}
               deletingId={deletingId}
-              onAdd={handleAddExercise}
-              onUpdate={handleUpdateExercise}
               onDelete={openModal}
               confirmModal={confirmModal}
               closeModal={closeModal}
