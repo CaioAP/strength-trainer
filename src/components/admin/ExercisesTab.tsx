@@ -109,24 +109,24 @@ export default function ExercisesTab({
               key={ex.id} 
               variant="interactive"
               padding="sm"
-              className="flex justify-between items-center group"
+              className="relative group min-h-24 flex flex-col justify-center"
             >
-              <div className="flex-1 min-w-0 pr-4">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate">
-                    {ex.name}
-                  </h3>
-                  <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap">
-                    {ex.muscle_group}
-                  </span>
-                </div>
+              <div className="pr-12">
+                <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate mb-1">
+                  {ex.name}
+                </h3>
                 {ex.description && (
-                  <p className="text-xs text-text-subtle line-clamp-1 mt-1">
+                  <p className="text-xs text-text-subtle line-clamp-2 italic opacity-80">
                     {ex.description}
                   </p>
                 )}
               </div>
-              <div className="flex items-center shrink-0">
+              
+              <span className="absolute top-3 right-3 text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap">
+                {ex.muscle_group}
+              </span>
+
+              <div className="absolute bottom-2 right-2 flex items-center shrink-0">
                 {deletingId === ex.id ? (
                   <div className="p-2">
                     <div className="w-4 h-4 border-2 border-status-error border-t-transparent rounded-full animate-spin" />
@@ -135,7 +135,10 @@ export default function ExercisesTab({
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => onDelete(ex.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(ex.id);
+                    }}
                     disabled={actionLoading}
                     className="text-status-error hover:bg-status-error/10 opacity-0 group-hover:opacity-100 focus:opacity-100"
                     title={ct("delete")}
