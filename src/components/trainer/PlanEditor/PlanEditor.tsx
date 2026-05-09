@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ChevronLeft } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -13,6 +13,7 @@ import { PlanExerciseInput } from "./PlanEditor.types";
 
 export const PlanEditor = (): React.JSX.Element => {
   const t = useTranslations("Trainer.PlanEditor");
+  const locale = useLocale();
   const {
     exercisesMaster,
     loading,
@@ -106,6 +107,7 @@ export const PlanEditor = (): React.JSX.Element => {
             exercisesMaster={exercisesMaster}
             showRemoveWorkout={workouts.length > 1}
             t={t}
+            locale={locale}
           />
         ))}
 

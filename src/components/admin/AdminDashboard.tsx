@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   Database,
   Users,
@@ -31,6 +31,7 @@ interface AdminDashboardProps {
 function AdminDashboardContent({ user }: AdminDashboardProps): React.JSX.Element {
   const t = useTranslations("Admin.Tabs");
   const ct = useTranslations("Common");
+  const locale = useLocale();
   
   const {
     activeTab,
@@ -114,6 +115,7 @@ function AdminDashboardContent({ user }: AdminDashboardProps): React.JSX.Element
               confirmModal={confirmModal}
               closeModal={closeModal}
               handleConfirmDelete={handleDelete}
+              locale={locale}
             />
           )}
         </section>

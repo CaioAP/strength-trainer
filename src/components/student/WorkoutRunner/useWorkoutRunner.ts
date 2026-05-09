@@ -64,7 +64,7 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
           load,
           rest_seconds,
           order_index,
-          exercise:exercise_master (name, description)
+          exercise:exercise_master (name, name_pt, instructions, instructions_pt, media_url)
         )
       `)
       .eq("id", workoutId)

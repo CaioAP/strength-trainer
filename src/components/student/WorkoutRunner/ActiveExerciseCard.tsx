@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { VideoModal } from "@/components/ui/VideoModal";
 import NumberInput from "@/components/ui/NumberInput";
+import { getLocalizedExercise } from "@/lib/utils/exercise";
 import { ExtendedPlanExercise } from "./WorkoutRunner.types";
 
 interface ActiveExerciseCardProps {
@@ -12,6 +13,7 @@ interface ActiveExerciseCardProps {
   isDone: boolean;
   onToggle: () => void;
   onUpdateParam: (field: keyof ExtendedPlanExercise, value: number) => void;
+  locale: string;
 }
 
 export const ActiveExerciseCard = ({
@@ -20,8 +22,12 @@ export const ActiveExerciseCard = ({
   isDone,
   onToggle,
   onUpdateParam,
+  locale,
 }: ActiveExerciseCardProps): React.JSX.Element => {
   const [videoModalOpen, setVideoModalOpen] = React.useState(false);
+  const { displayName, displayInstructions } = exercise.exercise 
+    ? getLocalizedExercise(exercise.exercise, locale)
+    : { displayName: "", displayInstructions: "" };
 
   return (
     <Card
@@ -41,7 +47,7 @@ export const ActiveExerciseCard = ({
               <h3 className={`font-black text-lg leading-tight uppercase italic tracking-tighter transition-colors truncate ${
                 isDone ? "text-brand-primary" : "text-white"
               }`}>
-                {exercise.exercise?.name}
+                {displayName}
               </h3>
               {exercise.exercise?.media_url && !isDone && (
                 <button
@@ -52,9 +58,9 @@ export const ActiveExerciseCard = ({
                 </button>
               )}
             </div>
-            {exercise.exercise?.description && !isDone && (
+            {displayInstructions && !isDone && (
               <p className="text-xs text-text-subtle mt-1 italic opacity-60 line-clamp-1">
-                {exercise.exercise.description}
+                {displayInstructions}
               </p>
             )}
           </div>
@@ -108,7 +114,7 @@ export const ActiveExerciseCard = ({
           isOpen={videoModalOpen}
           onClose={() => setVideoModalOpen(false)}
           videoUrl={exercise.exercise.media_url}
-          title={exercise.exercise.name}
+          title={displayName}
         />
       )}
     </Card>

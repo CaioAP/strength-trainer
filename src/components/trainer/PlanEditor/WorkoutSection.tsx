@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ExerciseRow } from "./ExerciseRow";
-import { WorkoutInput, PlanExerciseInput } from "./PlanEditor.types";
+import { WorkoutInput, PlanExerciseInput, ExerciseMaster } from "./PlanEditor.types";
 
 interface WorkoutSectionProps {
   workout: WorkoutInput;
@@ -16,9 +16,10 @@ interface WorkoutSectionProps {
   onAddExercise: () => void;
   onRemoveExercise: (eIndex: number) => void;
   onUpdateExercise: (eIndex: number, field: keyof PlanExerciseInput, value: string | number) => void;
-  exercisesMaster: { id: string; name: string }[];
+  exercisesMaster: ExerciseMaster[];
   showRemoveWorkout: boolean;
   t: (key: string, params?: Record<string, string | number>) => string;
+  locale: string;
 }
 
 export const WorkoutSection = ({
@@ -34,6 +35,7 @@ export const WorkoutSection = ({
   exercisesMaster,
   showRemoveWorkout,
   t,
+  locale,
 }: WorkoutSectionProps): React.JSX.Element => {
   return (
     <Card variant="interactive" padding="none" className="overflow-visible group">
@@ -80,6 +82,7 @@ export const WorkoutSection = ({
               onUpdate={(field, value) => onUpdateExercise(eIndex, field, value)}
               exercisesMaster={exercisesMaster}
               t={t}
+              locale={locale}
             />
           ))}
 

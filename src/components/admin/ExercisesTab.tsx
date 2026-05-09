@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
 import { VideoModal } from "@/components/ui/VideoModal";
+import { getLocalizedExercise } from "@/lib/utils/exercise";
 
 interface ExercisesTabProps {
   exercises: ExerciseMaster[];
@@ -24,6 +25,7 @@ interface ExercisesTabProps {
   confirmModal: { isOpen: boolean; id: string | null };
   closeModal: () => void;
   handleConfirmDelete: () => Promise<void>;
+  locale: string;
 }
 
 export default function ExercisesTab({
@@ -40,6 +42,7 @@ export default function ExercisesTab({
   confirmModal,
   closeModal,
   handleConfirmDelete,
+  locale,
 }: ExercisesTabProps): React.JSX.Element {
   const t = useTranslations("Admin.Exercises");
   const ct = useTranslations("Common");
@@ -110,67 +113,70 @@ export default function ExercisesTab({
           />
         </div>
         <div className="grid gap-3">
-          {filteredExercises.map((ex) => (
-            <Card 
-              key={ex.id} 
-              variant="interactive"
-              padding="none"
-              className="group min-h-20 flex flex-col justify-center px-4 py-2"
-            >
-              <div className="flex items-start justify-between gap-4 mb-1">
-                <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate">
-                    {ex.name}
-                  </h3>
-                  {ex.media_url && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setVideoModal({ isOpen: true, url: ex.media_url!, title: ex.name });
-                      }}
-                      className="p-1 bg-brand-primary/10 text-brand-primary rounded hover:bg-brand-primary/20 transition-all shrink-0"
-                      title={t("view_video")}
-                    >
-                      <Video className="w-3.5 h-3.5" />
-                    </button>
+          {filteredExercises.map((ex) => {
+            const { displayName, displayDescription } = getLocalizedExercise(ex, locale);
+            return (
+              <Card 
+                key={ex.id} 
+                variant="interactive"
+                padding="none"
+                className="group min-h-20 flex flex-col justify-center px-4 py-2"
+              >
+                <div className="flex items-start justify-between gap-4 mb-1">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate">
+                      {displayName}
+                    </h3>
+                    {ex.media_url && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setVideoModal({ isOpen: true, url: ex.media_url!, title: displayName });
+                        }}
+                        className="p-1 bg-brand-primary/10 text-brand-primary rounded hover:bg-brand-primary/20 transition-all shrink-0"
+                        title={t("view_video")}
+                      >
+                        <Video className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                  <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap shrink-0">
+                    {ex.muscle_group}
+                  </span>
+                </div>
+                
+                <div className="pr-10">
+                  {displayDescription && (
+                    <p className="text-xs text-text-subtle line-clamp-2 italic opacity-80">
+                      {displayDescription}
+                    </p>
                   )}
                 </div>
-                <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap shrink-0">
-                  {ex.muscle_group}
-                </span>
-              </div>
-              
-              <div className="pr-10">
-                {ex.description && (
-                  <p className="text-xs text-text-subtle line-clamp-2 italic opacity-80">
-                    {ex.description}
-                  </p>
-                )}
-              </div>
 
-              <div className="absolute bottom-2 right-2 flex items-center shrink-0">
-                {deletingId === ex.id ? (
-                  <div className="p-2">
-                    <div className="w-4 h-4 border-2 border-status-error border-t-transparent rounded-full animate-spin" />
-                  </div>
-                ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(ex.id);
-                    }}
-                    disabled={actionLoading}
-                    className="text-status-error hover:bg-status-error/10 opacity-0 group-hover:opacity-100 focus:opacity-100"
-                    title={ct("delete")}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
-            </Card>
-          ))}
+                <div className="absolute bottom-2 right-2 flex items-center shrink-0">
+                  {deletingId === ex.id ? (
+                    <div className="p-2">
+                      <div className="w-4 h-4 border-2 border-status-error border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(ex.id);
+                      }}
+                      disabled={actionLoading}
+                      className="text-status-error hover:bg-status-error/10 opacity-0 group-hover:opacity-100 focus:opacity-100"
+                      title={ct("delete")}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
 
