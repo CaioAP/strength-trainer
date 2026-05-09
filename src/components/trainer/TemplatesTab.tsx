@@ -36,34 +36,43 @@ export default function TemplatesTab({
 
       <div className="grid gap-3">
         {templates.map((template) => (
-          <Card 
-            key={template.id} 
-            variant="interactive"
-            padding="sm"
-            className="flex items-center justify-between group"
+          <Link
+            key={template.id}
+            href={`/trainer/plan/new?plan_id=${template.id}`}
+            className="block group w-full min-w-0"
           >
-            <div className="flex items-center gap-4 min-w-0">
-              <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center text-brand-primary group-hover:bg-brand-primary/10 transition-all shrink-0">
-                <Dumbbell className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">
-                  {template.name}
-                </p>
-                <p className="text-xs text-text-subtle uppercase tracking-widest font-bold truncate">
-                  {new Date(template.created_at).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onDelete(template.id)}
-              className="text-text-subtle hover:text-status-error ml-4"
+            <Card 
+              variant="interactive"
+              padding="sm"
+              className="flex items-center justify-between group w-full min-w-0"
             >
-              <Trash2 className="w-4 h-4" />
-            </Button>
-          </Card>
+              <div className="flex items-center gap-4 min-w-0 flex-1">
+                <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center text-brand-primary group-hover:bg-brand-primary/10 transition-all shrink-0">
+                  <Dumbbell className="w-4 h-4" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">
+                    {template.name}
+                  </p>
+                  <p className="text-xs text-text-subtle uppercase tracking-widest font-bold truncate">
+                    {new Date(template.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onDelete(template.id);
+                }}
+                className="text-text-subtle hover:text-status-error ml-4 shrink-0"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </Card>
+          </Link>
         ))}
         {templates.length === 0 && <EmptyState message={t("no_templates")} />}
       </div>
