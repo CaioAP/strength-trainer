@@ -94,7 +94,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
         </SettingsSection>
 
         {/* Role Specific Info */}
-        <SettingsSection title={t("account_info")} titleVariant="primary" padding="sm" className="space-y-4">
+        <SettingsSection title={t("account_info")} titleVariant="primary" padding="sm" className="space-y-6">
           <div className="flex justify-between items-center">
             <span className="text-sm text-text-subtle font-medium">{t("access_role")}</span>
             <span className="bg-brand-primary/10 text-brand-primary text-xs px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
