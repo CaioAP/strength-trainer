@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 interface Option {
   id?: string;
   name: string;
+  label?: string;
 }
 
 interface CustomSelectProps {
@@ -38,7 +39,7 @@ export default function CustomSelect({
   const filteredOptions = useMemo(() => {
     if (!searchQuery) return options;
     return options.filter(opt => 
-      opt.name.toLowerCase().includes(searchQuery.toLowerCase())
+      (opt.label || opt.name).toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [options, searchQuery]);
 
@@ -87,7 +88,7 @@ export default function CustomSelect({
             />
           ) : (
             <span className={`${!selectedOption ? "text-text-subtle" : "text-white"} truncate text-sm`}>
-              {selectedOption ? selectedOption.name : placeholder}
+              {selectedOption ? (selectedOption.label || selectedOption.name) : placeholder}
             </span>
           )}
         </div>
@@ -123,7 +124,7 @@ export default function CustomSelect({
                   : "text-white hover:bg-brand-secondary"
                 }`}
               >
-                {option.name}
+                {option.label || option.name}
               </div>
             ))}
             {filteredOptions.length === 0 && (
