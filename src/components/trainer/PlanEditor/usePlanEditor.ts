@@ -47,7 +47,7 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
 
   const init = useCallback(async (): Promise<void> => {
     // Avoid setting state if already loading to prevent cascading renders
-    const { data: exData } = await supabase.from("exercise_master").select("id, name").order("name");
+    const { data: exData } = await supabase.from("exercise_master").select("id, name, media_url").order("name");
     if (exData) setExercisesMaster(exData as ExerciseMaster[]);
 
     if (editId) {
