@@ -6,6 +6,7 @@ import InviteCard from "@/components/ui/InviteCard";
 import SearchInput from "@/components/ui/SearchInput";
 import EmptyState from "@/components/ui/EmptyState";
 import { Card } from "@/components/ui/Card";
+import { Text } from "@/components/ui/Text";
 import { StudentListItem } from "./TrainerDashboard.types";
 
 interface StudentsTabProps {
@@ -44,9 +45,9 @@ export default function StudentsTab({
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4 text-brand-primary" />
-            <h2 className="text-xs font-bold uppercase tracking-widest text-text-subtle">
+            <Text size="xs" weight="bold" uppercase tracking="widest" variant="subtle">
               {t("my_students", { count: filteredStudents.length })}
-            </h2>
+            </Text>
           </div>
         </div>
         
@@ -61,28 +62,28 @@ export default function StudentsTab({
             <Link
               key={student.id}
               href={`/trainer/student/${student.id}`}
-              className="block group"
+              className="block group w-full min-w-0"
             >
               <Card 
                 variant="interactive" 
                 padding="sm" 
-                className="flex items-center justify-between"
+                className="flex items-center justify-between w-full min-w-0"
               >
-                <div className="flex items-center gap-4 min-w-0">
+                <div className="flex items-center gap-4 min-w-0 flex-1">
                   <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center group-hover:bg-brand-primary/10 transition-all font-bold text-brand-primary text-xs italic shrink-0">
                     {student.profiles?.full_name?.split(" ").map((n) => n[0]).join("") || "?"}
                   </div>
-                  <div className="min-w-0">
-                    <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">
+                  <div className="min-w-0 flex-1">
+                    <Text weight="bold" className="group-hover:text-brand-primary transition-colors truncate">
                       {student.profiles?.full_name || t("pending_name")}
-                    </p>
-                    <p className="text-xs text-text-subtle lowercase truncate">
+                    </Text>
+                    <Text size="xs" variant="subtle" className="lowercase truncate">
                       {student.profiles?.email}
-                    </p>
+                    </Text>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 shrink-0 ml-4">
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-widest border ${
+                <div className="flex items-center gap-2 shrink-0 ml-4">
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-widest border ${
                     student.status === "active"
                       ? "bg-brand-primary/10 text-brand-primary border-brand-primary/20"
                       : "bg-status-warning/10 text-status-warning border-status-warning/20"
@@ -100,3 +101,4 @@ export default function StudentsTab({
     </section>
   );
 }
+
