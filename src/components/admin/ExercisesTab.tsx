@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
 import { VideoModal } from "@/components/ui/VideoModal";
 import { getLocalizedExercise } from "@/lib/utils/exercise";
+import { useMuscleGroupTranslation } from "@/hooks/useMuscleGroupTranslation";
 
 interface ExercisesTabProps {
   exercises: ExerciseMaster[];
@@ -46,6 +47,7 @@ export default function ExercisesTab({
 }: ExercisesTabProps): React.JSX.Element {
   const t = useTranslations("Admin.Exercises");
   const ct = useTranslations("Common");
+  const { translateMuscleGroup } = useMuscleGroupTranslation();
   const [videoModal, setVideoModal] = React.useState<{ isOpen: boolean; url: string; title: string }>({
     isOpen: false,
     url: "",
@@ -73,7 +75,7 @@ export default function ExercisesTab({
               disabled={actionLoading}
             />
             <CustomSelect
-              options={muscleGroups.map(g => ({ name: g.name }))}
+              options={muscleGroups.map(g => ({ name: g.name, label: translateMuscleGroup(g.name) }))}
               value={newEx.muscle_group}
               onChange={(val) => setNewEx({ ...newEx, muscle_group: val })}
               placeholder={t("select_muscle_group")}
@@ -105,9 +107,9 @@ export default function ExercisesTab({
             {t("library_title")}
           </h2>
           <CustomSelect
-            options={[{ name: t("filter_all") }, ...muscleGroups]}
-            value={exerciseFilter || t("filter_all")}
-            onChange={(val) => setExerciseFilter(val === t("filter_all") ? "" : val)}
+            options={[{ name: "", label: t("filter_all") }, ...muscleGroups.map(g => ({ name: g.name, label: translateMuscleGroup(g.name) }))]}
+            value={exerciseFilter}
+            onChange={(val) => setExerciseFilter(val)}
             className="w-44"
             placeholder={ct("search")}
           />
@@ -141,7 +143,7 @@ export default function ExercisesTab({
                     )}
                   </div>
                   <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap shrink-0">
-                    {ex.muscle_group}
+                    {translateMuscleGroup(ex.muscle_group)}
                   </span>
                 </div>
                 

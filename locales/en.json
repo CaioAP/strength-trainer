@@ -201,5 +201,29 @@
       "privacy_policy": "Privacy Policy",
       "logout": "Log Out",
       "redirecting": "Redirecting..."
+      },
+      "MuscleGroups": {
+        "Abdominals": "Abdominals",
+        "Abductors": "Abductors",
+        "Adductors": "Adductors",
+        "Biceps": "Biceps",
+        "Calves": "Calves",
+        "Chest": "Chest",
+        "Forearms": "Forearms",
+        "Glutes": "Glutes",
+        "Hamstrings": "Hamstrings",
+        "Lats": "Lats",
+        "Lower Back": "Lower Back",
+        "Middle Back": "Middle Back",
+        "Neck": "Neck",
+        "Quadriceps": "Quadriceps",
+        "Traps": "Traps",
+        "Triceps": "Triceps",
+        "Back": "Back",
+        "Shoulders": "Shoulders",
+        "Core": "Core",
+        "Full Body": "Full Body",
+        "Legs": "Legs",
+        "Quads": "Quads"
       }
       }

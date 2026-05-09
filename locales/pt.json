@@ -201,5 +201,29 @@
       "privacy_policy": "Política de Privacidade",
       "logout": "Sair",
       "redirecting": "Redirecionando..."
+      },
+      "MuscleGroups": {
+        "Abdominals": "Abdominais",
+        "Abductors": "Abdutores",
+        "Adductors": "Adutores",
+        "Biceps": "Bíceps",
+        "Calves": "Panturrilhas",
+        "Chest": "Peitoral",
+        "Forearms": "Antebraços",
+        "Glutes": "Glúteos",
+        "Hamstrings": "Isquiotibiais",
+        "Lats": "Dorsais",
+        "Lower Back": "Lombar",
+        "Middle Back": "Meio das Costas",
+        "Neck": "Pescoço",
+        "Quadriceps": "Quadríceps",
+        "Traps": "Trapézio",
+        "Triceps": "Tríceps",
+        "Back": "Costas",
+        "Shoulders": "Ombros",
+        "Core": "Core",
+        "Full Body": "Corpo Inteiro",
+        "Legs": "Pernas",
+        "Quads": "Quadríceps"
       }
       }
