@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import SearchInput from "@/components/ui/SearchInput";
 import { StudentProfile } from "./AdminDashboard.types";
 import { Card } from "@/components/ui/Card";
+import { Text } from "@/components/ui/Text";
 
 interface StudentsTabProps {
   students: StudentProfile[];
@@ -18,7 +19,8 @@ export default function StudentsTab({
   const t = useTranslations("Admin.Students");
 
   const filteredStudents = students.filter((s) => 
-    s.profiles.email.toLowerCase().includes(searchQuery.toLowerCase())
+    s.profiles.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (s.profiles.full_name?.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
@@ -39,11 +41,18 @@ export default function StudentsTab({
           >
             <div className="min-w-0 flex-1">
               <h3 className="font-medium text-white group-hover:text-brand-primary transition-colors truncate">
-                {s.profiles.email}
+                {s.profiles.full_name || s.profiles.email}
               </h3>
-              <p className="text-xs text-text-subtle mt-1 uppercase tracking-wider truncate">
-                {t("trainer")}: {s.trainer?.profiles?.email || t("unassigned")}
-              </p>
+              <div className="flex flex-col mt-1">
+                {s.profiles.full_name && (
+                  <Text size="xs" variant="subtle" className="lowercase truncate">
+                    {s.profiles.email}
+                  </Text>
+                )}
+                <Text size="xs" variant="subtle" weight="bold" uppercase tracking="wide" className="mt-1 truncate">
+                  {t("trainer")}: {s.trainer?.profiles?.full_name || s.trainer?.profiles?.email || t("unassigned")}
+                </Text>
+              </div>
             </div>
           </Card>
         ))}

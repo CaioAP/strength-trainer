@@ -7,6 +7,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import { TrainerProfile } from "./AdminDashboard.types";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Text } from "@/components/ui/Text";
 
 interface TrainersTabProps {
   trainers: TrainerProfile[];
@@ -30,7 +31,8 @@ export default function TrainersTab({
   const t = useTranslations("Admin.Trainers");
 
   const filteredTrainers = trainers.filter((tr) => 
-    tr.profiles.email.toLowerCase().includes(searchQuery.toLowerCase())
+    tr.profiles.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (tr.profiles.full_name?.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
@@ -60,7 +62,7 @@ export default function TrainersTab({
               <div className="min-w-0 flex-1 pr-4">
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium text-white group-hover:text-brand-primary transition-colors truncate">
-                    {tr.profiles.email}
+                    {tr.profiles.full_name || tr.profiles.email}
                   </h3>
                   {!tr.is_approved && (
                     <span className="bg-status-warning/20 text-status-warning text-xs px-2 py-0.5 rounded-full uppercase font-bold shrink-0">
@@ -73,9 +75,16 @@ export default function TrainersTab({
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-text-subtle mt-1 uppercase tracking-wider font-medium">
-                  Trainer ID: {tr.id.slice(0, 8)}
-                </p>
+                <div className="flex flex-col mt-1">
+                  {tr.profiles.full_name && (
+                    <Text size="xs" variant="subtle" className="lowercase truncate">
+                      {tr.profiles.email}
+                    </Text>
+                  )}
+                  <Text size="xs" variant="subtle" weight="bold" uppercase tracking="wide" className="mt-1">
+                    Trainer ID: {tr.id.slice(0, 8)}
+                  </Text>
+                </div>
               </div>
               <div className="flex gap-1">
                 {!tr.is_approved && (
