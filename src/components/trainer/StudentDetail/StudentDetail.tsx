@@ -3,7 +3,7 @@
 import React from "react";
 import {
   ChevronLeft, Activity,
-  Dumbbell, Plus, FileText, ExternalLink,
+  Dumbbell, Plus, FileText, ChevronRight,
   BarChart3, Clock, CheckCircle2,
   Trash2,
 } from "lucide-react";
@@ -85,32 +85,34 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
 
           {activePlan ? (
             <div className="space-y-4">
-              <Card variant="interactive" padding="sm" className="flex justify-between items-center group">
-                <div>
-                  <h3 className="font-bold text-white text-lg tracking-tight group-hover:text-brand-primary transition-colors">{activePlan.name}</h3>
-                  <p className="text-xs text-text-subtle uppercase font-bold tracking-widest mt-1 opacity-60">
-                    {t("assigned_on", { date: new Date(activePlan.created_at).toLocaleDateString() })}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => router.push(`/trainer/plan/new?plan_id=${activePlan.id}&student_id=${studentId}`)}
-                    className="bg-brand-secondary text-brand-primary"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setRemoveModalOpen(true)}
-                    className="bg-brand-secondary text-status-error hover:bg-status-error/10"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </Card>
+              <Link
+                href={`/trainer/plan/new?plan_id=${activePlan.id}&student_id=${studentId}`}
+                className="block group w-full min-w-0"
+              >
+                <Card variant="interactive" padding="sm" className="flex justify-between items-center group w-full min-w-0">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-bold text-white text-lg tracking-tight group-hover:text-brand-primary transition-colors truncate">{activePlan.name}</h3>
+                    <p className="text-xs text-text-subtle uppercase font-bold tracking-widest mt-1 opacity-60">
+                      {t("assigned_on", { date: new Date(activePlan.created_at).toLocaleDateString() })}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0 ml-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setRemoveModalOpen(true);
+                      }}
+                      className="bg-brand-secondary text-status-error hover:bg-status-error/10 shrink-0"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                    <ChevronRight className="w-4 h-4 text-text-subtle group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+                  </div>
+                </Card>
+              </Link>
               
               <div className="flex gap-3">
                 <Button 
