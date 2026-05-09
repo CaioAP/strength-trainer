@@ -108,8 +108,8 @@ export default function ExercisesTab({
             <Card 
               key={ex.id} 
               variant="interactive"
-              padding="sm"
-              className="group min-h-24 flex flex-col justify-center"
+              padding="none"
+              className="group min-h-20 flex flex-col justify-center px-4 py-2"
             >
               <div className="flex items-start justify-between gap-4 mb-1">
                 <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate flex-1">
