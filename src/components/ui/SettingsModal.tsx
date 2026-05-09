@@ -94,14 +94,14 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
         </SettingsSection>
 
         {/* Role Specific Info */}
-        <SettingsSection title={t("account_info")} titleVariant="primary" padding="sm" className="space-y-6">
-          <div className="flex justify-between items-center">
+        <SettingsSection title={t("account_info")} titleVariant="primary" padding="none">
+          <div className="flex justify-between items-center p-4">
             <span className="text-sm text-text-subtle font-medium">{t("access_role")}</span>
             <span className="bg-brand-primary/10 text-brand-primary text-xs px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
               {profile?.role}
             </span>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center p-4">
             <span className="text-sm text-text-subtle font-medium">{t("account_id")}</span>
             <span className="text-xs text-white font-mono">{user?.id.slice(0, 12)}...</span>
           </div>
