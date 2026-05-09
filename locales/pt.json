@@ -139,7 +139,7 @@
       "no_students": "Nenhum aluno encontrado.",
       "pending_name": "Nome Pendente"
     },
-    "templates": {
+    "Templates": {
       "title": "Modelos de Treino",
       "no_templates": "Nenhum modelo criado ainda.",
       "delete_confirm_title": "Excluir Modelo",
