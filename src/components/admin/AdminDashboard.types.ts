@@ -47,9 +47,15 @@ export interface StudentProfile {
 export interface ExerciseMaster {
   id: string;
   name: string;
+  name_pt: string | null;
   muscle_group: string;
   description: string | null;
   media_url?: string | null;
+  equipment?: string | null;
+  difficulty?: string | null;
+  type?: string | null;
+  instructions?: string | null;
+  instructions_pt?: string | null;
 }
 
 export interface MuscleGroup {

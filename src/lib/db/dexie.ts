@@ -3,9 +3,15 @@ import Dexie, { type Table } from "dexie";
 export interface ExerciseMaster {
   id: string;
   name: string;
+  name_pt?: string | null;
   description?: string;
   media_url?: string | null;
   muscle_group?: string;
+  equipment?: string | null;
+  difficulty?: string | null;
+  type?: string | null;
+  instructions?: string | null;
+  instructions_pt?: string | null;
   created_at: string;
 }
 
@@ -69,8 +75,8 @@ export class AppDatabase extends Dexie {
 
   constructor() {
     super("StrengthTrainerDB");
-    this.version(1).stores({
-      exercise_master: "id, name, muscle_group",
+    this.version(2).stores({
+      exercise_master: "id, name, name_pt, muscle_group",
       plans: "id, trainer_id, student_id, is_template",
       workouts: "id, plan_id, order_index",
       plan_exercises: "id, workout_id, exercise_id",
