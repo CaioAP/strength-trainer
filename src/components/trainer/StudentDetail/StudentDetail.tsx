@@ -81,51 +81,52 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
               <FileText className="w-3.5 h-3.5" />
               {t("active_assignment")}
             </h2>
-            {activePlan && (
-              <div className="flex items-center gap-2">
-                <Button 
-                  variant="ghost" 
-                  size="none"
-                  onClick={() => setAssignModalOpen(true)} 
-                  className="text-xs font-bold uppercase tracking-widest text-brand-primary hover:opacity-80"
-                >
-                  {t("assign_new")}
-                </Button>
-                <span className="text-gray-800 text-xs">|</span>
-                <Link href={`/trainer/plan/new?student_id=${studentId}`} className="text-xs font-bold uppercase tracking-widest text-brand-accent hover:opacity-80 transition-all">
-                  {t("custom")}
-                </Link>
-              </div>
-            )}
           </div>
 
           {activePlan ? (
-            <Card variant="interactive" padding="sm" className="flex justify-between items-center group">
-              <div>
-                <h3 className="font-bold text-white text-lg tracking-tight group-hover:text-brand-primary transition-colors">{activePlan.name}</h3>
-                <p className="text-xs text-text-subtle uppercase font-bold tracking-widest mt-1 opacity-60">
-                  {t("assigned_on", { date: new Date(activePlan.created_at).toLocaleDateString() })}
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => router.push(`/trainer/plan/new?plan_id=${activePlan.id}&student_id=${studentId}`)}
-                  className="bg-brand-secondary text-brand-primary"
+            <div className="space-y-4">
+              <Card variant="interactive" padding="sm" className="flex justify-between items-center group">
+                <div>
+                  <h3 className="font-bold text-white text-lg tracking-tight group-hover:text-brand-primary transition-colors">{activePlan.name}</h3>
+                  <p className="text-xs text-text-subtle uppercase font-bold tracking-widest mt-1 opacity-60">
+                    {t("assigned_on", { date: new Date(activePlan.created_at).toLocaleDateString() })}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => router.push(`/trainer/plan/new?plan_id=${activePlan.id}&student_id=${studentId}`)}
+                    className="bg-brand-secondary text-brand-primary"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setRemoveModalOpen(true)}
+                    className="bg-brand-secondary text-status-error hover:bg-status-error/10"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </Card>
+              
+              <div className="flex gap-3">
+                <Button 
+                  variant="secondary" 
+                  fullWidth
+                  onClick={() => setAssignModalOpen(true)} 
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  {t("assign_new")}
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setRemoveModalOpen(true)}
-                  className="bg-brand-secondary text-status-error hover:bg-status-error/10"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                <Link href={`/trainer/plan/new?student_id=${studentId}`} className="flex-1">
+                  <Button variant="primary" fullWidth>
+                    {t("custom")}
+                  </Button>
+                </Link>
               </div>
-            </Card>
+            </div>
           ) : (
             <Card variant="default" padding="lg" className="text-center">
               <div className="w-12 h-12 bg-brand-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-primary/10">
