@@ -119,7 +119,7 @@ export default function ExercisesTab({
           <div className="space-y-3">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input
-                label="EN Name"
+                label={t("name_en_label")}
                 placeholder={t("name_placeholder")}
                 value={newEx.name}
                 onChange={(e) => setNewEx({ ...newEx, name: e.target.value })}
@@ -127,7 +127,7 @@ export default function ExercisesTab({
                 disabled={actionLoading}
               />
               <Input
-                label="PT Nome"
+                label={t("name_pt_label")}
                 placeholder="Nome em Português"
                 value={newEx.name_pt || ""}
                 onChange={(e) => setNewEx({ ...newEx, name_pt: e.target.value })}
@@ -142,7 +142,7 @@ export default function ExercisesTab({
               disabled={actionLoading}
             />
             <Input
-              label="Tutorial URL (MP4)"
+              label={t("tutorial_url_label")}
               placeholder="https://..."
               value={newEx.media_url || ""}
               onChange={(e) => setNewEx({ ...newEx, media_url: e.target.value })}

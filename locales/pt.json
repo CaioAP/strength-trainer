@@ -67,7 +67,11 @@
     },
     "Exercises": {
       "new_title": "Novo Exercício Mestre",
+      "edit_title_form": "Editar Exercício",
       "name_placeholder": "Nome (ex: Levantamento Terra)",
+      "name_pt_label": "Nome em PT",
+      "name_en_label": "Nome em EN",
+      "tutorial_url_label": "URL do Tutorial (MP4)",
       "select_muscle_group": "Selecionar Grupo Muscular",
       "description_placeholder": "Descrição (Opcional)",
       "add_button": "Adicionar à Biblioteca",
