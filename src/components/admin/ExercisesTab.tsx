@@ -109,22 +109,24 @@ export default function ExercisesTab({
               key={ex.id} 
               variant="interactive"
               padding="sm"
-              className="relative group min-h-24 flex flex-col justify-center"
+              className="group min-h-24 flex flex-col justify-center"
             >
-              <div className="pr-12">
-                <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate mb-1">
+              <div className="flex items-start justify-between gap-4 mb-1">
+                <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate flex-1">
                   {ex.name}
                 </h3>
+                <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap shrink-0">
+                  {ex.muscle_group}
+                </span>
+              </div>
+              
+              <div className="pr-10">
                 {ex.description && (
                   <p className="text-xs text-text-subtle line-clamp-2 italic opacity-80">
                     {ex.description}
                   </p>
                 )}
               </div>
-              
-              <span className="absolute top-3 right-3 text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap">
-                {ex.muscle_group}
-              </span>
 
               <div className="absolute bottom-2 right-2 flex items-center shrink-0">
                 {deletingId === ex.id ? (
