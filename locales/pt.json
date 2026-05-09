@@ -19,7 +19,8 @@
     "standard_template": "Modelo padrão",
     "no_templates_found": "Nenhum modelo encontrado",
     "no_exercises_found": "Nenhum exercício encontrado",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "description": "Descrição"
   },
   "Auth": {
     "Login": {
@@ -229,5 +230,8 @@
         "Full Body": "Corpo Inteiro",
         "Legs": "Pernas",
         "Quads": "Quadríceps"
+      }
+      }
+s"
       }
       }
