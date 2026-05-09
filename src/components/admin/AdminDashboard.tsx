@@ -65,7 +65,7 @@ function AdminDashboardContent({ user }: AdminDashboardProps): React.JSX.Element
   const NAV_TABS: NavTab[] = [
     { id: "overview", label: t("metrics"), icon: <BarChart3 className="w-5 h-5" /> },
     { id: "trainers", label: t("trainers"), icon: <Users className="w-5 h-5" /> },
-    { id: "students", label: t("roster"), icon: <Shield className="w-5 h-5" /> },
+    { id: "students", label: t("students"), icon: <Shield className="w-5 h-5" /> },
     { id: "exercises", label: t("library"), icon: <Database className="w-5 h-5" /> },
   ];
 
