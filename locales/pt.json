@@ -78,6 +78,7 @@
       "add_button": "Adicionar à Biblioteca",
       "library_title": "Biblioteca",
       "filter_all": "Todos os Grupos",
+      "loading_library": "Carregando Biblioteca...",
       "delete_confirm_title": "Excluir Exercício",
       "delete_confirm_msg": "Tem certeza que deseja remover este exercício da biblioteca mestre? Esta ação não pode ser desfeita."
     }
