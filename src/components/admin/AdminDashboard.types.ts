@@ -49,6 +49,7 @@ export interface ExerciseMaster {
   name: string;
   muscle_group: string;
   description: string | null;
+  media_url?: string | null;
 }
 
 export interface MuscleGroup {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Plus, Dumbbell, Trash2 } from "lucide-react";
+import { Plus, Dumbbell, Trash2, Video } from "lucide-react";
 import CustomSelect from "@/components/ui/CustomSelect";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { ExerciseMaster, MuscleGroup, NewExercise } from "./AdminDashboard.types";
@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
+import { VideoModal } from "@/components/ui/VideoModal";
 
 interface ExercisesTabProps {
   exercises: ExerciseMaster[];
@@ -42,6 +43,11 @@ export default function ExercisesTab({
 }: ExercisesTabProps): React.JSX.Element {
   const t = useTranslations("Admin.Exercises");
   const ct = useTranslations("Common");
+  const [videoModal, setVideoModal] = React.useState<{ isOpen: boolean; url: string; title: string }>({
+    isOpen: false,
+    url: "",
+    title: "",
+  });
 
   const filteredExercises = exercises.filter((ex) => 
     !exerciseFilter || ex.muscle_group === exerciseFilter
@@ -112,9 +118,23 @@ export default function ExercisesTab({
               className="group min-h-20 flex flex-col justify-center px-4 py-2"
             >
               <div className="flex items-start justify-between gap-4 mb-1">
-                <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate flex-1">
-                  {ex.name}
-                </h3>
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate">
+                    {ex.name}
+                  </h3>
+                  {ex.media_url && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setVideoModal({ isOpen: true, url: ex.media_url!, title: ex.name });
+                      }}
+                      className="p-1 bg-brand-primary/10 text-brand-primary rounded hover:bg-brand-primary/20 transition-all shrink-0"
+                      title={t("view_video")}
+                    >
+                      <Video className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
                 <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap shrink-0">
                   {ex.muscle_group}
                 </span>
@@ -163,6 +183,13 @@ export default function ExercisesTab({
         message={t("delete_confirm_msg")}
         confirmText={ct("delete")}
         variant="danger"
+      />
+
+      <VideoModal
+        isOpen={videoModal.isOpen}
+        onClose={() => setVideoModal({ ...videoModal, isOpen: false })}
+        videoUrl={videoModal.url}
+        title={videoModal.title}
       />
     </div>
   );
