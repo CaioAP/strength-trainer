@@ -13,6 +13,8 @@ import {
   UseAdminDashboardReturn
 } from "./AdminDashboard.types";
 
+const INITIAL_NEW_EX: NewExercise = { name: "", muscle_group: "", description: "" };
+
 export function useAdminDashboard(): UseAdminDashboardReturn {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [loading, setLoading] = useState(true);
@@ -24,7 +26,8 @@ export function useAdminDashboard(): UseAdminDashboardReturn {
   const [muscleGroups, setMuscleGroups] = useState<MuscleGroup[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [exerciseFilter, setExerciseFilter] = useState("");
-  const [newEx, setNewEx] = useState<NewExercise>({ name: "", muscle_group: "", description: "" });
+  const [newEx, setNewEx] = useState<NewExercise>(INITIAL_NEW_EX);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const supabase = createClient();
   const initialized = useRef(false);
@@ -110,7 +113,42 @@ export function useAdminDashboard(): UseAdminDashboardReturn {
     setActionLoading(true);
     const { error } = await supabase.from("exercise_master").insert([newEx]);
     if (!error) {
-      setNewEx({ name: "", muscle_group: "", description: "" });
+      setNewEx(INITIAL_NEW_EX);
+      await fetchExercises();
+    }
+    setActionLoading(false);
+  };
+
+  const startEditing = (ex: ExerciseMaster): void => {
+    setEditingId(ex.id);
+    setNewEx({
+      name: ex.name,
+      name_pt: ex.name_pt || undefined,
+      muscle_group: ex.muscle_group,
+      description: ex.description || "",
+      media_url: ex.media_url || undefined,
+    });
+    // Scroll form into view
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const cancelEditing = (): void => {
+    setEditingId(null);
+    setNewEx(INITIAL_NEW_EX);
+  };
+
+  const handleUpdateExercise = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    if (!editingId) return;
+    
+    setActionLoading(true);
+    const { error } = await supabase
+      .from("exercise_master")
+      .update(newEx)
+      .eq("id", editingId);
+      
+    if (!error) {
+      cancelEditing();
       await fetchExercises();
     }
     setActionLoading(false);
@@ -141,10 +179,14 @@ export function useAdminDashboard(): UseAdminDashboardReturn {
     setExerciseFilter,
     newEx,
     setNewEx,
+    editingId,
+    startEditing,
+    cancelEditing,
     handleApproveTrainer,
     handleRevokeTrainer,
     handleInviteTrainer,
     handleAddExercise,
+    handleUpdateExercise,
     confirmModal,
     openModal,
     closeModal,

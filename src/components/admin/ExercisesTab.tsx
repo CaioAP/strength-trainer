@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Plus, Dumbbell, Trash2, Video } from "lucide-react";
+import { Plus, Dumbbell, Trash2, Video, Pencil, X } from "lucide-react";
 import CustomSelect from "@/components/ui/CustomSelect";
 import SearchInput from "@/components/ui/SearchInput";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
@@ -20,9 +20,13 @@ interface ExercisesTabProps {
   setExerciseFilter: (filter: string) => void;
   newEx: NewExercise;
   setNewEx: (ex: NewExercise) => void;
+  editingId: string | null;
+  startEditing: (ex: ExerciseMaster) => void;
+  cancelEditing: () => void;
   actionLoading: boolean;
   deletingId: string | null;
   onAdd: (e: React.FormEvent) => Promise<void>;
+  onUpdate: (e: React.FormEvent) => Promise<void>;
   onDelete: (id: string) => void;
   confirmModal: { isOpen: boolean; id: string | null };
   closeModal: () => void;
@@ -37,9 +41,13 @@ export default function ExercisesTab({
   setExerciseFilter,
   newEx,
   setNewEx,
+  editingId,
+  startEditing,
+  cancelEditing,
   actionLoading,
   deletingId,
   onAdd,
+  onUpdate,
   onDelete,
   confirmModal,
   closeModal,
@@ -86,25 +94,58 @@ export default function ExercisesTab({
 
   return (
     <div className="space-y-6">
-      <form onSubmit={onAdd}>
-        <Card variant="default" padding="lg" className="space-y-4">
-          <div className="flex items-center gap-3 mb-2">
-            <Plus className="text-brand-primary w-5 h-5" />
-            <h2 className="text-lg font-semibold">{t("new_title")}</h2>
+      <form onSubmit={editingId ? onUpdate : onAdd}>
+        <Card 
+          variant={editingId ? "interactive" : "default"} 
+          padding="lg" 
+          className={`space-y-4 transition-all duration-300 ${editingId ? "ring-1 ring-brand-primary/50 bg-brand-primary/5" : ""}`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              {editingId ? <Pencil className="text-brand-primary w-5 h-5" /> : <Plus className="text-brand-primary w-5 h-5" />}
+              <h2 className="text-lg font-semibold">{editingId ? t("edit_title_form") : t("new_title")}</h2>
+            </div>
+            {editingId && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={cancelEditing}
+                className="text-text-subtle hover:text-white"
+              >
+                <X className="w-4 h-4 mr-1" /> {ct("cancel")}
+              </Button>
+            )}
           </div>
           <div className="space-y-3">
-            <Input
-              placeholder={t("name_placeholder")}
-              value={newEx.name}
-              onChange={(e) => setNewEx({ ...newEx, name: e.target.value })}
-              required
-              disabled={actionLoading}
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Input
+                label="EN Name"
+                placeholder={t("name_placeholder")}
+                value={newEx.name}
+                onChange={(e) => setNewEx({ ...newEx, name: e.target.value })}
+                required
+                disabled={actionLoading}
+              />
+              <Input
+                label="PT Nome"
+                placeholder="Nome em Português"
+                value={newEx.name_pt || ""}
+                onChange={(e) => setNewEx({ ...newEx, name_pt: e.target.value })}
+                disabled={actionLoading}
+              />
+            </div>
             <CustomSelect
               options={muscleGroups.map(g => ({ name: g.name, label: translateMuscleGroup(g.name) }))}
               value={newEx.muscle_group}
               onChange={(val) => setNewEx({ ...newEx, muscle_group: val })}
               placeholder={t("select_muscle_group")}
+              disabled={actionLoading}
+            />
+            <Input
+              label="Tutorial URL (MP4)"
+              placeholder="https://..."
+              value={newEx.media_url || ""}
+              onChange={(e) => setNewEx({ ...newEx, media_url: e.target.value })}
               disabled={actionLoading}
             />
             <TextArea
@@ -115,14 +156,16 @@ export default function ExercisesTab({
               disabled={actionLoading}
             />
           </div>
-          <Button
-            type="submit"
-            fullWidth
-            loading={actionLoading}
-            loadingText={ct("processing")}
-          >
-            {t("add_button")}
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              type="submit"
+              fullWidth
+              loading={actionLoading}
+              loadingText={ct("processing")}
+            >
+              {editingId ? ct("save") : t("add_button")}
+            </Button>
+          </div>
         </Card>
       </form>
 
@@ -155,12 +198,16 @@ export default function ExercisesTab({
         <div className="grid gap-3">
           {filteredExercises.map((ex) => {
             const { displayName, displayDescription } = getLocalizedExercise(ex, locale);
+            const isEditing = editingId === ex.id;
             return (
               <Card 
                 key={ex.id} 
                 variant="interactive"
                 padding="none"
-                className="group min-h-20 flex flex-col justify-center px-4 py-2"
+                onClick={() => startEditing(ex)}
+                className={`group min-h-20 flex flex-col justify-center px-4 py-2 transition-all duration-300 ${
+                  isEditing ? "ring-2 ring-brand-primary bg-brand-primary/5" : ""
+                }`}
               >
                 <div className="flex items-start justify-between gap-4 mb-1">
                   <div className="flex items-center gap-2 min-w-0 flex-1">

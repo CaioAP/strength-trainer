@@ -65,8 +65,10 @@ export interface MuscleGroup {
 
 export interface NewExercise {
   name: string;
+  name_pt?: string;
   muscle_group: string;
   description: string;
+  media_url?: string;
 }
 
 export interface UseAdminDashboardReturn {
@@ -85,10 +87,14 @@ export interface UseAdminDashboardReturn {
   setExerciseFilter: (_f: string) => void;
   newEx: NewExercise;
   setNewEx: (_ex: NewExercise) => void;
+  editingId: string | null;
+  startEditing: (_ex: ExerciseMaster) => void;
+  cancelEditing: () => void;
   handleApproveTrainer: (_userId: string) => Promise<void>;
   handleRevokeTrainer: (_userId: string) => Promise<void>;
   handleInviteTrainer: (_email: string) => Promise<void>;
   handleAddExercise: (_e: React.FormEvent) => Promise<void>;
+  handleUpdateExercise: (_e: React.FormEvent) => Promise<void>;
   confirmModal: { isOpen: boolean; id: string | null };
   openModal: (_id: string) => void;
   closeModal: () => void;
