@@ -24,6 +24,7 @@ interface StudentDetailProps {
 
 export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Element => {
   const t = useTranslations("Trainer.StudentDetail");
+  const ct = useTranslations("Common");
   const {
     student,
     activePlan,
@@ -208,7 +209,7 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
         onConfirm={handleRemovePlan}
         title={t("remove_plan_title")}
         message={t("remove_plan_message", { name: activePlan?.name || "" })}
-        confirmText={t("Common.delete")}
+        confirmText={ct("delete")}
         variant="danger"
         isLoading={actionLoading}
       />
