@@ -3,6 +3,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 export interface ExerciseMaster {
   name: string;
   description: string | null;
+  media_url?: string | null;
 }
 
 export interface PlanExercise {

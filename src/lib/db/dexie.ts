@@ -4,7 +4,7 @@ export interface ExerciseMaster {
   id: string;
   name: string;
   description?: string;
-  media_url?: string;
+  media_url?: string | null;
   muscle_group?: string;
   created_at: string;
 }
