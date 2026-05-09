@@ -115,13 +115,15 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
               </Link>
               
               <div className="flex gap-3">
-                <Button 
-                  variant="secondary" 
-                  fullWidth
-                  onClick={() => setAssignModalOpen(true)} 
-                >
-                  {t("assign_new")}
-                </Button>
+                <div className="flex-1">
+                  <Button 
+                    variant="secondary" 
+                    fullWidth
+                    onClick={() => setAssignModalOpen(true)} 
+                  >
+                    {t("assign_new")}
+                  </Button>
+                </div>
                 <Link href={`/trainer/plan/new?student_id=${studentId}`} className="flex-1">
                   <Button variant="primary" fullWidth>
                     {t("custom")}
