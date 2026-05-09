@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Save, ChevronLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { Card } from "@/components/ui/Card";
@@ -127,7 +127,6 @@ export const PlanEditor = (): React.JSX.Element => {
             loading={actionLoading}
             loadingText={t("saving")}
           >
-            {!actionLoading && <Save className="w-4 h-4 mr-2" />}
             {t("save_plan")}
           </Button>
         </div>
