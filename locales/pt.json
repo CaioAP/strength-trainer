@@ -190,6 +190,11 @@
       "account_info": "Informações da Conta",
       "access_role": "Função de Acesso",
       "account_id": "ID da Conta",
+      "language": "Idioma",
+      "languages": {
+        "en": "Inglês",
+        "pt": "Português"
+      },
       "support": "Suporte",
       "help_center": "Central de Ajuda",
       "report_bug": "Relatar um Erro",

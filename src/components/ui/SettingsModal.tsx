@@ -1,8 +1,8 @@
 "use client";
 
-import { X, LogOut, User as UserIcon, Mail, Shield, ChevronRight, Loader2, HelpCircle, Bug, FileText } from "lucide-react";
+import { X, LogOut, User as UserIcon, Mail, Shield, ChevronRight, Loader2, HelpCircle, Bug, FileText, Languages } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -29,6 +29,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
   const t = useTranslations("Settings");
   const supabase = createClient();
   const router = useRouter();
+  const pathname = usePathname();
   const [navigating, setNavigating] = useState(false);
 
   if (!isOpen) return null;
@@ -104,6 +105,34 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
           <div className="flex justify-between items-center p-4">
             <span className="text-sm text-text-subtle font-medium">{t("account_id")}</span>
             <span className="text-xs text-white font-mono">{user?.id.slice(0, 12)}...</span>
+          </div>
+          <div className="flex justify-between items-center p-4 border-t border-white/5">
+            <div className="flex items-center gap-3">
+              <Languages className="w-4 h-4 text-text-subtle" />
+              <span className="text-sm text-white font-medium">{t("language")}</span>
+            </div>
+            <div className="flex bg-brand-secondary rounded-lg p-1 border border-white/5">
+              <button 
+                onClick={() => {
+                  const newPath = pathname.replace(/^\/(en|pt)/, "/en");
+                  router.push(newPath);
+                  router.refresh();
+                }}
+                className={`px-3 py-1 text-[10px] font-bold uppercase rounded-md transition-all ${pathname.startsWith("/en") ? "bg-brand-primary text-black" : "text-text-subtle hover:text-white"}`}
+              >
+                {t("languages.en")}
+              </button>
+              <button 
+                onClick={() => {
+                  const newPath = pathname.replace(/^\/(en|pt)/, "/pt");
+                  router.push(newPath);
+                  router.refresh();
+                }}
+                className={`px-3 py-1 text-[10px] font-bold uppercase rounded-md transition-all ${pathname.startsWith("/pt") ? "bg-brand-primary text-black" : "text-text-subtle hover:text-white"}`}
+              >
+                {t("languages.pt")}
+              </button>
+            </div>
           </div>
         </SettingsSection>
 

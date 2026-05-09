@@ -190,6 +190,11 @@
       "account_info": "Account Info",
       "access_role": "Access Role",
       "account_id": "Account ID",
+      "language": "Language",
+      "languages": {
+        "en": "English",
+        "pt": "Portuguese"
+      },
       "support": "Support",
       "help_center": "Help Center",
       "report_bug": "Report a Bug",
