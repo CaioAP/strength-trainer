@@ -23,7 +23,7 @@ export default function TemplatesTab({
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
           <FileText className="w-4 h-4 text-brand-primary" />
-          <h2 className="text-2.5 font-black uppercase tracking-widest text-text-subtle">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-text-subtle">
             {t("title")}
           </h2>
         </div>
@@ -50,7 +50,7 @@ export default function TemplatesTab({
                 <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">
                   {template.name}
                 </p>
-                <p className="text-2.5 text-text-subtle uppercase tracking-widest font-bold truncate">
+                <p className="text-xs text-text-subtle uppercase tracking-widest font-bold truncate">
                   {new Date(template.created_at).toLocaleDateString()}
                 </p>
               </div>

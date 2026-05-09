@@ -41,7 +41,7 @@ export default function StudentsTab({
               <h3 className="font-medium text-white group-hover:text-brand-primary transition-colors truncate">
                 {s.profiles.email}
               </h3>
-              <p className="text-2.5 text-text-subtle mt-1 uppercase tracking-wider truncate">
+              <p className="text-xs text-text-subtle mt-1 uppercase tracking-wider truncate">
                 {t("trainer")}: {s.trainer?.profiles?.email || t("unassigned")}
               </p>
             </div>

@@ -75,7 +75,7 @@ export const WorkoutRunner = (): React.JSX.Element => {
               <ChevronLeft className="w-5 h-5 text-text-subtle" />
             </Button>
             <div className="flex flex-col">
-              <span className="text-2.5 font-black uppercase tracking-widest text-brand-primary">{t("active_session")}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-brand-primary">{t("active_session")}</span>
               <span className="text-sm font-black uppercase tracking-tight text-white truncate max-w-37.5 italic">{workout?.name}</span>
             </div>
           </div>
@@ -134,10 +134,10 @@ export const WorkoutRunner = (): React.JSX.Element => {
         <div className="mt-8 space-y-6">
           <div className="flex justify-between items-end px-1">
             <div className="flex flex-col">
-              <span className="text-2.5 font-black uppercase tracking-widest text-text-subtle mb-1">{t("perceived_effort")}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-text-subtle mb-1">{t("perceived_effort")}</span>
               <span className="text-3xl font-black text-brand-primary italic leading-none tracking-tighter">RPE {effortRpe}</span>
             </div>
-            <div className="text-2.5 font-black uppercase tracking-widest text-brand-accent italic mb-1">
+            <div className="text-xs font-bold uppercase tracking-widest text-brand-accent italic mb-1">
               {effortRpe <= 3 ? t("recovery") : effortRpe <= 6 ? t("challenging") : effortRpe <= 8 ? t("very_hard") : t("max_effort")}
             </div>
           </div>
@@ -152,7 +152,7 @@ export const WorkoutRunner = (): React.JSX.Element => {
               onChange={(e) => setEffortRpe(parseInt(e.target.value))}
               className="w-full h-3 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-brand-primary"
             />
-            <div className="flex justify-between mt-3 text-2.25 font-black text-text-subtle uppercase tracking-widest px-1">
+            <div className="flex justify-between mt-3 text-xs font-bold text-text-subtle uppercase tracking-widest px-1">
               <span>{t("light")}</span>
               <span>{t("moderate")}</span>
               <span>{t("heavy")}</span>

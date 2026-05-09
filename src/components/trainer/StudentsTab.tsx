@@ -44,7 +44,7 @@ export default function StudentsTab({
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4 text-brand-primary" />
-            <h2 className="text-2.5 font-black uppercase tracking-widest text-text-subtle">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-text-subtle">
               {t("my_students", { count: filteredStudents.length })}
             </h2>
           </div>
@@ -69,20 +69,20 @@ export default function StudentsTab({
                 className="flex items-center justify-between"
               >
                 <div className="flex items-center gap-4 min-w-0">
-                  <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center group-hover:bg-brand-primary/10 transition-all font-black text-brand-primary text-xs italic shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-brand-secondary flex items-center justify-center group-hover:bg-brand-primary/10 transition-all font-bold text-brand-primary text-xs italic shrink-0">
                     {student.profiles?.full_name?.split(" ").map((n) => n[0]).join("") || "?"}
                   </div>
                   <div className="min-w-0">
                     <p className="font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors truncate">
                       {student.profiles?.full_name || t("pending_name")}
                     </p>
-                    <p className="text-2.5 text-text-subtle lowercase truncate">
+                    <p className="text-xs text-text-subtle lowercase truncate">
                       {student.profiles?.email}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0 ml-4">
-                  <span className={`text-2 px-2 py-0.5 rounded-full font-black uppercase tracking-widest border ${
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-widest border ${
                     student.status === "active"
                       ? "bg-brand-primary/10 text-brand-primary border-brand-primary/20"
                       : "bg-status-warning/10 text-status-warning border-status-warning/20"

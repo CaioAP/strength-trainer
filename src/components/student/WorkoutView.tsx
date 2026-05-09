@@ -23,7 +23,7 @@ export default function WorkoutView({
           <div className="px-1">
             <div className="flex items-center gap-3 mb-1">
               <Activity className="text-brand-primary w-4 h-4" />
-              <h2 className="text-2.5 uppercase font-black tracking-widest text-text-subtle">
+              <h2 className="text-xs uppercase font-bold tracking-widest text-text-subtle">
                 {t("active_plan")}
               </h2>
             </div>
@@ -33,7 +33,7 @@ export default function WorkoutView({
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-2.5 uppercase font-black tracking-widest text-text-subtle px-1">
+            <h3 className="text-xs uppercase font-bold tracking-widest text-text-subtle px-1">
               {t("available_workouts")}
             </h3>
             <div className="grid gap-4">
@@ -49,7 +49,7 @@ export default function WorkoutView({
                         <p className="text-white text-lg font-bold tracking-tight group-hover:text-brand-primary transition-colors truncate">
                           {workout.name}
                         </p>
-                        <p className="text-brand-accent text-2.5 font-black uppercase tracking-widest mt-1 flex items-center gap-2 opacity-70 truncate">
+                        <p className="text-brand-accent text-xs font-bold uppercase tracking-widest mt-1 flex items-center gap-2 opacity-70 truncate">
                           <Dumbbell className="w-3 h-3 shrink-0" />
                           {t("exercises_count", { count: workout.plan_exercises?.length || 0 })}
                         </p>
@@ -74,13 +74,13 @@ export default function WorkoutView({
       )}
 
       <div className="space-y-4">
-        <h3 className="text-2.5 uppercase font-black tracking-widest text-text-subtle px-1">
+        <h3 className="text-xs uppercase font-bold tracking-widest text-text-subtle px-1">
           {t("weekly_progress")}
         </h3>
         <Card variant="default" padding="md" className="grid grid-cols-7 gap-2">
           {["M", "T", "W", "T", "F", "S", "S"].map((day, i) => (
             <div key={i} className="flex flex-col items-center gap-2">
-              <span className="text-2 font-black text-text-subtle uppercase">{day}</span>
+              <span className="text-xs font-bold text-text-subtle uppercase">{day}</span>
               <div className={`w-8 h-8 rounded-md flex items-center justify-center transition-all duration-500 ${
                 hasWorkedOutOn(i) ? "bg-brand-primary shadow-[0_0_10px_rgba(206,255,5,0.3)]" : "bg-brand-secondary"
               }`}>

@@ -64,14 +64,14 @@ export const ReportBugForm = (): React.JSX.Element => {
           />
 
           <div className="space-y-2">
-            <label className="text-2.5 font-black text-text-subtle uppercase tracking-widest ml-1">Severity</label>
+            <label className="text-xs font-bold text-text-subtle uppercase tracking-widest ml-1">Severity</label>
             <div className="grid grid-cols-2 gap-2">
               {["low", "medium", "high", "critical"].map((s) => (
                 <button
                   key={s}
                   type="button"
                   onClick={(): void => setSeverity(s)}
-                  className={`py-2.5 rounded text-2.5 font-black uppercase tracking-widest transition-all ${
+                  className={`py-2.5 rounded text-xs font-bold uppercase tracking-widest transition-all ${
                     formData.severity === s
                       ? "bg-brand-primary text-black shadow-[0_0_15px_rgba(206,255,5,0.4)] scale-102"
                       : "bg-brand-secondary text-text-subtle shadow-card hover:bg-white/5 hover:scale-102"

@@ -13,7 +13,7 @@ export default function ToggleRow({ label, description, checked, onToggle }: Tog
     >
       <div className="flex-1 pr-4">
         <p className="font-bold text-white text-sm group-hover:text-brand-primary transition-colors">{label}</p>
-        <p className="text-2.5 text-text-subtle mt-1 leading-normal">{description}</p>
+        <p className="text-xs text-text-subtle mt-1 leading-normal">{description}</p>
       </div>
       <div
         className={`w-12 h-6 rounded-full transition-all relative flex items-center px-1 ${

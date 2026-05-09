@@ -42,7 +42,7 @@ export const ChangePasswordForm = (): React.JSX.Element => {
         />
 
         {status && (
-          <div className={`p-3 rounded text-2.5 font-bold uppercase tracking-widest text-center ${
+          <div className={`p-3 rounded text-xs font-bold uppercase tracking-widest text-center ${
             status.type === "success"
               ? "bg-brand-primary/10 text-brand-primary border border-brand-primary/20"
               : "bg-status-error/10 text-status-error border border-status-error/20"

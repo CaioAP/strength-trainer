@@ -24,7 +24,7 @@ export const EmailPreferencesForm = (): React.JSX.Element => {
   const successIndicator = success ? (
     <div className="flex items-center gap-1.5 text-brand-primary animate-in fade-in zoom-in duration-300">
       <Check className="w-4 h-4" />
-      <span className="text-2.5 font-black uppercase tracking-widest">Saved</span>
+      <span className="text-xs font-bold uppercase tracking-widest">Saved</span>
     </div>
   ) : undefined;
 

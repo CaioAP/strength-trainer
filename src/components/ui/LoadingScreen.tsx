@@ -5,7 +5,7 @@ export default function LoadingScreen({ label, fullPage = true }: { label?: stri
     <div className={`flex-1 flex flex-col items-center justify-center ${fullPage ? "bg-brand-secondary min-h-screen" : ""}`}>
       <Loader2 className="w-8 h-8 text-brand-primary animate-spin mb-4" />
       {label && (
-        <p className="text-text-subtle text-2.5 font-black uppercase tracking-widest animate-pulse">{label}</p>
+        <p className="text-text-subtle text-xs font-bold uppercase tracking-widest animate-pulse">{label}</p>
       )}
     </div>
   );

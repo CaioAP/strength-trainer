@@ -18,7 +18,7 @@ export default function HistoryView({
   return (
     <section className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
       <div className="px-1">
-        <h2 className="text-2.5 uppercase font-black tracking-widest text-brand-primary mb-1">
+        <h2 className="text-xs uppercase font-bold tracking-widest text-brand-primary mb-1">
           {t("title")}
         </h2>
         <p className="text-2xl font-black text-white italic uppercase tracking-tighter">
@@ -44,13 +44,13 @@ export default function HistoryView({
                     {session.workout?.name}
                   </h3>
                   {session.workout?.plan?.name && (
-                    <span className="text-2 px-1.5 py-0.5 bg-brand-primary/10 text-brand-primary rounded font-black uppercase tracking-widest whitespace-nowrap shrink-0">
+                    <span className="text-xs px-1.5 py-0.5 bg-brand-primary/10 text-brand-primary rounded font-bold uppercase tracking-widest whitespace-nowrap shrink-0">
                       {session.workout.plan.name}
                     </span>
                   )}
                 </div>
                 <div className="flex items-center gap-3 mt-1">
-                  <p className="text-2.5 text-text-subtle uppercase font-black tracking-widest whitespace-nowrap">
+                  <p className="text-xs text-text-subtle uppercase font-bold tracking-widest whitespace-nowrap">
                     {new Date(session.started_at).toLocaleDateString(undefined, { 
                       weekday: "short", 
                       month: "short", 
@@ -58,7 +58,7 @@ export default function HistoryView({
                     })}
                   </p>
                   <span className="w-1 h-1 rounded-full bg-gray-700 shrink-0" />
-                  <p className="text-2.5 text-brand-accent uppercase font-black tracking-widest whitespace-nowrap">
+                  <p className="text-xs text-brand-accent uppercase font-bold tracking-widest whitespace-nowrap">
                     {formatDuration(session.started_at, session.completed_at)}
                   </p>
                 </div>
@@ -67,13 +67,13 @@ export default function HistoryView({
             <div className="text-right shrink-0 ml-4">
               {session.effort_rpe ? (
                 <div className="flex flex-col items-end">
-                  <span className="text-brand-primary font-black text-xs">RPE {session.effort_rpe}</span>
-                  <span className="text-2 text-text-subtle uppercase font-bold tracking-tighter">
+                  <span className="text-brand-primary font-bold text-xs">RPE {session.effort_rpe}</span>
+                  <span className="text-xs text-text-subtle uppercase font-bold tracking-tighter">
                     {t("effort")}
                   </span>
                 </div>
               ) : (
-                <span className="text-2.5 text-status-warning uppercase font-bold tracking-widest italic opacity-50">
+                <span className="text-xs text-status-warning uppercase font-bold tracking-widest italic opacity-50">
                   {t("incomplete")}
                 </span>
               )}

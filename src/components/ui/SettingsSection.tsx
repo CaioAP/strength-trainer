@@ -31,11 +31,11 @@ export const SettingsSection = ({
   return (
     <section className={`space-y-4 ${className}`}>
       <div className="px-1">
-        <h3 className={`text-2.5 font-black uppercase tracking-widest ${titleColors[titleVariant]}`}>
+        <h3 className={`text-xs font-bold uppercase tracking-widest ${titleColors[titleVariant]}`}>
           {title}
         </h3>
         {description && (
-          <p className="text-2.75 text-text-subtle/60 leading-relaxed italic">
+          <p className="text-xs.75 text-text-subtle/60 leading-relaxed italic">
             {description}
           </p>
         )}

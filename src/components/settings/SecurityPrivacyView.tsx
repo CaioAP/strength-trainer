@@ -27,7 +27,7 @@ export const SecurityPrivacyView = (): React.JSX.Element => {
   const successIndicator = success ? (
     <div className="flex items-center gap-1.5 text-brand-primary animate-in fade-in zoom-in duration-300">
       <Check className="w-4 h-4" />
-      <span className="text-2.5 font-black uppercase tracking-widest">Updated</span>
+      <span className="text-xs font-bold uppercase tracking-widest">Updated</span>
     </div>
   ) : undefined;
 
@@ -64,7 +64,7 @@ export const SecurityPrivacyView = (): React.JSX.Element => {
           >
             <div className="text-left normal-case tracking-normal">
               <p className="font-bold text-sm">Delete Account</p>
-              <p className="text-2.5 opacity-60 mt-0.5 font-normal">Permanently remove your profile and all training data.</p>
+              <p className="text-xs opacity-60 mt-0.5 font-normal">Permanently remove your profile and all training data.</p>
             </div>
             <Trash2 className="w-5 h-5 opacity-40 group-hover:opacity-100 transition-opacity" />
           </Button>

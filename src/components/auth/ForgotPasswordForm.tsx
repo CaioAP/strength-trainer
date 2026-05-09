@@ -34,7 +34,7 @@ export const ForgotPasswordForm = (): React.JSX.Element => {
           <div className="bg-brand-primary/10 shadow-card p-4 rounded-lg flex flex-col items-center gap-3">
             <CheckCircle2 className="w-8 h-8 text-brand-primary" />
             <p className="text-white text-sm font-bold">Check your inbox!</p>
-            <p className="text-2.5 text-text-subtle leading-relaxed">If an account exists for {email}, you will receive a password reset link shortly.</p>
+            <p className="text-xs text-text-subtle leading-relaxed">If an account exists for {email}, you will receive a password reset link shortly.</p>
           </div>
           <Link href="/login" className="block">
             <Button variant="primary" fullWidth size="lg">
@@ -69,7 +69,7 @@ export const ForgotPasswordForm = (): React.JSX.Element => {
 
           <Link
             href="/login"
-            className="flex items-center justify-center gap-2 text-2.5 font-black uppercase tracking-widest text-text-subtle hover:text-brand-primary transition-colors"
+            className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-text-subtle hover:text-brand-primary transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
             Back to Sign In

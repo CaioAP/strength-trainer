@@ -63,17 +63,17 @@ export default function TrainersTab({
                     {tr.profiles.email}
                   </h3>
                   {!tr.is_approved && (
-                    <span className="bg-status-warning/20 text-status-warning text-2.25 px-2 py-0.5 rounded-full uppercase font-bold shrink-0">
+                    <span className="bg-status-warning/20 text-status-warning text-xs px-2 py-0.5 rounded-full uppercase font-bold shrink-0">
                       {t("pending")}
                     </span>
                   )}
                   {!tr.is_active && (
-                    <span className="bg-status-error/20 text-status-error text-2.25 px-2 py-0.5 rounded-full uppercase font-bold shrink-0">
+                    <span className="bg-status-error/20 text-status-error text-xs px-2 py-0.5 rounded-full uppercase font-bold shrink-0">
                       {t("revoked")}
                     </span>
                   )}
                 </div>
-                <p className="text-2.5 text-text-subtle mt-1 uppercase tracking-wider font-medium">
+                <p className="text-xs text-text-subtle mt-1 uppercase tracking-wider font-medium">
                   Trainer ID: {tr.id.slice(0, 8)}
                 </p>
               </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "@/components/ui/Card";
+import { Text } from "@/components/ui/Text";
 
 interface StatCardProps {
   icon: React.ReactNode;
@@ -26,17 +27,39 @@ export const StatCard = ({
       <div className={`${color} mb-2 transition-transform group-hover:scale-110 duration-500`}>
         {icon}
       </div>
-      <span className="text-3xl font-black text-white leading-none tracking-tighter italic">
+      <Text
+        as="span"
+        size="3xl"
+        weight="black"
+        italic
+        tracking="tight"
+        className="leading-none"
+      >
         {value}
-      </span>
+      </Text>
       <div className="mt-2">
-        <span className="text-2.25 uppercase text-white font-black tracking-widest block group-hover:text-brand-primary transition-colors">
+        <Text
+          as="span"
+          size="xs"
+          weight="bold"
+          uppercase
+          tracking="widest"
+          className="block group-hover:text-brand-primary transition-colors"
+        >
           {label}
-        </span>
+        </Text>
         {subLabel && (
-          <span className="text-2 uppercase text-text-subtle font-bold tracking-tighter opacity-60 block mt-0.5">
+          <Text
+            as="span"
+            size="xs"
+            weight="bold"
+            variant="subtle"
+            uppercase
+            tracking="tight"
+            className="block mt-0.5 opacity-60"
+          >
             {subLabel}
-          </span>
+          </Text>
         )}
       </div>
       <div className={`absolute top-0 right-0 w-8 h-8 ${color} opacity-5 -mr-4 -mt-4 rounded-full blur-xl`} />

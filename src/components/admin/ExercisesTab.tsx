@@ -116,12 +116,12 @@ export default function ExercisesTab({
                   <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate">
                     {ex.name}
                   </h3>
-                  <span className="text-2 bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap">
+                  <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap">
                     {ex.muscle_group}
                   </span>
                 </div>
                 {ex.description && (
-                  <p className="text-2.5 text-text-subtle line-clamp-1 mt-1">
+                  <p className="text-xs text-text-subtle line-clamp-1 mt-1">
                     {ex.description}
                   </p>
                 )}

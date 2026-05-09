@@ -24,7 +24,7 @@ export default function NumberInput({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-2.5 text-text-subtle uppercase font-black tracking-tighter text-center">
+      <label className="text-xs text-text-subtle uppercase font-bold tracking-tighter text-center">
         {label}
       </label>
       <div className={`flex items-center bg-brand-secondary border border-gray-800 rounded-md overflow-hidden transition-all ${disabled ? "opacity-50" : "hover:border-gray-700 focus-within:ring-1 focus-within:ring-brand-primary focus-within:border-brand-primary"}`}>

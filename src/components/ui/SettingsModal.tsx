@@ -44,7 +44,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       {navigating && (
         <div className="absolute inset-0 z-400 flex flex-col items-center justify-center bg-brand-secondary/80 backdrop-blur-sm animate-in fade-in duration-200">
           <Loader2 className="w-8 h-8 text-brand-primary animate-spin mb-4" />
-          <p className="text-text-subtle text-2.5 font-black uppercase tracking-widest animate-pulse">{t("redirecting")}</p>
+          <p className="text-text-subtle text-xs font-bold uppercase tracking-widest animate-pulse">{t("redirecting")}</p>
         </div>
       )}
       <header className="p-4 flex items-center justify-between border-b border-gray-800 bg-brand-surface">
@@ -97,13 +97,13 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
         <SettingsSection title={t("account_info")} titleVariant="primary" padding="sm" className="space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-sm text-text-subtle font-medium">{t("access_role")}</span>
-            <span className="bg-brand-primary/10 text-brand-primary text-2.5 px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
+            <span className="bg-brand-primary/10 text-brand-primary text-xs px-2 py-0.5 rounded-full uppercase font-bold border border-brand-primary/20">
               {profile?.role}
             </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-sm text-text-subtle font-medium">{t("account_id")}</span>
-            <span className="text-2.5 text-white font-mono">{user?.id.slice(0, 12)}...</span>
+            <span className="text-xs text-white font-mono">{user?.id.slice(0, 12)}...</span>
           </div>
         </SettingsSection>
 
@@ -146,7 +146,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
       </div>
 
       <footer className="p-8 text-center bg-brand-secondary">
-        <p className="text-2.5 text-text-subtle uppercase tracking-widest font-black opacity-30">Strength v1.0.0</p>
+        <p className="text-xs text-text-subtle uppercase tracking-widest font-bold opacity-30">Strength v1.0.0</p>
       </footer>
     </div>
   );

@@ -134,7 +134,7 @@ export const PlanEditor = (): React.JSX.Element => {
 
         {error && (
           <div className="mb-12 p-4 bg-status-error/10 rounded-lg animate-in fade-in slide-in-from-bottom-2 shadow-card">
-            <p className="text-status-error text-2.5 font-black uppercase tracking-widest text-center leading-relaxed">{error}</p>
+            <p className="text-status-error text-xs font-bold uppercase tracking-widest text-center leading-relaxed">{error}</p>
           </div>
         )}
       </div>

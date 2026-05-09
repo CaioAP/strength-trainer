@@ -44,7 +44,7 @@ export const HelpCenterView = (): React.JSX.Element => {
               </div>
               <div>
                 <p className="font-bold text-white text-sm group-hover:text-brand-primary transition-colors">Email Support</p>
-                <p className="text-2.5 text-text-subtle mt-1 leading-normal">Typically replies within 24 hours</p>
+                <p className="text-xs text-text-subtle mt-1 leading-normal">Typically replies within 24 hours</p>
               </div>
             </div>
             <ExternalLink className="w-4 h-4 text-text-subtle group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
@@ -58,7 +58,7 @@ export const HelpCenterView = (): React.JSX.Element => {
           {faqs.map((faq, index) => (
             <div key={index} className="p-4 hover:bg-white/5 transition-colors group">
               <p className="font-bold text-white text-sm mb-2 group-hover:text-brand-primary transition-colors">{faq.question}</p>
-              <p className="text-2.75 text-text-subtle leading-relaxed">{faq.answer}</p>
+              <p className="text-xs.75 text-text-subtle leading-relaxed">{faq.answer}</p>
             </div>
           ))}
         </SettingsSection>

@@ -35,7 +35,7 @@ export const PrivacyPolicyView = (): React.JSX.Element => {
 
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
         <div className="px-1">
-          <p className="text-2.75 text-text-subtle/80 leading-relaxed italic">Last updated: April 29, 2026. Your privacy is our priority.</p>
+          <p className="text-xs.75 text-text-subtle/80 leading-relaxed italic">Last updated: April 29, 2026. Your privacy is our priority.</p>
         </div>
 
         {sections.map((section, index) => (
@@ -47,13 +47,13 @@ export const PrivacyPolicyView = (): React.JSX.Element => {
           >
             <div className="flex items-start gap-4">
               <div className="mt-1">{section.icon}</div>
-              <p className="text-2.75 text-text-subtle leading-relaxed">{section.content}</p>
+              <p className="text-xs.75 text-text-subtle leading-relaxed">{section.content}</p>
             </div>
           </SettingsSection>
         ))}
 
         <section className="space-y-4 pt-4">
-          <p className="text-2.5 text-text-subtle/40 text-center leading-relaxed px-4 italic">
+          <p className="text-xs text-text-subtle/40 text-center leading-relaxed px-4 italic">
             By using Strength, you agree to the collection and use of information in accordance with this policy. If you have questions, please contact us at support@strengthtrainer.app.
           </p>
         </section>
