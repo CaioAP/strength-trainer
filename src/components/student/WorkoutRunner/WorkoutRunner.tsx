@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Play,
@@ -42,7 +43,7 @@ function WorkoutRunnerContent({ studentId: _studentId, workoutId: _workoutId }: 
     toggleExercise,
     updateExerciseParam,
     handleFinish,
-    router,
+    handleExitConfirmed,
   } = useWorkoutRunner();
 
   const formatTime = (totalSeconds: number): string => {
@@ -54,8 +55,13 @@ function WorkoutRunnerContent({ studentId: _studentId, workoutId: _workoutId }: 
   if (loading) return <LoadingScreen fullPage={false} label={t("preparing_session")} />;
   if (error || !workout) return (
     <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-      <p className="text-status-error font-bold mb-4">{error || "Workout not found"}</p>
-      <Button onClick={() => router.back()}>{ct("back")}</Button>
+      <p className="text-status-error font-bold mb-4">{error || t("not_found")}</p>
+      <Link
+        href="/"
+        className="inline-flex items-center justify-center gap-2 bg-brand-primary text-black rounded-md font-black uppercase tracking-widest px-5 py-3 text-xs hover:opacity-90 transition-all"
+      >
+        {ct("back")}
+      </Link>
     </div>
   );
 
@@ -155,7 +161,7 @@ function WorkoutRunnerContent({ studentId: _studentId, workoutId: _workoutId }: 
       <ConfirmationModal
         isOpen={showExitModal}
         onClose={() => setShowExitModal(false)}
-        onConfirm={() => router.back()}
+        onConfirm={handleExitConfirmed}
         title={t("exit_confirm_title")}
         message={t("exit_confirm_msg")}
         confirmText={ct("exit")}

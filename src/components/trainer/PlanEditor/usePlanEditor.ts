@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { navigateBackAndRefresh } from "@/lib/utils/navigation";
 import { Result } from "@/lib/types/common.types";
 import { ExerciseMaster, WorkoutInput, UsePlanEditorReturn } from "./PlanEditor.types";
 
@@ -226,7 +225,7 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
         if (exError) throw exError;
       }
 
-      navigateBackAndRefresh(router);
+      router.push("/");
       return { data: undefined, error: null };
     } catch (err: unknown) {
       console.error("Error saving plan:", err);

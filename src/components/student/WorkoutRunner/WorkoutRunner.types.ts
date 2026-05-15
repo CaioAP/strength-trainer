@@ -1,5 +1,3 @@
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-
 export interface ExerciseMaster {
   name: string;
   name_pt?: string | null;
@@ -61,8 +59,8 @@ export interface UseWorkoutRunnerReturn {
   seconds: number;
   completedCount: number;
   handleSafeBack: () => void;
+  handleExitConfirmed: () => void;
   toggleExercise: (id: string) => void;
   updateExerciseParam: (id: string, param: keyof ExtendedPlanExercise, val: number) => void;
   handleFinish: () => Promise<{ data: void | null; error: Error | null }>;
-  router: AppRouterInstance;
 }

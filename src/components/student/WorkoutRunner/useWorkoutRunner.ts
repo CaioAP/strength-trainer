@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { navigateBackAndRefresh } from "@/lib/utils/navigation";
 import { Result } from "@/lib/types/common.types";
 import { Workout, ExtendedPlanExercise, UseWorkoutRunnerReturn, ExerciseMaster } from "./WorkoutRunner.types";
 
@@ -42,8 +41,12 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
 
   const handleSafeBack = useCallback((): void => {
     if (isDirty) setShowExitModal(true);
-    else router.back();
+    else router.push("/");
   }, [isDirty, router]);
+
+  const handleExitConfirmed = useCallback((): void => {
+    router.push("/");
+  }, [router]);
 
   useEffect((): (() => void) => {
     const interval = setInterval((): void => setSeconds((s: number): number => s + 1), 1000);
@@ -166,7 +169,7 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
         if (modError) throw modError;
       }
 
-      navigateBackAndRefresh(router);
+      router.push("/");
       return { data: undefined, error: null };
     } catch (err: unknown) {
       console.error("Error finishing workout:", err);
@@ -192,9 +195,9 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
     seconds,
     completedCount,
     handleSafeBack,
+    handleExitConfirmed,
     toggleExercise,
     updateExerciseParam,
     handleFinish,
-    router,
   };
 };
