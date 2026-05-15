@@ -20,6 +20,10 @@ npm run migrate      # Run DB migrations via scripts/migrate.ts
 
 Validation before finishing any task: `npm run lint && npm run typecheck && npm run test`.
 
+### Planning Docs
+
+Every non-trivial implementation requires three files in a numbered `docs/` subfolder **before** code is written — see AGENTS.md Planning & Docs section. Current plan: [docs/001-refactor-architecture/](docs/001-refactor-architecture/).
+
 ---
 
 ## Architecture
@@ -50,7 +54,7 @@ useComponentName.ts        # Client hook — all business logic
 ComponentName.types.ts     # Shared interfaces for the above
 ```
 
-All reusable primitives (buttons, inputs, cards, dialogs, etc.) live in `src/ui/` — never duplicate them in feature folders.
+All reusable primitives (buttons, inputs, cards, dialogs, etc.) live in `src/components/ui/` — never duplicate them in feature folders.
 
 Server actions live in `src/app/actions/`. Each action uses the Result pattern (from `src/lib/types/common.types.ts`), verifies role via `assertRole()`, and calls `revalidatePath()` after mutation.
 

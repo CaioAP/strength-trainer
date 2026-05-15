@@ -30,6 +30,7 @@ This document serves as the primary source of truth for all AI agents working on
 - **Unit Testing**: Always write unit tests for business logic (domain + application layers) and all shared UI components. Run `npm run test` before finishing any task. Iterate until all tests pass.
 - **Typechecking**: Always run `tsc` after finishing a feature and iterate until zero errors.
 - **Composition**: Prefer composition over inheritance. If a component is complex, break it down.
+- **Plan → Tasks → Changelog**: Every non-trivial implementation prompt requires three documents before code is written (see Planning & Docs section below).
 
 ---
 
@@ -42,7 +43,7 @@ src/
   domain/          # Pure business logic — no framework deps
   application/     # Use cases, orchestrate domain via interfaces
   infrastructure/  # Adapters: Supabase, Dexie, HTTP (implements domain interfaces)
-  ui/              # Reusable UI primitives (see Shared UI Components below)
+  components/ui/   # Reusable UI primitives (see Shared UI Components below)
   app/             # Next.js routes, server actions (composition root)
   lib/             # Shared utilities, types, DI wiring
 ```
@@ -70,10 +71,10 @@ src/
 
 ## Shared UI Components
 
-- **All reusable primitives live in `src/ui/`** — Input, Button, Card, Dialog, Panel, Toggle, Loading, Badge, Avatar, etc.
-- Never duplicate a primitive. Always import from `src/ui/` before creating a new one.
+- **All reusable primitives live in `src/components/ui/`** — Input, Button, Card, Dialog, Panel, Toggle, Loading, Badge, Avatar, etc.
+- Never duplicate a primitive. Always import from `src/components/ui/` before creating a new one.
 - Each primitive follows the three-file pattern (`Component.tsx`, `useComponent.ts` if needed, `Component.types.ts`).
-- Feature-specific components stay in their feature folder and may import from `src/ui/`.
+- Feature-specific components stay in their feature folder and may import from `src/components/ui/`.
 
 ---
 
@@ -102,10 +103,31 @@ src/
 ## Testing
 
 - **Stack**: Vitest + React Testing Library + `@testing-library/user-event` + `jsdom`.
-- **Scope**: Unit-test all domain entities, use cases, and shared `src/ui/` components. Integration-test server actions against mock adapters.
+- **Scope**: Unit-test all domain entities, use cases, and shared `src/components/ui/` components. Integration-test server actions against mock adapters.
 - **Test file location**: co-located with source as `*.test.ts` / `*.test.tsx`.
 - **Mocking boundary**: mock infrastructure adapters (Supabase, Dexie) — never mock domain or application code.
 - **Commands**: `npm run test` (single run), `npm run test:watch` (watch mode).
+
+---
+
+## Planning & Docs
+
+Every non-trivial implementation prompt (feature, refactor, bugfix, architecture change) **must** produce three documents inside a numbered folder under `docs/` **before any code is written**:
+
+```
+docs/
+  NNN-short-title/       # e.g. 001-refactor-architecture, 002-add-auth
+    PLAN.md              # Context, approach, phases, files modified, verification steps
+    TASKS.md             # Checkbox list — one item per discrete action, mark [x] when done
+    CHANGELOG.md         # [task-id] type(scope): description — one entry per completed task
+```
+
+Rules:
+- **Folder**: zero-padded 3-digit counter + kebab-case title. Increment from the highest existing number.
+- **PLAN.md**: links to sibling TASKS.md and CHANGELOG.md. No tasks/changelog content inside.
+- **TASKS.md**: checkboxes grouped by phase. Mark `[x]` immediately when task completes. Never batch.
+- **CHANGELOG.md**: format `[task-id] type(scope): description`. Types: `feat`, `fix`, `refactor`, `test`, `chore`, `a11y`. Add entry when task is marked done.
+- Always enter plan mode, write all three files, get approval, then implement.
 
 ---
 
