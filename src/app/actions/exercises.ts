@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Result } from "@/lib/types/common.types";
-import type { Exercise, CreateExerciseInput } from "@/domain/entities/Exercise";
+import type { Exercise } from "@/domain/entities/Exercise";
 import type { MuscleGroup } from "@/components/admin/AdminDashboard.types";
 import { SupabaseExerciseRepository } from "@/infrastructure/supabase/SupabaseExerciseRepository";
 import { GetExercises } from "@/application/useCases/exercises/GetExercises";
@@ -77,4 +77,3 @@ export async function deleteExercise(id: string): Promise<Result<void>> {
   return result;
 }
 
-export type { SaveExerciseInput, CreateExerciseInput };

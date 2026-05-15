@@ -41,7 +41,7 @@ export const VideoUpload = ({
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > 20 * 1024 * 1024) {
       setError(t("size_exceeded"));
       return;
     }
@@ -132,7 +132,7 @@ export const VideoUpload = ({
             </div>
             <div className="text-center">
               <Text weight="bold" size="sm">Click to upload MP4</Text>
-              <Text size="xs" variant="subtle">Tutorial video (Max 10MB)</Text>
+              <Text size="xs" variant="subtle">Tutorial video (Max 20MB)</Text>
             </div>
           </button>
         )}

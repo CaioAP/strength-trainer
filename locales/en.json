@@ -24,7 +24,7 @@
     "exit": "Exit",
     "VideoUpload": {
       "invalid_format": "Please select an MP4 video file.",
-      "size_exceeded": "Video must be under 10MB.",
+      "size_exceeded": "Video must be under 20MB.",
       "upload_failed": "Failed to upload video. Ensure bucket is public."
     }
   },

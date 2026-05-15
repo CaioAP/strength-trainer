@@ -115,7 +115,7 @@ export default function ExercisesTab({
           {filteredExercises.map((ex) => {
             const { displayName, displayDescription } = getLocalizedExercise(ex, locale);
             return (
-              <Link key={ex.id} href={`/admin/exercises/edit/${ex.id}`}>
+              <Link key={ex.id} href={`/admin/exercises/edit/${ex.id}`} className="block min-w-0">
                 <Card 
                   variant="interactive"
                   padding="none"
@@ -168,7 +168,7 @@ export default function ExercisesTab({
                           onDelete(ex.id);
                         }}
                         disabled={actionLoading}
-                        className="text-status-error hover:bg-status-error/10 opacity-0 group-hover:opacity-100 focus:opacity-100"
+                        className="text-status-error hover:bg-status-error/10"
                         title={ct("delete")}
                       >
                         <Trash2 className="w-4 h-4" />

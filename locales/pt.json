@@ -25,7 +25,7 @@
     "exit": "Sair",
     "VideoUpload": {
       "invalid_format": "Por favor, selecione um arquivo de vídeo MP4.",
-      "size_exceeded": "O vídeo deve ter menos de 10MB.",
+      "size_exceeded": "O vídeo deve ter menos de 20MB.",
       "upload_failed": "Falha ao enviar vídeo. Verifique se o bucket é público."
     }
   },
