@@ -2,9 +2,13 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import { MuscleGroup, NewExercise } from "../AdminDashboard.types";
 import { UseExerciseEditorReturn } from "./ExerciseEditor.types";
+import {
+  getExercise,
+  getMuscleGroups,
+  saveExercise,
+} from "@/app/actions/exercises";
 
 const INITIAL_FORM: NewExercise = { name: "", muscle_group: "", description: "" };
 
@@ -16,43 +20,31 @@ export const useExerciseEditor = (exerciseId?: string): UseExerciseEditorReturn 
   const [form, setForm] = useState<NewExercise>(INITIAL_FORM);
   const initialized = useRef(false);
 
-  const supabase = createClient();
   const router = useRouter();
   const isEditing = !!exerciseId;
 
   const init = useCallback(async (): Promise<void> => {
-    try {
-      const [groupsRes] = await Promise.all([
-        supabase.from("muscle_groups").select("*").order("name"),
-      ]);
-      
-      if (groupsRes.data) setMuscleGroups(groupsRes.data as MuscleGroup[]);
+    const groupsResult = await getMuscleGroups();
+    if (groupsResult.data) setMuscleGroups(groupsResult.data);
 
-      if (exerciseId) {
-        const { data, error: fetchError } = await supabase
-          .from("exercise_master")
-          .select("*")
-          .eq("id", exerciseId)
-          .single();
-
-        if (fetchError) throw fetchError;
-        if (data) {
-          setForm({
-            name: data.name,
-            name_pt: data.name_pt || undefined,
-            muscle_group: data.muscle_group,
-            description: data.description || "",
-            media_url: data.media_url || undefined,
-          });
-        }
+    if (exerciseId) {
+      const exerciseResult = await getExercise(exerciseId);
+      if (exerciseResult.error) {
+        setError("Failed to load exercise data.");
+      } else if (exerciseResult.data) {
+        const ex = exerciseResult.data;
+        setForm({
+          name: ex.name,
+          name_pt: ex.name_pt ?? undefined,
+          muscle_group: ex.muscle_group,
+          description: ex.description ?? "",
+          media_url: ex.media_url ?? undefined,
+        });
       }
-    } catch (err: unknown) {
-      console.error("Failed to load exercise editor data:", err);
-      setError("Failed to load exercise data.");
-    } finally {
-      setLoading(false);
     }
-  }, [supabase, exerciseId]);
+
+    setLoading(false);
+  }, [exerciseId]);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -67,32 +59,17 @@ export const useExerciseEditor = (exerciseId?: string): UseExerciseEditorReturn 
     }
 
     setActionLoading(true);
-    try {
-      if (isEditing) {
-        const { error: updateError } = await supabase
-          .from("exercise_master")
-          .update(form)
-          .eq("id", exerciseId);
-        if (updateError) throw updateError;
-      } else {
-        const { error: insertError } = await supabase
-          .from("exercise_master")
-          .insert([form]);
-        if (insertError) throw insertError;
-      }
-      
-      router.back();
-      return { error: null };
-    } catch (err: unknown) {
-      console.error("Save failed:", err);
-      return { error: err as Error };
-    } finally {
-      setActionLoading(false);
-    }
+    const result = await saveExercise({ id: exerciseId, data: form });
+    setActionLoading(false);
+
+    if (result.error) return { error: result.error };
+
+    router.back();
+    return { error: null };
   };
 
   return {
-    exercises: [], // Not needed in editor
+    exercises: [],
     muscleGroups,
     loading,
     actionLoading,
