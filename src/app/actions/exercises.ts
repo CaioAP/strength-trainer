@@ -3,13 +3,13 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { Result } from "@/lib/types/common.types";
-import { Exercise, CreateExerciseInput } from "@/domain/entities/Exercise";
-import { MuscleGroup } from "@/components/admin/AdminDashboard.types";
+import type { Result } from "@/lib/types/common.types";
+import type { Exercise, CreateExerciseInput } from "@/domain/entities/Exercise";
+import type { MuscleGroup } from "@/components/admin/AdminDashboard.types";
 import { SupabaseExerciseRepository } from "@/infrastructure/supabase/SupabaseExerciseRepository";
 import { GetExercises } from "@/application/useCases/exercises/GetExercises";
 import { GetExercise } from "@/application/useCases/exercises/GetExercise";
-import { SaveExercise, SaveExerciseInput } from "@/application/useCases/exercises/SaveExercise";
+import { SaveExercise, type SaveExerciseInput } from "@/application/useCases/exercises/SaveExercise";
 import { DeleteExercise } from "@/application/useCases/exercises/DeleteExercise";
 
 async function assertAdminRole(supabase: SupabaseClient): Promise<Result<string>> {

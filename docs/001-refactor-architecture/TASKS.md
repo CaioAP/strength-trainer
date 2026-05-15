@@ -84,7 +84,7 @@
 - [x] V.1 `npm run lint` — 0 errors, 0 warnings
 - [x] V.2 `npm run typecheck` — 0 errors
 - [x] V.3 `npm run test` — all tests pass (26/26)
-- [ ] V.4 `npm run build` — all 29 pages build clean
+- [x] V.4 `npm run build` — all 29 pages build clean
 - [ ] V.5 Manual: open `/settings/email` directly → back returns to `/`
 - [ ] V.6 Manual: open workout session → exit → back returns to home
 - [ ] V.7 Manual: Tab through `ConfirmationModal` → focus trapped

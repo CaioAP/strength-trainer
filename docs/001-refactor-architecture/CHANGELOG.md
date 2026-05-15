@@ -69,3 +69,10 @@
 - `[6.4]` refactor(ui): use t() for all 3 validation/error strings in VideoUpload.tsx
 - `[6.5]` refactor(workout): use t('not_found') for error fallback in WorkoutRunner.tsx
 - `[6.6]` refactor(settings): use t('version') for version string in SettingsModal.tsx
+
+### Verification
+
+- `[V.1]` chore(verify): npm run lint — 0 errors, 0 warnings
+- `[V.2]` chore(verify): npm run typecheck — 0 errors
+- `[V.3]` chore(verify): npm run test — 26/26 pass
+- `[V.4]` fix(actions): use `import type` for type-only imports in exercises.ts to fix Turbopack build; npm run build — 29/29 pages clean
