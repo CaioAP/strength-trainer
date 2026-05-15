@@ -40,7 +40,7 @@ export const VideoPlayer = ({
   };
 
   return (
-    <div className={`relative bg-black rounded-lg overflow-hidden group aspect-video flex items-center justify-center ${className}`}>
+    <div className={`relative bg-black overflow-hidden group h-full w-full flex items-center justify-center ${className}`}>
       {error ? (
         <div className="text-center p-4">
           <p className="text-status-error text-xs font-bold uppercase tracking-widest">Failed to load video</p>
