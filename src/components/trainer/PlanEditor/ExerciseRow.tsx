@@ -87,7 +87,7 @@ export const ExerciseRow = ({
         variant="plain"
         size="none"
         onClick={onRemove}
-        className="absolute -top-2 -right-2 bg-brand-surface p-1.5 rounded-full text-status-error shadow-card hover:bg-status-error hover:text-white scale-0 group-hover/ex:scale-100 z-10 transition-transform"
+        className="absolute -top-2 -right-2 bg-brand-surface p-1.5 rounded-full text-status-error shadow-card hover:bg-status-error hover:text-white z-10"
       >
         <Trash2 className="w-3.5 h-3.5" />
       </Button>

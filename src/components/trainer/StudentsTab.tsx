@@ -50,15 +50,12 @@ export default function StudentsTab({
         />
 
         <div className="grid gap-3">
-          {filteredStudents.map((student) => (
-            <Link
-              key={student.id}
-              href={`/trainer/student/${student.id}`}
-              className="block group w-full min-w-0"
-            >
-              <Card 
-                variant="interactive" 
-                padding="sm" 
+          {filteredStudents.map((student) => {
+            const isActive = student.status === "active";
+            const cardContent = (
+              <Card
+                variant={isActive ? "interactive" : "default"}
+                padding="sm"
                 className="flex items-center justify-between w-full min-w-0"
               >
                 <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -66,7 +63,7 @@ export default function StudentsTab({
                     {student.profiles?.full_name?.split(" ").map((n) => n[0]).join("") || "?"}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <Text weight="bold" className="group-hover:text-brand-primary transition-colors truncate">
+                    <Text weight="bold" className={isActive ? "group-hover:text-brand-primary transition-colors truncate" : "truncate opacity-60"}>
                       {student.profiles?.full_name || t("pending_name")}
                     </Text>
                     <Text size="xs" variant="subtle" className="lowercase truncate">
@@ -76,17 +73,33 @@ export default function StudentsTab({
                 </div>
                 <div className="flex items-center gap-2 shrink-0 ml-4">
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-widest border ${
-                    student.status === "active"
+                    isActive
                       ? "bg-brand-primary/10 text-brand-primary border-brand-primary/20"
                       : "bg-status-warning/10 text-status-warning border-status-warning/20"
                   }`}>
                     {student.status}
                   </span>
-                  <ChevronRight className="w-4 h-4 text-text-subtle group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+                  {isActive && (
+                    <ChevronRight className="w-4 h-4 text-text-subtle group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
+                  )}
                 </div>
               </Card>
-            </Link>
-          ))}
+            );
+
+            return isActive ? (
+              <Link
+                key={student.id}
+                href={`/trainer/student/${student.id}`}
+                className="block group w-full min-w-0"
+              >
+                {cardContent}
+              </Link>
+            ) : (
+              <div key={student.id} className="w-full min-w-0">
+                {cardContent}
+              </div>
+            );
+          })}
           {filteredStudents.length === 0 && <EmptyState message={t("no_students")} />}
         </div>
       </div>

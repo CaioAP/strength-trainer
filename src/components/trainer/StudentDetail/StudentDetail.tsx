@@ -3,7 +3,7 @@
 import React from "react";
 import {
   ChevronLeft, Activity,
-  Dumbbell, Plus, FileText, ChevronRight,
+  Dumbbell, FileText, ChevronRight,
   BarChart3, Clock, CheckCircle2,
   Trash2,
 } from "lucide-react";
@@ -150,8 +150,8 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
                   href={`/trainer/plan/new?student_id=${studentId}`}
                   className="flex-1"
                 >
-                  <Button variant="primary" fullWidth className="gap-2">
-                    <Plus className="w-3.5 h-3.5" /> {t("custom_plan")}
+                  <Button variant="primary" fullWidth>
+                    {t("custom_plan")}
                   </Button>
                 </Link>
               </div>
