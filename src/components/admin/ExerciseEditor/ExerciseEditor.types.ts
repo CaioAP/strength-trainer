@@ -11,8 +11,10 @@ export interface UseExerciseEditorReturn {
   actionLoading: boolean;
   error: string | null;
   setError: (err: string | null) => void;
+  success: string | null;
   form: NewExercise;
   setForm: (form: NewExercise) => void;
+  setPendingVideoFile: (file: File | null) => void;
   handleSave: () => Promise<{ error: Error | null }>;
   isEditing: boolean;
 }

@@ -1,41 +1,33 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { Upload, X, CheckCircle2, Loader2 } from "lucide-react";
+import { Upload, X, CheckCircle2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "./Button";
 import { Text } from "./Text";
 
 interface VideoUploadProps {
-  onUploadSuccess: (url: string) => void;
+  onFileSelected: (file: File | null) => void;
   currentUrl?: string | null;
   label?: string;
   disabled?: boolean;
 }
 
-/**
- * Integrated Video Upload component for exercise tutorials.
- * Handles file selection, Supabase Storage upload, and preview.
- */
 export const VideoUpload = ({
-  onUploadSuccess,
+  onFileSelected,
   currentUrl,
   label,
   disabled = false,
 }: VideoUploadProps): React.JSX.Element => {
   const t = useTranslations("Common.VideoUpload");
-  const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentUrl || null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const supabase = createClient();
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Basic validation
     if (!file.type.startsWith("video/mp4")) {
       setError(t("invalid_format"));
       return;
@@ -47,36 +39,17 @@ export const VideoUpload = ({
     }
 
     setError(null);
-    setUploading(true);
-
-    try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Math.random().toString(36).slice(2)}_${Date.now()}.${fileExt}`;
-      const filePath = `tutorials/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("exercise-tutorials")
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from("exercise-tutorials")
-        .getPublicUrl(filePath);
-
-      setPreviewUrl(publicUrl);
-      onUploadSuccess(publicUrl);
-    } catch (err: unknown) {
-      console.error("Upload failed:", err);
-      setError(t("upload_failed"));
-    } finally {
-      setUploading(false);
-    }
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+    onFileSelected(file);
   };
 
   const removeVideo = (): void => {
+    if (previewUrl && previewUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(previewUrl);
+    }
     setPreviewUrl(null);
-    onUploadSuccess("");
+    onFileSelected(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -91,12 +64,7 @@ export const VideoUpload = ({
       <div className={`relative border-2 border-dashed rounded-xl transition-all ${
         previewUrl ? "border-brand-primary/30 bg-brand-primary/5" : "border-white/10 bg-brand-secondary/30 hover:border-brand-primary/40"
       }`}>
-        {uploading ? (
-          <div className="p-8 flex flex-col items-center justify-center gap-3">
-            <Loader2 className="w-8 h-8 text-brand-primary animate-spin" />
-            <Text size="xs" weight="bold" uppercase tracking="widest">Uploading...</Text>
-          </div>
-        ) : previewUrl ? (
+        {previewUrl ? (
           <div className="p-2 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
@@ -143,7 +111,7 @@ export const VideoUpload = ({
           accept="video/mp4"
           onChange={handleFileChange}
           className="hidden"
-          disabled={disabled || uploading}
+          disabled={disabled}
         />
       </div>
 

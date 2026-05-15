@@ -24,8 +24,10 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
     loading,
     actionLoading,
     error,
+    success,
     form,
     setForm,
+    setPendingVideoFile,
     handleSave,
     isEditing,
   } = useExerciseEditor(exerciseId);
@@ -85,7 +87,10 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
               <VideoUpload
                 label={t("tutorial_url_label")}
                 currentUrl={form.media_url}
-                onUploadSuccess={(url) => setForm({ ...form, media_url: url })}
+                onFileSelected={(file) => {
+                  setPendingVideoFile(file);
+                  if (!file) setForm({ ...form, media_url: undefined });
+                }}
                 disabled={actionLoading}
               />
 
@@ -117,6 +122,12 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
         {error && (
           <div className="mb-12 p-4 bg-status-error/10 rounded-lg animate-in fade-in slide-in-from-bottom-2 shadow-card text-center">
             <p className="text-status-error text-xs font-bold uppercase tracking-widest">{error}</p>
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-12 p-4 bg-status-success/10 rounded-lg animate-in fade-in slide-in-from-bottom-2 shadow-card text-center">
+            <p className="text-status-success text-xs font-bold uppercase tracking-widest">{success}</p>
           </div>
         )}
       </div>
