@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { Upload, X, CheckCircle2, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "./Button";
 import { Text } from "./Text";
@@ -23,6 +24,7 @@ export const VideoUpload = ({
   label,
   disabled = false,
 }: VideoUploadProps): React.JSX.Element => {
+  const t = useTranslations("Common.VideoUpload");
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentUrl || null);
   const [error, setError] = useState<string | null>(null);
@@ -35,12 +37,12 @@ export const VideoUpload = ({
 
     // Basic validation
     if (!file.type.startsWith("video/mp4")) {
-      setError("Please select an MP4 video file.");
+      setError(t("invalid_format"));
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) { // 10MB limit for tutorials
-      setError("Video must be under 10MB.");
+    if (file.size > 10 * 1024 * 1024) {
+      setError(t("size_exceeded"));
       return;
     }
 
@@ -66,7 +68,7 @@ export const VideoUpload = ({
       onUploadSuccess(publicUrl);
     } catch (err: unknown) {
       console.error("Upload failed:", err);
-      setError("Failed to upload video. Ensure bucket is public.");
+      setError(t("upload_failed"));
     } finally {
       setUploading(false);
     }

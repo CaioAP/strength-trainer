@@ -20,7 +20,14 @@
     "no_templates_found": "Nenhum modelo encontrado",
     "no_exercises_found": "Nenhum exercício encontrado",
     "confirm": "Confirmar",
-    "description": "Descrição"
+    "description": "Descrição",
+    "back": "Voltar",
+    "exit": "Sair",
+    "VideoUpload": {
+      "invalid_format": "Por favor, selecione um arquivo de vídeo MP4.",
+      "size_exceeded": "O vídeo deve ter menos de 10MB.",
+      "upload_failed": "Falha ao enviar vídeo. Verifique se o bucket é público."
+    }
   },
   "Auth": {
     "Login": {
@@ -105,6 +112,20 @@
       "effort": "Esforço",
       "incomplete": "Incompleto",
       "no_sessions": "Nenhuma sessão registrada ainda."
+    },
+    "WorkoutRunner": {
+      "not_found": "Treino não encontrado",
+      "preparing_session": "Preparando sessão...",
+      "exercises_done": "exercícios feitos",
+      "finish_workout": "Finalizar Treino",
+      "finish_confirm_title": "Finalizar Treino?",
+      "finish_confirm_msg": "Ótimo trabalho! Salve esta sessão no seu histórico.",
+      "finish_button": "Salvar Sessão",
+      "rate_effort": "Avalie seu esforço",
+      "easy": "Fácil",
+      "max_effort": "Esforço Máximo",
+      "exit_confirm_title": "Sair do Treino?",
+      "exit_confirm_msg": "Seu progresso será perdido se você sair agora."
     }
   },
   "Session": {
@@ -167,8 +188,8 @@
       "error_load_failed": "Falha ao carregar dados do plano.",
       "error_save_failed": "Falha ao salvar o plano. Por favor, tente novamente.",
       "loading_library": "Carregando Biblioteca..."
-      },
-      "StudentDetail": {
+    },
+    "StudentDetail": {
       "analyzing_stats": "Analisando estatísticas...",
       "compliance": "Adesão",
       "sessions_done": "Sessões concluídas",
@@ -186,53 +207,52 @@
       "no_activity": "Nenhuma atividade registrada.",
       "remove_plan_title": "Remover Plano",
       "remove_plan_message": "Tem certeza que deseja remover o plano \"{name}\"? Esta ação não pode ser desfeita."
-      }
-      },
-      "Settings": {
-      "title": "Configurações",
-      "account_profile": "Perfil da Conta",
-      "email_preferences": "Preferências de E-mail",
-      "security_privacy": "Segurança e Privacidade",
-      "account_info": "Informações da Conta",
-      "access_role": "Função de Acesso",
-      "account_id": "ID da Conta",
-      "language": "Idioma",
-      "languages": {
-        "en": "Inglês",
-        "pt": "Português"
-      },
-      "support": "Suporte",
-      "help_center": "Central de Ajuda",
-      "report_bug": "Relatar um Erro",
-      "privacy_policy": "Política de Privacidade",
-      "logout": "Sair",
-      "redirecting": "Redirecionando..."
-      },
-      "MuscleGroups": {
-        "Abdominals": "Abdominais",
-        "Abductors": "Abdutores",
-        "Adductors": "Adutores",
-        "Biceps": "Bíceps",
-        "Calves": "Panturrilhas",
-        "Chest": "Peitoral",
-        "Forearms": "Antebraços",
-        "Glutes": "Glúteos",
-        "Hamstrings": "Isquiotibiais",
-        "Lats": "Dorsais",
-        "Lower Back": "Lombar",
-        "Middle Back": "Meio das Costas",
-        "Neck": "Pescoço",
-        "Quadriceps": "Quadríceps",
-        "Traps": "Trapézio",
-        "Triceps": "Tríceps",
-        "Back": "Costas",
-        "Shoulders": "Ombros",
-        "Core": "Core",
-        "Full Body": "Corpo Inteiro",
-        "Legs": "Pernas",
-        "Quads": "Quadríceps"
-      }
-      }
-s"
-      }
-      }
+    }
+  },
+  "Settings": {
+    "title": "Configurações",
+    "account_profile": "Perfil da Conta",
+    "email_preferences": "Preferências de E-mail",
+    "security_privacy": "Segurança e Privacidade",
+    "account_info": "Informações da Conta",
+    "access_role": "Função de Acesso",
+    "account_id": "ID da Conta",
+    "language": "Idioma",
+    "languages": {
+      "en": "Inglês",
+      "pt": "Português"
+    },
+    "support": "Suporte",
+    "help_center": "Central de Ajuda",
+    "report_bug": "Relatar um Erro",
+    "privacy_policy": "Política de Privacidade",
+    "logout": "Sair",
+    "redirecting": "Redirecionando...",
+    "close": "Fechar",
+    "version": "Strength v1.0.0"
+  },
+  "MuscleGroups": {
+    "Abdominals": "Abdominais",
+    "Abductors": "Abdutores",
+    "Adductors": "Adutores",
+    "Biceps": "Bíceps",
+    "Calves": "Panturrilhas",
+    "Chest": "Peitoral",
+    "Forearms": "Antebraços",
+    "Glutes": "Glúteos",
+    "Hamstrings": "Isquiotibiais",
+    "Lats": "Dorsais",
+    "Lower Back": "Lombar",
+    "Middle Back": "Meio das Costas",
+    "Neck": "Pescoço",
+    "Quadriceps": "Quadríceps",
+    "Traps": "Trapézio",
+    "Triceps": "Tríceps",
+    "Back": "Costas",
+    "Shoulders": "Ombros",
+    "Core": "Core",
+    "Full Body": "Corpo Inteiro",
+    "Legs": "Pernas",
+    "Quads": "Quadríceps"
+  }
+}

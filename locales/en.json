@@ -19,7 +19,14 @@
     "standard_template": "Standard template",
     "no_templates_found": "No templates found",
     "no_exercises_found": "No exercises found",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "back": "Back",
+    "exit": "Exit",
+    "VideoUpload": {
+      "invalid_format": "Please select an MP4 video file.",
+      "size_exceeded": "Video must be under 10MB.",
+      "upload_failed": "Failed to upload video. Ensure bucket is public."
+    }
   },
   "Auth": {
     "Login": {
@@ -104,6 +111,20 @@
       "effort": "Effort",
       "incomplete": "Incomplete",
       "no_sessions": "No sessions logged yet."
+    },
+    "WorkoutRunner": {
+      "not_found": "Workout not found",
+      "preparing_session": "Preparing session...",
+      "exercises_done": "exercises done",
+      "finish_workout": "Finish Workout",
+      "finish_confirm_title": "Finish Workout?",
+      "finish_confirm_msg": "Great work! Save this session to your history.",
+      "finish_button": "Save Session",
+      "rate_effort": "Rate your effort",
+      "easy": "Easy",
+      "max_effort": "Max Effort",
+      "exit_confirm_title": "Exit Workout?",
+      "exit_confirm_msg": "Your progress will be lost if you exit now."
     }
   },
   "Session": {
@@ -166,8 +187,8 @@
       "error_load_failed": "Failed to load plan data.",
       "error_save_failed": "Failed to save plan. Please try again.",
       "loading_library": "Loading Library..."
-      },
-      "StudentDetail": {
+    },
+    "StudentDetail": {
       "analyzing_stats": "Analyzing stats...",
       "compliance": "Compliance",
       "sessions_done": "Sessions done",
@@ -185,50 +206,52 @@
       "no_activity": "No activity recorded.",
       "remove_plan_title": "Remove Plan",
       "remove_plan_message": "Are you sure you want to remove the plan \"{name}\"? This action cannot be undone."
-      }
-      },
-      "Settings": {
-      "title": "Settings",
-      "account_profile": "Account Profile",
-      "email_preferences": "Email Preferences",
-      "security_privacy": "Security & Privacy",
-      "account_info": "Account Info",
-      "access_role": "Access Role",
-      "account_id": "Account ID",
-      "language": "Language",
-      "languages": {
-        "en": "English",
-        "pt": "Portuguese"
-      },
-      "support": "Support",
-      "help_center": "Help Center",
-      "report_bug": "Report a Bug",
-      "privacy_policy": "Privacy Policy",
-      "logout": "Log Out",
-      "redirecting": "Redirecting..."
-      },
-      "MuscleGroups": {
-        "Abdominals": "Abdominals",
-        "Abductors": "Abductors",
-        "Adductors": "Adductors",
-        "Biceps": "Biceps",
-        "Calves": "Calves",
-        "Chest": "Chest",
-        "Forearms": "Forearms",
-        "Glutes": "Glutes",
-        "Hamstrings": "Hamstrings",
-        "Lats": "Lats",
-        "Lower Back": "Lower Back",
-        "Middle Back": "Middle Back",
-        "Neck": "Neck",
-        "Quadriceps": "Quadriceps",
-        "Traps": "Traps",
-        "Triceps": "Triceps",
-        "Back": "Back",
-        "Shoulders": "Shoulders",
-        "Core": "Core",
-        "Full Body": "Full Body",
-        "Legs": "Legs",
-        "Quads": "Quads"
-      }
-      }
+    }
+  },
+  "Settings": {
+    "title": "Settings",
+    "account_profile": "Account Profile",
+    "email_preferences": "Email Preferences",
+    "security_privacy": "Security & Privacy",
+    "account_info": "Account Info",
+    "access_role": "Access Role",
+    "account_id": "Account ID",
+    "language": "Language",
+    "languages": {
+      "en": "English",
+      "pt": "Portuguese"
+    },
+    "support": "Support",
+    "help_center": "Help Center",
+    "report_bug": "Report a Bug",
+    "privacy_policy": "Privacy Policy",
+    "logout": "Log Out",
+    "redirecting": "Redirecting...",
+    "close": "Close",
+    "version": "Strength v1.0.0"
+  },
+  "MuscleGroups": {
+    "Abdominals": "Abdominals",
+    "Abductors": "Abductors",
+    "Adductors": "Adductors",
+    "Biceps": "Biceps",
+    "Calves": "Calves",
+    "Chest": "Chest",
+    "Forearms": "Forearms",
+    "Glutes": "Glutes",
+    "Hamstrings": "Hamstrings",
+    "Lats": "Lats",
+    "Lower Back": "Lower Back",
+    "Middle Back": "Middle Back",
+    "Neck": "Neck",
+    "Quadriceps": "Quadriceps",
+    "Traps": "Traps",
+    "Triceps": "Triceps",
+    "Back": "Back",
+    "Shoulders": "Shoulders",
+    "Core": "Core",
+    "Full Body": "Full Body",
+    "Legs": "Legs",
+    "Quads": "Quads"
+  }
+}
