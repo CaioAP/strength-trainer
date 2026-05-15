@@ -40,7 +40,6 @@ export const StudentDetail = ({ studentId }: StudentDetailProps): React.JSX.Elem
     handleAssignTemplate,
     avgRpe,
     completedSessions,
-    router,
   } = useStudentDetail(studentId);
 
   if (loading) return <LoadingScreen label={t("analyzing_stats")} />;

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ChevronLeft } from "lucide-react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -17,7 +17,6 @@ import { ExerciseEditorProps } from "./ExerciseEditor.types";
 export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.Element => {
   const t = useTranslations("Admin.Exercises");
   const ct = useTranslations("Common");
-  const locale = useLocale();
   const { translateMuscleGroup } = useMuscleGroupTranslation();
 
   const {

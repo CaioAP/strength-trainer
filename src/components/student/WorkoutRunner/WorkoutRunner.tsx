@@ -2,12 +2,10 @@ import React from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Play,
-  CheckCircle2,
   ChevronLeft,
 } from "lucide-react";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import SuspenseLoader from "@/components/ui/SuspenseLoader";
-import { DashboardHeader } from "@/components/ui/DashboardHeader";
 import { Button } from "@/components/ui/Button";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { ActiveExerciseCard } from "./ActiveExerciseCard";
@@ -102,7 +100,7 @@ function WorkoutRunnerContent({ studentId: _studentId, workoutId: _workoutId }: 
         ))}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-brand-secondary via-brand-secondary to-transparent">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-linear-to-t from-brand-secondary via-brand-secondary to-transparent">
         <Button
           variant="primary"
           fullWidth

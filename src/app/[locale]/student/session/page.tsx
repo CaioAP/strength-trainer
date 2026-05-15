@@ -6,9 +6,7 @@ interface SessionPageProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function SessionPage({ params }: SessionPageProps): Promise<React.JSX.Element> {
-  const { locale } = await params;
-
+export default async function SessionPage({ params: _params }: SessionPageProps): Promise<React.JSX.Element> {
   return (
     <Suspense fallback={<SuspenseLoader />}>
       <WorkoutRunner studentId="" workoutId="" />
