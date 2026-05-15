@@ -30,7 +30,7 @@ export const EmailPreferencesForm = (): React.JSX.Element => {
 
   return (
     <div className="flex-1 flex flex-col min-h-screen">
-      <SubPageHeader category="Settings" title="Email Preferences" rightContent={successIndicator} />
+      <SubPageHeader category="Settings" title="Email Preferences" rightContent={successIndicator} backHref="/" />
 
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
         <SettingsSection

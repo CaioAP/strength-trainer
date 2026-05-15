@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { validatePassword } from "@/lib/utils/validatePassword";
-
-interface UseChangePasswordFormReturn {
-  passwordData: { newPassword: string; confirmPassword: string };
-  setPasswordData: (data: { newPassword: string; confirmPassword: string }) => void;
-  saving: boolean;
-  status: { type: "success" | "error"; message: string } | null;
-  handleChangePassword: (e: React.FormEvent) => Promise<void>;
-}
+import { UseChangePasswordFormReturn } from "./Settings.types";
 
 export function useChangePasswordForm(): UseChangePasswordFormReturn {
   const [saving, setSaving] = useState(false);

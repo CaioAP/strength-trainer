@@ -27,7 +27,7 @@ export const HelpCenterView = (): React.JSX.Element => {
 
   return (
     <div className="flex-1 flex flex-col">
-      <SubPageHeader category="Support" title="Help Center" />
+      <SubPageHeader category="Support" title="Help Center" backHref="/" />
 
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
         <SettingsSection

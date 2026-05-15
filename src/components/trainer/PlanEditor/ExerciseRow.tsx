@@ -5,17 +5,7 @@ import NumberInput from "@/components/ui/NumberInput";
 import { Button } from "@/components/ui/Button";
 import { VideoModal } from "@/components/ui/VideoModal";
 import { getLocalizedExercise } from "@/lib/utils/exercise";
-import { PlanExerciseInput, ExerciseMaster } from "./PlanEditor.types";
-
-interface ExerciseRowProps {
-  exercise: PlanExerciseInput;
-  eIndex: number;
-  onRemove: () => void;
-  onUpdate: (field: keyof PlanExerciseInput, value: string | number) => void;
-  exercisesMaster: ExerciseMaster[];
-  t: (key: string, params?: Record<string, string | number>) => string;
-  locale: string;
-}
+import { ExerciseRowProps } from "./PlanEditor.types";
 
 export const ExerciseRow = ({
   exercise,

@@ -1,17 +1,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
-
-interface UseLoginFormReturn {
-  email: string;
-  setEmail: (email: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  loading: boolean;
-  error: string | null;
-  deletionScheduled: string | null;
-  handleLogin: (e: React.FormEvent) => Promise<void>;
-}
+import { UseLoginFormReturn } from "./Auth.types";
 
 export function useLoginForm(): UseLoginFormReturn {
   const [email, setEmail] = useState("");

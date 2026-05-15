@@ -4,23 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ExerciseRow } from "./ExerciseRow";
-import { WorkoutInput, PlanExerciseInput, ExerciseMaster } from "./PlanEditor.types";
-
-interface WorkoutSectionProps {
-  workout: WorkoutInput;
-  wIndex: number;
-  isExpanded: boolean;
-  onToggle: () => void;
-  onRemove: () => void;
-  onUpdateName: (name: string) => void;
-  onAddExercise: () => void;
-  onRemoveExercise: (eIndex: number) => void;
-  onUpdateExercise: (eIndex: number, field: keyof PlanExerciseInput, value: string | number) => void;
-  exercisesMaster: ExerciseMaster[];
-  showRemoveWorkout: boolean;
-  t: (key: string, params?: Record<string, string | number>) => string;
-  locale: string;
-}
+import { WorkoutSectionProps } from "./PlanEditor.types";
 
 export const WorkoutSection = ({
   workout,

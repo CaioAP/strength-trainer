@@ -3,19 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { SecuritySettings, UseSecuritySettingsReturn } from "./Settings.types";
 
-export interface SecuritySettings {
-  show_history_to_trainer: boolean;
-}
-
-export interface UseSecuritySettingsReturn {
-  loading: boolean;
-  saving: boolean;
-  success: boolean;
-  privacy: SecuritySettings;
-  handlePrivacyToggle: () => Promise<void>;
-  handleDeleteAccount: () => Promise<void>;
-}
+export type { SecuritySettings, UseSecuritySettingsReturn };
 
 export function useSecuritySettings(): UseSecuritySettingsReturn {
   const [loading, setLoading] = useState(true);

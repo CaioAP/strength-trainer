@@ -2,19 +2,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { validatePassword } from "@/lib/utils/validatePassword";
-
-interface UseSetPasswordFormReturn {
-  fullName: string;
-  setFullName: (name: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  confirmPassword: string;
-  setConfirmPassword: (confirmPassword: string) => void;
-  loading: boolean;
-  initializing: boolean;
-  error: string | null;
-  handleSetPassword: (e: React.FormEvent) => Promise<void>;
-}
+import { UseSetPasswordFormReturn } from "./Auth.types";
 
 export function useSetPasswordForm(): UseSetPasswordFormReturn {
   const [fullName, setFullName] = useState("");

@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-
-interface UseForgotPasswordFormReturn {
-  email: string;
-  setEmail: (email: string) => void;
-  loading: boolean;
-  success: boolean;
-  error: string | null;
-  handleResetRequest: (e: React.FormEvent) => Promise<void>;
-}
+import { UseForgotPasswordFormReturn } from "./Auth.types";
 
 export function useForgotPasswordForm(): UseForgotPasswordFormReturn {
   const [email, setEmail] = useState("");

@@ -3,22 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { EmailPreferences, UseEmailPreferencesReturn } from "./Settings.types";
 
-export interface EmailPreferences {
-  email_notifications: boolean;
-  marketing_emails: boolean;
-  session_reminders: boolean;
-  progress_reports: boolean;
-}
-
-export interface UseEmailPreferencesReturn {
-  loading: boolean;
-  saving: boolean;
-  success: boolean;
-  preferences: EmailPreferences;
-  handleToggle: (key: keyof EmailPreferences) => void;
-  handleSave: () => Promise<void>;
-}
+export type { EmailPreferences, UseEmailPreferencesReturn };
 
 export function useEmailPreferences(): UseEmailPreferencesReturn {
   const [loading, setLoading] = useState(true);

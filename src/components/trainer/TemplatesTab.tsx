@@ -5,12 +5,7 @@ import Link from "next/link";
 import EmptyState from "@/components/ui/EmptyState";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { WorkoutTemplate } from "./TrainerDashboard.types";
-
-interface TemplatesTabProps {
-  templates: WorkoutTemplate[];
-  onDelete: (id: string) => void;
-}
+import { TemplatesTabProps } from "./TemplatesTab.types";
 
 export default function TemplatesTab({
   templates,

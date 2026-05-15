@@ -3,16 +3,11 @@ import { useTranslations } from "next-intl";
 import { Activity, Dumbbell, Trophy } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
-import { ActivePlan } from "./StudentDashboard.types";
+import { WorkoutViewProps } from "./WorkoutView.types";
 
-interface WorkoutViewProps {
-  activePlan: ActivePlan | null;
-  hasWorkedOutOn: (dayIndex: number) => boolean;
-}
-
-export default function WorkoutView({ 
-  activePlan, 
-  hasWorkedOutOn 
+export default function WorkoutView({
+  activePlan,
+  hasWorkedOutOn
 }: WorkoutViewProps): React.JSX.Element {
   const t = useTranslations("Student.Workout");
 

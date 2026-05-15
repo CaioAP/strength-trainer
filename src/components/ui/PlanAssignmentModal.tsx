@@ -3,17 +3,9 @@
 import React, { useState } from "react";
 import { X, FileText, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { WorkoutTemplate } from "@/lib/types/common.types";
 import { Card } from "./Card";
 import { Button } from "./Button";
-
-interface PlanAssignmentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  templates: WorkoutTemplate[];
-  onAssign: (templateId: string) => void;
-  isLoading: boolean;
-}
+import { PlanAssignmentModalProps } from "./PlanAssignmentModal.types";
 
 export default function PlanAssignmentModal({
   isOpen,

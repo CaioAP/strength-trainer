@@ -33,7 +33,7 @@ export const SecurityPrivacyView = (): React.JSX.Element => {
 
   return (
     <div className="flex-1 flex flex-col">
-      <SubPageHeader category="Settings" title="Security & Privacy" rightContent={successIndicator} />
+      <SubPageHeader category="Settings" title="Security & Privacy" rightContent={successIndicator} backHref="/" />
 
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
         <SettingsSection

@@ -7,15 +7,7 @@ import SearchInput from "@/components/ui/SearchInput";
 import EmptyState from "@/components/ui/EmptyState";
 import { Card } from "@/components/ui/Card";
 import { Text } from "@/components/ui/Text";
-import { StudentListItem } from "./TrainerDashboard.types";
-
-interface StudentsTabProps {
-  students: StudentListItem[];
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  actionLoading: boolean;
-  onInvite: (email: string) => Promise<void>;
-}
+import { StudentsTabProps } from "./StudentsTab.types";
 
 export default function StudentsTab({
   students,

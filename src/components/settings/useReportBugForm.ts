@@ -1,17 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-
-interface UseReportBugFormReturn {
-  formData: { title: string; description: string; severity: string };
-  setSeverity: (severity: string) => void;
-  setTitle: (title: string) => void;
-  setDescription: (description: string) => void;
-  loading: boolean;
-  success: boolean;
-  error: string | null;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
-}
+import { UseReportBugFormReturn } from "./Settings.types";
 
 export function useReportBugForm(): UseReportBugFormReturn {
   const [formData, setFormData] = useState({ title: "", description: "", severity: "medium" });

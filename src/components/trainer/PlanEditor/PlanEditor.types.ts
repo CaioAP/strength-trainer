@@ -30,6 +30,32 @@ export interface PlanEditorState {
   workouts: WorkoutInput[];
 }
 
+export interface ExerciseRowProps {
+  exercise: PlanExerciseInput;
+  eIndex: number;
+  onRemove: () => void;
+  onUpdate: (field: keyof PlanExerciseInput, value: string | number) => void;
+  exercisesMaster: ExerciseMaster[];
+  t: (key: string, params?: Record<string, string | number>) => string;
+  locale: string;
+}
+
+export interface WorkoutSectionProps {
+  workout: WorkoutInput;
+  wIndex: number;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onRemove: () => void;
+  onUpdateName: (name: string) => void;
+  onAddExercise: () => void;
+  onRemoveExercise: (eIndex: number) => void;
+  onUpdateExercise: (eIndex: number, field: keyof PlanExerciseInput, value: string | number) => void;
+  exercisesMaster: ExerciseMaster[];
+  showRemoveWorkout: boolean;
+  t: (key: string, params?: Record<string, string | number>) => string;
+  locale: string;
+}
+
 export interface UsePlanEditorReturn extends PlanEditorState {
   setPlanName: (name: string) => void;
   setWorkouts: (workouts: WorkoutInput[]) => void;

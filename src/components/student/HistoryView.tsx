@@ -4,14 +4,10 @@ import { Clock } from "lucide-react";
 import EmptyState from "@/components/ui/EmptyState";
 import { formatDuration } from "@/lib/utils/time";
 import { Card } from "@/components/ui/Card";
-import { WorkoutExecution } from "./StudentDashboard.types";
+import { HistoryViewProps } from "./HistoryView.types";
 
-interface HistoryViewProps {
-  fullHistory: WorkoutExecution[];
-}
-
-export default function HistoryView({ 
-  fullHistory 
+export default function HistoryView({
+  fullHistory
 }: HistoryViewProps): React.JSX.Element {
   const t = useTranslations("Student.History");
 

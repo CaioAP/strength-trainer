@@ -2,18 +2,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { validatePassword } from "@/lib/utils/validatePassword";
-
-interface UseResetPasswordFormReturn {
-  password: string;
-  setPassword: (password: string) => void;
-  confirmPassword: string;
-  setConfirmPassword: (confirmPassword: string) => void;
-  loading: boolean;
-  initializing: boolean;
-  error: string | null;
-  success: boolean;
-  handleReset: (e: React.FormEvent) => Promise<void>;
-}
+import { UseResetPasswordFormReturn } from "./Auth.types";
 
 export function useResetPasswordForm(): UseResetPasswordFormReturn {
   const [password, setPassword] = useState("");

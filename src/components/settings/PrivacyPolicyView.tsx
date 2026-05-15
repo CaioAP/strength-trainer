@@ -31,7 +31,7 @@ export const PrivacyPolicyView = (): React.JSX.Element => {
 
   return (
     <div className="flex-1 flex flex-col">
-      <SubPageHeader category="Legal" title="Privacy Policy" />
+      <SubPageHeader category="Legal" title="Privacy Policy" backHref="/" />
 
       <div className="p-4 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
         <div className="px-1">
