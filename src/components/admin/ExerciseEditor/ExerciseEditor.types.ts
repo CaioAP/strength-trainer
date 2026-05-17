@@ -16,5 +16,6 @@ export interface UseExerciseEditorReturn {
   setForm: (form: NewExercise) => void;
   setPendingVideoFile: (file: File | null) => void;
   handleSave: () => Promise<{ error: Error | null }>;
+  handleDelete: () => Promise<void>;
   isEditing: boolean;
 }

@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { MuscleGroup, NewExercise } from "../AdminDashboard.types";
 import { UseExerciseEditorReturn } from "./ExerciseEditor.types";
 import {
+  deleteExercise,
   getExercise,
   getMuscleGroups,
   saveExercise,
@@ -106,6 +107,18 @@ export const useExerciseEditor = (exerciseId?: string): UseExerciseEditorReturn 
     return { error: null };
   };
 
+  const handleDelete = async (): Promise<void> => {
+    if (!exerciseId) return;
+    setActionLoading(true);
+    const result = await deleteExercise(exerciseId);
+    setActionLoading(false);
+    if (result.error) {
+      setError(t("save_failed"));
+      return;
+    }
+    router.back();
+  };
+
   return {
     exercises: [],
     muscleGroups,
@@ -118,6 +131,7 @@ export const useExerciseEditor = (exerciseId?: string): UseExerciseEditorReturn 
     setForm,
     setPendingVideoFile,
     handleSave,
+    handleDelete,
     isEditing,
   };
 };

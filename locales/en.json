@@ -20,6 +20,7 @@
     "no_templates_found": "No templates found",
     "no_exercises_found": "No exercises found",
     "confirm": "Confirm",
+    "description": "Description",
     "back": "Back",
     "exit": "Exit",
     "VideoUpload": {
@@ -89,7 +90,8 @@
       "delete_confirm_msg": "Are you sure you want to remove this exercise from the master library? This action cannot be undone.",
       "save_success": "Exercise saved successfully!",
       "upload_failed": "Failed to upload tutorial video. Please try again.",
-      "save_failed": "Failed to save exercise. Please try again."
+      "save_failed": "Failed to save exercise. Please try again.",
+      "view_video": "View Video"
     }
   },
   "Student": {

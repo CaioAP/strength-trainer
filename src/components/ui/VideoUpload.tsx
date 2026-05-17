@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { Upload, X, CheckCircle2 } from "lucide-react";
+import { Upload, X, CheckCircle2, Play } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "./Button";
 import { Text } from "./Text";
@@ -11,6 +11,7 @@ interface VideoUploadProps {
   currentUrl?: string | null;
   label?: string;
   disabled?: boolean;
+  onPlay?: () => void;
 }
 
 export const VideoUpload = ({
@@ -18,6 +19,7 @@ export const VideoUpload = ({
   currentUrl,
   label,
   disabled = false,
+  onPlay,
 }: VideoUploadProps): React.JSX.Element => {
   const t = useTranslations("Common.VideoUpload");
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentUrl || null);
@@ -67,9 +69,19 @@ export const VideoUpload = ({
         {previewUrl ? (
           <div className="p-2 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+              <button
+                type="button"
+                onClick={onPlay}
+                disabled={!onPlay}
+                className="w-12 h-12 bg-black rounded-lg flex items-center justify-center shrink-0 overflow-hidden relative group/thumb disabled:cursor-default"
+              >
                 <video src={previewUrl} className="w-full h-full object-cover" />
-              </div>
+                {onPlay && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity rounded-lg">
+                    <Play className="w-4 h-4 text-white fill-white" />
+                  </div>
+                )}
+              </button>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-brand-primary" />

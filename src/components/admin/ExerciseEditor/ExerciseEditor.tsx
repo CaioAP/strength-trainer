@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
 import CustomSelect from "@/components/ui/CustomSelect";
 import { VideoUpload } from "@/components/ui/VideoUpload";
+import ConfirmationModal from "@/components/ui/ConfirmationModal";
+import { VideoModal } from "@/components/ui/VideoModal";
 import { useMuscleGroupTranslation } from "@/hooks/useMuscleGroupTranslation";
 import { useExerciseEditor } from "./useExerciseEditor";
 import { ExerciseEditorProps } from "./ExerciseEditor.types";
@@ -29,8 +31,12 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
     setForm,
     setPendingVideoFile,
     handleSave,
+    handleDelete,
     isEditing,
   } = useExerciseEditor(exerciseId);
+
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+  const [videoModalOpen, setVideoModalOpen] = React.useState(false);
 
   const onSave = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -92,6 +98,7 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
                   if (!file) setForm({ ...form, media_url: undefined });
                 }}
                 disabled={actionLoading}
+                onPlay={form.media_url ? () => setVideoModalOpen(true) : undefined}
               />
 
               <TextArea
@@ -105,7 +112,7 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
             </div>
           </Card>
 
-          <div className="flex gap-4 pt-4 pb-12">
+          <div className="flex flex-col gap-3 pt-4 pb-12">
             <Button
               type="submit"
               variant="primary"
@@ -116,8 +123,38 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
             >
               {isEditing ? ct("save") : t("add_button")}
             </Button>
+            {isEditing && (
+              <Button
+                type="button"
+                variant="danger-subtle"
+                fullWidth
+                size="lg"
+                disabled={actionLoading}
+                onClick={() => setDeleteModalOpen(true)}
+              >
+                {ct("delete")}
+              </Button>
+            )}
           </div>
         </form>
+
+        <ConfirmationModal
+          isOpen={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onConfirm={handleDelete}
+          isLoading={actionLoading}
+          title={t("delete_confirm_title")}
+          message={t("delete_confirm_msg")}
+          confirmText={ct("delete")}
+          variant="danger"
+        />
+
+        <VideoModal
+          isOpen={videoModalOpen}
+          onClose={() => setVideoModalOpen(false)}
+          videoUrl={form.media_url ?? ""}
+          title={form.name}
+        />
 
         {error && (
           <div className="mb-12 p-4 bg-status-error/10 rounded-lg animate-in fade-in slide-in-from-bottom-2 shadow-card text-center">

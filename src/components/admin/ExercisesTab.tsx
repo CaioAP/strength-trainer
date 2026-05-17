@@ -8,7 +8,6 @@ import ConfirmationModal from "@/components/ui/ConfirmationModal";
 import { ExerciseMaster, MuscleGroup } from "./AdminDashboard.types";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { VideoModal } from "@/components/ui/VideoModal";
 import { getLocalizedExercise } from "@/lib/utils/exercise";
 import { useMuscleGroupTranslation } from "@/hooks/useMuscleGroupTranslation";
 
@@ -43,11 +42,6 @@ export default function ExercisesTab({
   const ct = useTranslations("Common");
   const { translateMuscleGroup } = useMuscleGroupTranslation();
   const [nameSearch, setNameSearch] = React.useState("");
-  const [videoModal, setVideoModal] = React.useState<{ isOpen: boolean; url: string; title: string }>({
-    isOpen: false,
-    url: "",
-    title: "",
-  });
 
   const muscleGroupOptions = React.useMemo(() => {
     const options = muscleGroups.map(g => ({ 
@@ -113,47 +107,31 @@ export default function ExercisesTab({
         
         <div className="grid gap-3">
           {filteredExercises.map((ex) => {
-            const { displayName, displayDescription } = getLocalizedExercise(ex, locale);
+            const { displayName } = getLocalizedExercise(ex, locale);
             return (
               <Link key={ex.id} href={`/admin/exercises/edit/${ex.id}`} className="block min-w-0">
-                <Card 
+                <Card
                   variant="interactive"
                   padding="none"
-                  className="group min-h-20 flex flex-col justify-center px-4 py-2 transition-all duration-300"
+                  className="group flex items-center gap-3 px-4 py-3 transition-all duration-300"
                 >
-                  <div className="flex items-start justify-between gap-4 mb-1">
-                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="flex flex-col gap-1 min-w-0 flex-1">
+                    <div className="flex items-center gap-2 min-w-0">
                       <h3 className="font-bold text-white group-hover:text-brand-primary transition-colors truncate">
                         {displayName}
                       </h3>
                       {ex.media_url && (
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setVideoModal({ isOpen: true, url: ex.media_url!, title: displayName });
-                          }}
-                          className="p-1 bg-brand-primary/10 text-brand-primary rounded hover:bg-brand-primary/20 transition-all shrink-0"
-                          title={t("view_video")}
-                        >
+                        <span className="p-1 bg-brand-primary/10 text-brand-primary rounded shrink-0" aria-label={t("view_video")}>
                           <Video className="w-3.5 h-3.5" />
-                        </button>
+                        </span>
                       )}
                     </div>
-                    <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest whitespace-nowrap shrink-0">
+                    <span className="text-xs bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded uppercase font-bold tracking-widest self-start">
                       {translateMuscleGroup(ex.muscle_group)}
                     </span>
                   </div>
-                  
-                  <div className="pr-10">
-                    {displayDescription && (
-                      <p className="text-xs text-text-subtle line-clamp-2 italic opacity-80">
-                        {displayDescription}
-                      </p>
-                    )}
-                  </div>
 
-                  <div className="absolute bottom-2 right-2 flex items-center shrink-0">
+                  <div className="flex items-center shrink-0">
                     {deletingId === ex.id ? (
                       <div className="p-2">
                         <div className="w-4 h-4 border-2 border-status-error border-t-transparent rounded-full animate-spin" />
@@ -193,12 +171,6 @@ export default function ExercisesTab({
         variant="danger"
       />
 
-      <VideoModal
-        isOpen={videoModal.isOpen}
-        onClose={() => setVideoModal({ ...videoModal, isOpen: false })}
-        videoUrl={videoModal.url}
-        title={videoModal.title}
-      />
     </div>
   );
 }

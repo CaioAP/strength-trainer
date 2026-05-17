@@ -90,7 +90,8 @@
       "delete_confirm_msg": "Tem certeza que deseja remover este exercício da biblioteca mestre? Esta ação não pode ser desfeita.",
       "save_success": "Exercício salvo com sucesso!",
       "upload_failed": "Falha ao enviar vídeo tutorial. Tente novamente.",
-      "save_failed": "Falha ao salvar exercício. Tente novamente."
+      "save_failed": "Falha ao salvar exercício. Tente novamente.",
+      "view_video": "Ver Vídeo"
     }
   },
   "Student": {
