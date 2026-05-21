@@ -174,7 +174,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
         </button>
       </div>
 
-      <footer className="px-8 pt-8 text-center bg-brand-secondary" style={{ paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))' }}>
+      <footer className="px-8 pt-8 text-center bg-brand-secondary" style={{ paddingBottom: "calc(2rem + env(safe-area-inset-bottom))" }}>
         <p className="text-xs text-text-subtle uppercase tracking-widest font-bold opacity-30">{t("version")}</p>
       </footer>
     </div>

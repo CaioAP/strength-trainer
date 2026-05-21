@@ -12,6 +12,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     if (!error) {
       return NextResponse.redirect(`${origin}/set-password`);
     }
+    // Code already consumed (user revisiting link) — check for existing session in cookies.
+    // If session is still valid, allow them back to set-password without re-exchanging.
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      return NextResponse.redirect(`${origin}/set-password`);
+    }
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`);

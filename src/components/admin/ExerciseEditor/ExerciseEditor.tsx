@@ -98,7 +98,7 @@ export const ExerciseEditor = ({ exerciseId }: ExerciseEditorProps): React.JSX.E
                   if (!file) setForm({ ...form, media_url: undefined });
                 }}
                 disabled={actionLoading}
-                onPlay={form.media_url ? () => setVideoModalOpen(true) : undefined}
+                onPlay={form.media_url ? (): void => setVideoModalOpen(true) : undefined}
               />
 
               <TextArea
