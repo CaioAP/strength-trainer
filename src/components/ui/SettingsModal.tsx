@@ -76,7 +76,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
         </button>
       </header>
 
-      <div className="flex-1 p-4 space-y-8 pb-12">
+      <div className="flex-1 overflow-y-auto p-4 space-y-8 pb-12">
         {/* Profile Section */}
         <SettingsSection title={t("account_profile")} titleVariant="primary">
           <div className="p-4 flex items-center gap-4">
@@ -174,7 +174,7 @@ export default function SettingsModal({ isOpen, onClose, user, profile }: Settin
         </button>
       </div>
 
-      <footer className="p-8 text-center bg-brand-secondary">
+      <footer className="px-8 pt-8 text-center bg-brand-secondary" style={{ paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))' }}>
         <p className="text-xs text-text-subtle uppercase tracking-widest font-bold opacity-30">{t("version")}</p>
       </footer>
     </div>
