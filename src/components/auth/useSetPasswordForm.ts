@@ -31,20 +31,10 @@ export function useSetPasswordForm(): UseSetPasswordFormReturn {
         } else if (token && type === "invite") {
           const { error: otpError } = await supabase.auth.verifyOtp({ token_hash: token, type: "invite" });
           if (otpError) throw otpError;
-        } else if (window.location.hash) {
-          const hash = window.location.hash.substring(1);
-          const params = new URLSearchParams(hash);
-          const accessToken = params.get("access_token");
-          const refreshToken = params.get("refresh_token");
-
-          if (accessToken && refreshToken) {
-            const { error: setSessionError } = await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken,
-            });
-            if (setSessionError) throw setSessionError;
-          }
         }
+        // Hash tokens (#access_token=...): createBrowserClient auto-detects and
+        // processes these via detectSessionInUrl. The polling loop below will
+        // pick up the session once the client finishes.
 
         let session = null;
         for (let i = 0; i < 5; i++) {
