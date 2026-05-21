@@ -32,24 +32,29 @@ export function useSetPasswordForm(): UseSetPasswordFormReturn {
           const { error: otpError } = await supabase.auth.verifyOtp({ token_hash: token, type: "invite" });
           if (otpError) throw otpError;
         } else if (window.location.hash) {
-          // createBrowserClient processes hash tokens asynchronously via onAuthStateChange.
-          // Check if already done; if not, wait for SIGNED_IN / INITIAL_SESSION.
-          const { data: existing } = await supabase.auth.getSession();
-          if (!existing.session) {
-            await new Promise<void>((resolve, reject) => {
-              const timer = setTimeout(
-                () => reject(new Error("Timed out waiting for session from invite link")),
-                8000
-              );
-              const { data: { subscription } } = supabase.auth.onAuthStateChange((event, authSession) => {
-                if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && authSession) {
-                  clearTimeout(timer);
-                  subscription.unsubscribe();
-                  resolve();
-                }
-              });
+          // createBrowserClient auto-processes hash tokens and fires SIGNED_IN during
+          // initialization — before useEffect runs. Subscribe first, then check
+          // getSession() as fallback to avoid missing the already-fired event.
+          await new Promise<void>((resolve, reject) => {
+            const timer = setTimeout(
+              () => reject(new Error("Timed out waiting for session from invite link")),
+              8000
+            );
+            const { data: { subscription } } = supabase.auth.onAuthStateChange((event, authSession) => {
+              if (authSession && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
+                clearTimeout(timer);
+                subscription.unsubscribe();
+                resolve();
+              }
             });
-          }
+            supabase.auth.getSession().then(({ data }) => {
+              if (data.session) {
+                clearTimeout(timer);
+                subscription.unsubscribe();
+                resolve();
+              }
+            });
+          });
         }
 
         const { data: finalData } = await supabase.auth.getSession();
