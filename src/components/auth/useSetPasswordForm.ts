@@ -31,22 +31,29 @@ export function useSetPasswordForm(): UseSetPasswordFormReturn {
         } else if (token && type === "invite") {
           const { error: otpError } = await supabase.auth.verifyOtp({ token_hash: token, type: "invite" });
           if (otpError) throw otpError;
-        }
-        // Hash tokens (#access_token=...): createBrowserClient auto-detects and
-        // processes these via detectSessionInUrl. The polling loop below will
-        // pick up the session once the client finishes.
-
-        let session = null;
-        for (let i = 0; i < 5; i++) {
-          const { data } = await supabase.auth.getSession();
-          if (data.session) {
-            session = data.session;
-            break;
+        } else if (window.location.hash) {
+          // createBrowserClient processes hash tokens asynchronously via onAuthStateChange.
+          // Check if already done; if not, wait for SIGNED_IN / INITIAL_SESSION.
+          const { data: existing } = await supabase.auth.getSession();
+          if (!existing.session) {
+            await new Promise<void>((resolve, reject) => {
+              const timer = setTimeout(
+                () => reject(new Error("Timed out waiting for session from invite link")),
+                8000
+              );
+              const { data: { subscription } } = supabase.auth.onAuthStateChange((event, authSession) => {
+                if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && authSession) {
+                  clearTimeout(timer);
+                  subscription.unsubscribe();
+                  resolve();
+                }
+              });
+            });
           }
-          await new Promise((r) => setTimeout(r, 500));
         }
 
-        if (!session && mounted) {
+        const { data: finalData } = await supabase.auth.getSession();
+        if (!finalData.session && mounted) {
           const debugInfo = `URL: ${window.location.pathname} | Query: ${window.location.search ? "Yes" : "No"} | Hash: ${window.location.hash ? "Yes" : "No"}`;
           throw new Error(`Auth session missing! ${debugInfo}`);
         }
