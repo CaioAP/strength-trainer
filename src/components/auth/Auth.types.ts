@@ -8,7 +8,7 @@ export interface UseLoginFormReturn {
   loading: boolean;
   error: string | null;
   deletionScheduled: string | null;
-  handleLogin: (e: React.FormEvent) => Promise<void>;
+  handleLogin: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 export interface UseForgotPasswordFormReturn {
@@ -17,7 +17,7 @@ export interface UseForgotPasswordFormReturn {
   loading: boolean;
   success: boolean;
   error: string | null;
-  handleResetRequest: (e: React.FormEvent) => Promise<void>;
+  handleResetRequest: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 export interface UseResetPasswordFormReturn {
@@ -29,7 +29,7 @@ export interface UseResetPasswordFormReturn {
   initializing: boolean;
   error: string | null;
   success: boolean;
-  handleReset: (e: React.FormEvent) => Promise<void>;
+  handleReset: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 export interface UseSetPasswordFormReturn {
@@ -42,5 +42,5 @@ export interface UseSetPasswordFormReturn {
   loading: boolean;
   initializing: boolean;
   error: string | null;
-  handleSetPassword: (e: React.FormEvent) => Promise<void>;
+  handleSetPassword: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }

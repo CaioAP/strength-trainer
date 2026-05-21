@@ -14,7 +14,7 @@ export function useLoginForm(): UseLoginFormReturn {
   const searchParams = useSearchParams();
   const deletionScheduled = searchParams.get("deletion_scheduled");
 
-  const handleLogin = async (e: React.FormEvent): Promise<void> => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
     setError(null);

@@ -54,6 +54,7 @@ export async function inviteStudent(email: string): Promise<Result<{ success: bo
 
     const { data: inviteData, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email, {
       data: { full_name: "Student", role: "student" },
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
     });
 
     if (inviteError) return { data: null, error: inviteError };
@@ -84,6 +85,7 @@ export async function inviteTrainer(email: string): Promise<Result<{ success: bo
 
     const { data: inviteData, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email, {
       data: { full_name: "Trainer", role: "trainer" },
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
     });
 
     if (inviteError) return { data: null, error: inviteError };

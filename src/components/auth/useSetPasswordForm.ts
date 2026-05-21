@@ -26,41 +26,43 @@ export function useSetPasswordForm(): UseSetPasswordFormReturn {
         const type = searchParams.get("type") as "invite" | "recovery" | "signup" | "email_change" | "email" | null;
 
         if (code) {
+          // Legacy: direct navigation with PKCE code (normally handled by /auth/callback)
           const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           if (exchangeError) throw exchangeError;
         } else if (token && type === "invite") {
           const { error: otpError } = await supabase.auth.verifyOtp({ token_hash: token, type: "invite" });
           if (otpError) throw otpError;
         } else if (window.location.hash) {
-          // createBrowserClient auto-processes hash tokens and fires SIGNED_IN during
-          // initialization — before useEffect runs. Subscribe first, then check
-          // getSession() as fallback to avoid missing the already-fired event.
-          await new Promise<void>((resolve, reject) => {
-            const timer = setTimeout(
-              () => reject(new Error("Timed out waiting for session from invite link")),
-              8000
-            );
-            const { data: { subscription } } = supabase.auth.onAuthStateChange((event, authSession) => {
-              if (authSession && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
-                clearTimeout(timer);
-                subscription.unsubscribe();
-                resolve();
-              }
+          // Fallback for old invite links that use implicit flow (#access_token=...).
+          // createBrowserClient (flowType: pkce) rejects these without consuming the token,
+          // so calling setSession here is safe — no double-consume.
+          const hash = window.location.hash.substring(1);
+          const params = new URLSearchParams(hash);
+          const accessToken = params.get("access_token");
+          const refreshToken = params.get("refresh_token");
+          if (accessToken && refreshToken) {
+            const { error: setSessionError } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken,
             });
-            supabase.auth.getSession().then(({ data }) => {
-              if (data.session) {
-                clearTimeout(timer);
-                subscription.unsubscribe();
-                resolve();
-              }
-            });
-          });
+            if (setSessionError) throw setSessionError;
+          }
+        }
+        // Normal PKCE path: /auth/callback already exchanged the code and stored
+        // the session in cookies before redirecting here — getSession() returns it immediately.
+
+        let session = null;
+        for (let i = 0; i < 5; i++) {
+          const { data } = await supabase.auth.getSession();
+          if (data.session) {
+            session = data.session;
+            break;
+          }
+          await new Promise((r) => setTimeout(r, 500));
         }
 
-        const { data: finalData } = await supabase.auth.getSession();
-        if (!finalData.session && mounted) {
-          const debugInfo = `URL: ${window.location.pathname} | Query: ${window.location.search ? "Yes" : "No"} | Hash: ${window.location.hash ? "Yes" : "No"}`;
-          throw new Error(`Auth session missing! ${debugInfo}`);
+        if (!session && mounted) {
+          throw new Error("Failed to verify session. The invite link may be expired — ask for a new invite.");
         }
       } catch (err: unknown) {
         if (mounted) {
@@ -78,7 +80,7 @@ export function useSetPasswordForm(): UseSetPasswordFormReturn {
     };
   }, [supabase, searchParams]);
 
-  const handleSetPassword = async (e: React.FormEvent): Promise<void> => {
+  const handleSetPassword = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!fullName.trim()) {
       setError("Please enter your full name");

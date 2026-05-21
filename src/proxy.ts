@@ -8,5 +8,5 @@ export const config = {
   // - API routes
   // - _next (static files, etc.)
   // - Static assets (public folder)
-  matcher: ["/((?!api|_next|_static|_vercel|[\\w-]+\\.\\w+).*)"]
+  matcher: ["/((?!api|auth/callback|_next|_static|_vercel|[\\w-]+\\.\\w+).*)"]
 };

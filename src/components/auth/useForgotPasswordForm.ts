@@ -10,7 +10,7 @@ export function useForgotPasswordForm(): UseForgotPasswordFormReturn {
 
   const supabase = createClient();
 
-  const handleResetRequest = async (e: React.FormEvent): Promise<void> => {
+  const handleResetRequest = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
     setError(null);

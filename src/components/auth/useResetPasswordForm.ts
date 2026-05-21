@@ -26,7 +26,7 @@ export function useResetPasswordForm(): UseResetPasswordFormReturn {
     checkSession();
   }, [supabase]);
 
-  const handleReset = async (e: React.FormEvent): Promise<void> => {
+  const handleReset = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setError(null);
 
