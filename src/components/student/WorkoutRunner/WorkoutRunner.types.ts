@@ -17,11 +17,6 @@ export interface PlanExercise {
   exercise: ExerciseMaster;
 }
 
-export interface Workout {
-  name: string;
-  plan_exercises: PlanExercise[];
-}
-
 export interface ExtendedPlanExercise extends PlanExercise {
   actual_sets: number;
   actual_reps: number;
@@ -29,11 +24,26 @@ export interface ExtendedPlanExercise extends PlanExercise {
   actual_rest: number;
 }
 
+export interface RunnerGroup {
+  id: string;
+  label: string | null;
+  rounds: number;
+  rest_seconds: number;
+  order_index: number;
+  exercises: ExtendedPlanExercise[];
+}
+
+export interface Workout {
+  name: string;
+  groups: RunnerGroup[];
+}
+
 export interface SessionState {
   loading: boolean;
   error: string | null;
   actionLoading: boolean;
   workout: Workout | null;
+  groups: RunnerGroup[];
   exercises: ExtendedPlanExercise[];
   completedExercises: Record<string, boolean>;
   showFinishModal: boolean;
@@ -48,6 +58,7 @@ export interface UseWorkoutRunnerReturn {
   error: string | null;
   actionLoading: boolean;
   workout: Workout | null;
+  groups: RunnerGroup[];
   exercises: ExtendedPlanExercise[];
   completedExercises: Record<string, boolean>;
   showFinishModal: boolean;

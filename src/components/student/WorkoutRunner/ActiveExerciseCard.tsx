@@ -11,6 +11,7 @@ interface ActiveExerciseCardProps {
   exercise: ExtendedPlanExercise;
   index: number;
   isDone: boolean;
+  showSetsRest: boolean;
   onToggle: () => void;
   onUpdateParam: (field: keyof ExtendedPlanExercise, value: number) => void;
   locale: string;
@@ -20,6 +21,7 @@ export const ActiveExerciseCard = ({
   exercise,
   index,
   isDone,
+  showSetsRest,
   onToggle,
   onUpdateParam,
   locale,
@@ -82,31 +84,35 @@ export const ActiveExerciseCard = ({
       <div className={`p-4 grid grid-cols-2 gap-4 transition-opacity duration-300 bg-black/10 ${
         isDone ? "opacity-40 pointer-events-none" : "opacity-100"
       }`}>
-        <NumberInput 
-          label="Sets" 
-          value={exercise.actual_sets} 
-          onChange={(v) => onUpdateParam("actual_sets", v)} 
-          min={1} 
+        {showSetsRest && (
+          <NumberInput
+            label="Sets"
+            value={exercise.actual_sets}
+            onChange={(v) => onUpdateParam("actual_sets", v)}
+            min={1}
+          />
+        )}
+        <NumberInput
+          label="Reps"
+          value={exercise.actual_reps}
+          onChange={(v) => onUpdateParam("actual_reps", v)}
+          min={1}
         />
-        <NumberInput 
-          label="Reps" 
-          value={exercise.actual_reps} 
-          onChange={(v) => onUpdateParam("actual_reps", v)} 
-          min={1} 
+        <NumberInput
+          label="Load (kg)"
+          value={exercise.actual_load}
+          onChange={(v) => onUpdateParam("actual_load", v)}
+          step={0.5}
         />
-        <NumberInput 
-          label="Load (kg)" 
-          value={exercise.actual_load} 
-          onChange={(v) => onUpdateParam("actual_load", v)} 
-          step={0.5} 
-        />
-        <NumberInput 
-          label="Rest (s)" 
-          value={exercise.actual_rest} 
-          onChange={(v) => onUpdateParam("actual_rest", v)} 
-          step={5} 
-          min={0} 
-        />
+        {showSetsRest && (
+          <NumberInput
+            label="Rest (s)"
+            value={exercise.actual_rest}
+            onChange={(v) => onUpdateParam("actual_rest", v)}
+            step={5}
+            min={0}
+          />
+        )}
       </div>
 
       {exercise.exercise?.media_url && (

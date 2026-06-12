@@ -129,7 +129,10 @@
       "easy": "Fácil",
       "max_effort": "Esforço Máximo",
       "exit_confirm_title": "Sair do Treino?",
-      "exit_confirm_msg": "Seu progresso será perdido se você sair agora."
+      "exit_confirm_msg": "Seu progresso será perdido se você sair agora.",
+      "superset": "Supersérie",
+      "rounds_label": "{count}x rounds",
+      "rest_after": "{seconds}s descanso"
     }
   },
   "Session": {
@@ -183,6 +186,14 @@
       "plan_name_placeholder": "ex: Hipertrofia Fase 1",
       "exercise_label": "Exercício",
       "exercise_placeholder": "Buscar na biblioteca...",
+      "reps": "Reps",
+      "load": "Carga (kg)",
+      "rounds": "Rounds",
+      "rest_after": "Descanso após (s)",
+      "superset": "Supersérie",
+      "group_label_placeholder": "Rótulo do grupo (opcional)",
+      "add_to_group": "Adicionar ao grupo",
+      "add_group": "Adicionar Grupo",
       "add_exercise": "Adicionar Exercício",
       "add_workout": "Adicionar Treino",
       "save_plan": "Salvar Plano",

@@ -11,7 +11,7 @@ import LoadingScreen from "@/components/ui/LoadingScreen";
 import SuspenseLoader from "@/components/ui/SuspenseLoader";
 import { Button } from "@/components/ui/Button";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
-import { ActiveExerciseCard } from "./ActiveExerciseCard";
+import { GroupCard } from "./GroupCard";
 import { useWorkoutRunner } from "./useWorkoutRunner";
 
 interface WorkoutRunnerProps {
@@ -29,6 +29,7 @@ function WorkoutRunnerContent({ studentId: _studentId, workoutId: _workoutId }: 
     error,
     actionLoading,
     workout,
+    groups,
     exercises,
     completedExercises,
     showFinishModal,
@@ -95,17 +96,23 @@ function WorkoutRunnerContent({ studentId: _studentId, workoutId: _workoutId }: 
       </header>
 
       <div className="p-4 space-y-4">
-        {exercises.map((ex, index) => (
-          <ActiveExerciseCard
-            key={ex.id}
-            exercise={ex}
-            index={index}
-            isDone={!!completedExercises[ex.id]}
-            onToggle={() => toggleExercise(ex.id)}
-            onUpdateParam={(field, val) => updateExerciseParam(ex.id, field, val)}
-            locale={locale}
-          />
-        ))}
+        {groups.map((group, gIndex) => {
+          const startIndex = groups
+            .slice(0, gIndex)
+            .reduce((sum, g) => sum + g.exercises.length, 0);
+          return (
+            <GroupCard
+              key={group.id}
+              group={group}
+              startIndex={startIndex}
+              completedExercises={completedExercises}
+              onToggle={toggleExercise}
+              onUpdateParam={updateExerciseParam}
+              locale={locale}
+              t={t}
+            />
+          );
+        })}
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-linear-to-t from-brand-secondary via-brand-secondary to-transparent">

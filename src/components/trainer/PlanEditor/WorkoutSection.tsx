@@ -3,7 +3,7 @@ import { Plus, Trash2, ChevronLeft } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { ExerciseRow } from "./ExerciseRow";
+import { GroupSection } from "./GroupSection";
 import { WorkoutSectionProps } from "./PlanEditor.types";
 
 export const WorkoutSection = ({
@@ -13,6 +13,9 @@ export const WorkoutSection = ({
   onToggle,
   onRemove,
   onUpdateName,
+  onAddGroup,
+  onRemoveGroup,
+  onUpdateGroupField,
   onAddExercise,
   onRemoveExercise,
   onUpdateExercise,
@@ -57,13 +60,17 @@ export const WorkoutSection = ({
 
       {isExpanded && (
         <div className="p-4 space-y-6 animate-in slide-in-from-top-2 duration-200">
-          {workout.exercises.map((ex, eIndex) => (
-            <ExerciseRow
-              key={eIndex}
-              exercise={ex}
-              eIndex={eIndex}
-              onRemove={() => onRemoveExercise(eIndex)}
-              onUpdate={(field, value) => onUpdateExercise(eIndex, field, value)}
+          {workout.groups.map((group, gIndex) => (
+            <GroupSection
+              key={gIndex}
+              group={group}
+              gIndex={gIndex}
+              onRemoveGroup={() => onRemoveGroup(gIndex)}
+              showRemoveGroup={workout.groups.length > 1}
+              onUpdateField={(field, value) => onUpdateGroupField(gIndex, field, value)}
+              onAddExercise={() => onAddExercise(gIndex)}
+              onRemoveExercise={(eIndex) => onRemoveExercise(gIndex, eIndex)}
+              onUpdateExercise={(eIndex, field, value) => onUpdateExercise(gIndex, eIndex, field, value)}
               exercisesMaster={exercisesMaster}
               t={t}
               locale={locale}
@@ -73,10 +80,10 @@ export const WorkoutSection = ({
           <Button
             variant="secondary"
             fullWidth
-            onClick={onAddExercise}
+            onClick={onAddGroup}
             className="bg-brand-primary/5 text-brand-primary hover:bg-brand-primary/10"
           >
-            <Plus className="w-4 h-4 mr-2" /> {t("add_exercise")}
+            <Plus className="w-4 h-4 mr-2" /> {t("add_group")}
           </Button>
         </div>
       )}

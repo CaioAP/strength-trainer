@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { usePlanEditor } from "./usePlanEditor";
 import { WorkoutSection } from "./WorkoutSection";
-import { PlanExerciseInput } from "./PlanEditor.types";
 
 export const PlanEditor = (): React.JSX.Element => {
   const t = useTranslations("Trainer.PlanEditor");
@@ -24,12 +23,16 @@ export const PlanEditor = (): React.JSX.Element => {
     setPlanName,
     expandedWorkouts,
     workouts,
-    setWorkouts,
     addWorkout,
     toggleWorkout,
+    removeWorkout,
+    updateWorkoutName,
+    addGroup,
+    removeGroup,
+    updateGroupField,
     addExercise,
     removeExercise,
-    removeWorkout,
+    updateExercise,
     handleSave,
     editId,
     router,
@@ -40,7 +43,7 @@ export const PlanEditor = (): React.JSX.Element => {
     if (result.error) {
       const errKey = result.error.message.split("|")[0];
       const errName = result.error.message.split("|")[1];
-      
+
       if (errKey === "error_name_required") {
         setError(t("error_name_required"));
       } else if (errKey === "error_exercise_required") {
@@ -49,21 +52,6 @@ export const PlanEditor = (): React.JSX.Element => {
         setError(t("error_save_failed"));
       }
     }
-  };
-
-  const updateWorkoutName = (wIndex: number, name: string): void => {
-    const newWorkouts = [...workouts];
-    newWorkouts[wIndex].name = name;
-    setWorkouts(newWorkouts);
-  };
-
-  const updateExercise = (wIndex: number, eIndex: number, field: keyof PlanExerciseInput, value: string | number): void => {
-    const newWorkouts = [...workouts];
-    newWorkouts[wIndex].exercises[eIndex] = {
-      ...newWorkouts[wIndex].exercises[eIndex],
-      [field]: value,
-    };
-    setWorkouts(newWorkouts);
   };
 
   if (loading) return <LoadingScreen label={t("loading_library")} />;
@@ -101,9 +89,12 @@ export const PlanEditor = (): React.JSX.Element => {
             onToggle={() => toggleWorkout(wIndex)}
             onRemove={() => removeWorkout(wIndex)}
             onUpdateName={(name) => updateWorkoutName(wIndex, name)}
-            onAddExercise={() => addExercise(wIndex)}
-            onRemoveExercise={(eIndex) => removeExercise(wIndex, eIndex)}
-            onUpdateExercise={(eIndex, field, value) => updateExercise(wIndex, eIndex, field, value)}
+            onAddGroup={() => addGroup(wIndex)}
+            onRemoveGroup={(gIndex) => removeGroup(wIndex, gIndex)}
+            onUpdateGroupField={(gIndex, field, value) => updateGroupField(wIndex, gIndex, field, value)}
+            onAddExercise={(gIndex) => addExercise(wIndex, gIndex)}
+            onRemoveExercise={(gIndex, eIndex) => removeExercise(wIndex, gIndex, eIndex)}
+            onUpdateExercise={(gIndex, eIndex, field, value) => updateExercise(wIndex, gIndex, eIndex, field, value)}
             exercisesMaster={exercisesMaster}
             showRemoveWorkout={workouts.length > 1}
             t={t}

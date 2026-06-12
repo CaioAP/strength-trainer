@@ -4,28 +4,51 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Result } from "@/lib/types/common.types";
-import { ExerciseMaster, WorkoutInput, UsePlanEditorReturn } from "./PlanEditor.types";
+import {
+  buildGroups,
+  buildGroupRows,
+  buildExerciseRows,
+  createSingletonGroup,
+  createEmptyExercise,
+  isGroupIncomplete,
+  ExerciseRow as ExerciseInsertRow,
+} from "@/lib/utils/groups";
+import {
+  ExerciseMaster,
+  WorkoutInput,
+  ExerciseGroupInput,
+  PlanExerciseInput,
+  UsePlanEditorReturn,
+} from "./PlanEditor.types";
 
 interface PlanExerciseRow {
   exercise_id: string;
-  sets: number;
   reps: number;
   load: number;
+  order_in_group: number;
+}
+
+interface ExerciseGroupRow {
+  label: string | null;
+  rounds: number;
   rest_seconds: number;
   order_index: number;
+  plan_exercises: PlanExerciseRow[];
 }
 
 interface WorkoutRow {
   id: string;
   name: string;
   order_index: number;
-  plan_exercises: PlanExerciseRow[];
+  exercise_groups: ExerciseGroupRow[];
 }
 
 interface PlanRow {
   name: string;
   workouts: WorkoutRow[];
 }
+
+const newWorkout = (name: string): WorkoutInput => ({ name, groups: [createSingletonGroup()] });
 
 export const usePlanEditor = (): UsePlanEditorReturn => {
   const [exercisesMaster, setExercisesMaster] = useState<ExerciseMaster[]>([]);
@@ -34,9 +57,7 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
   const [error, setError] = useState<string | null>(null);
   const [planName, setPlanName] = useState("");
   const [expandedWorkouts, setExpandedWorkouts] = useState<Record<number, boolean>>({ 0: true });
-  const [workouts, setWorkouts] = useState<WorkoutInput[]>([
-    { name: "Workout A", exercises: [{ exercise_id: "", sets: 3, reps: 10, load: 0, rest: 60 }] },
-  ]);
+  const [workouts, setWorkouts] = useState<WorkoutInput[]>([newWorkout("Workout A")]);
 
   const supabase = createClient();
   const router = useRouter();
@@ -45,7 +66,6 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
   const editId = searchParams.get("plan_id");
 
   const init = useCallback(async (): Promise<void> => {
-    // Avoid setting state if already loading to prevent cascading renders
     const { data: exData } = await supabase.from("exercise_master").select("id, name, media_url").order("name");
     if (exData) setExercisesMaster(exData as ExerciseMaster[]);
 
@@ -59,13 +79,17 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
               id,
               name,
               order_index,
-              plan_exercises (
-                exercise_id,
-                sets,
-                reps,
-                load,
+              exercise_groups (
+                label,
+                rounds,
                 rest_seconds,
-                order_index
+                order_index,
+                plan_exercises (
+                  exercise_id,
+                  reps,
+                  load,
+                  order_in_group
+                )
               )
             )
           `)
@@ -77,24 +101,25 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
 
         setPlanName(plan.name);
 
-        const mappedWorkouts = (plan.workouts || [])
-          .sort((a: WorkoutRow, b: WorkoutRow) => a.order_index - b.order_index)
-          .map((w: WorkoutRow) => ({
+        const mappedWorkouts: WorkoutInput[] = (plan.workouts || [])
+          .sort((a, b) => a.order_index - b.order_index)
+          .map((w) => ({
             name: w.name,
-            exercises: (w.plan_exercises || [])
-              .sort((a: PlanExerciseRow, b: PlanExerciseRow) => a.order_index - b.order_index)
-              .map((ex: PlanExerciseRow) => ({
-                exercise_id: ex.exercise_id,
-                sets: ex.sets,
-                reps: ex.reps,
-                load: ex.load,
-                rest: ex.rest_seconds,
-              })),
+            groups: buildGroups<PlanExerciseRow, ExerciseGroupRow, ExerciseGroupInput, PlanExerciseInput>(
+              w.exercise_groups,
+              (g, exercises) => ({
+                label: g.label,
+                rounds: g.rounds,
+                rest: g.rest_seconds,
+                exercises,
+              }),
+              (ex) => ({ exercise_id: ex.exercise_id, reps: ex.reps, load: ex.load }),
+            ),
           }));
 
         setWorkouts(mappedWorkouts);
         const initialExpanded: Record<number, boolean> = {};
-        mappedWorkouts.forEach((_: WorkoutInput, i: number) => (initialExpanded[i] = true));
+        mappedWorkouts.forEach((_, i) => (initialExpanded[i] = true));
         setExpandedWorkouts(initialExpanded);
       } catch (err) {
         console.error("Error loading plan for edit:", err);
@@ -111,12 +136,10 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
     }
   }, [init, loading, exercisesMaster.length]);
 
+  // ----- Workout mutations -----
   const addWorkout = (): void => {
     const newIndex = workouts.length;
-    setWorkouts([...workouts, {
-      name: `Workout ${String.fromCharCode(65 + newIndex)}`,
-      exercises: [{ exercise_id: "", sets: 3, reps: 10, load: 0, rest: 60 }],
-    }]);
+    setWorkouts([...workouts, newWorkout(`Workout ${String.fromCharCode(65 + newIndex)}`)]);
     setExpandedWorkouts((prev) => ({ ...prev, [newIndex]: true }));
   };
 
@@ -124,26 +147,105 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
     setExpandedWorkouts((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const addExercise = (wIndex: number): void => {
-    const newWorkouts = [...workouts];
-    newWorkouts[wIndex].exercises.push({ exercise_id: "", sets: 3, reps: 10, load: 0, rest: 60 });
-    setWorkouts(newWorkouts);
-  };
-
-  const removeExercise = (wIndex: number, eIndex: number): void => {
-    const newWorkouts = [...workouts];
-    newWorkouts[wIndex].exercises.splice(eIndex, 1);
-    setWorkouts(newWorkouts);
-  };
-
   const removeWorkout = (index: number): void => {
     if (workouts.length <= 1) return;
-    const newWorkouts = [...workouts];
-    newWorkouts.splice(index, 1);
-    setWorkouts(newWorkouts);
+    setWorkouts(workouts.filter((_, i) => i !== index));
     const newExpanded = { ...expandedWorkouts };
     delete newExpanded[index];
     setExpandedWorkouts(newExpanded);
+  };
+
+  const updateWorkoutName = (wIndex: number, name: string): void => {
+    setWorkouts(workouts.map((w, i) => (i === wIndex ? { ...w, name } : w)));
+  };
+
+  // ----- Group / exercise mutations -----
+  const mapGroups = (
+    wIndex: number,
+    fn: (groups: ExerciseGroupInput[]) => ExerciseGroupInput[],
+  ): void => {
+    setWorkouts(workouts.map((w, i) => (i === wIndex ? { ...w, groups: fn(w.groups) } : w)));
+  };
+
+  const addGroup = (wIndex: number): void => {
+    mapGroups(wIndex, (groups) => [...groups, createSingletonGroup()]);
+  };
+
+  const removeGroup = (wIndex: number, gIndex: number): void => {
+    mapGroups(wIndex, (groups) => (groups.length <= 1 ? groups : groups.filter((_, i) => i !== gIndex)));
+  };
+
+  const updateGroupField = (
+    wIndex: number,
+    gIndex: number,
+    field: "label" | "rounds" | "rest",
+    value: string | number,
+  ): void => {
+    mapGroups(wIndex, (groups) =>
+      groups.map((g, i) => (i === gIndex ? { ...g, [field]: value } : g)),
+    );
+  };
+
+  const addExercise = (wIndex: number, gIndex: number): void => {
+    mapGroups(wIndex, (groups) =>
+      groups.map((g, i) => (i === gIndex ? { ...g, exercises: [...g.exercises, createEmptyExercise()] } : g)),
+    );
+  };
+
+  const removeExercise = (wIndex: number, gIndex: number, eIndex: number): void => {
+    mapGroups(wIndex, (groups) =>
+      groups.map((g, i) =>
+        i === gIndex && g.exercises.length > 1
+          ? { ...g, exercises: g.exercises.filter((_, j) => j !== eIndex) }
+          : g,
+      ),
+    );
+  };
+
+  const updateExercise = (
+    wIndex: number,
+    gIndex: number,
+    eIndex: number,
+    field: keyof PlanExerciseInput,
+    value: string | number,
+  ): void => {
+    mapGroups(wIndex, (groups) =>
+      groups.map((g, i) =>
+        i === gIndex
+          ? {
+              ...g,
+              exercises: g.exercises.map((ex, j) => (j === eIndex ? { ...ex, [field]: value } : ex)),
+            }
+          : g,
+      ),
+    );
+  };
+
+  // ----- Save -----
+  const persistWorkoutGroups = async (workoutId: string, groups: ExerciseGroupInput[]): Promise<void> => {
+    const { data: insertedGroups, error: gErr } = await supabase
+      .from("exercise_groups")
+      .insert(buildGroupRows(groups, workoutId))
+      .select("id, order_index");
+    if (gErr) throw gErr;
+
+    const groupIdByOrder = new Map<number, string>(
+      (insertedGroups || []).map((g) => [g.order_index as number, g.id as string]),
+    );
+
+    const exerciseRows: ExerciseInsertRow[] = [];
+    let runningIndex = 0;
+    groups.forEach((group, gIndex) => {
+      const groupId = groupIdByOrder.get(gIndex);
+      if (!groupId) throw new Error("Group id missing after insert.");
+      exerciseRows.push(...buildExerciseRows(group, groupId, workoutId, runningIndex));
+      runningIndex += group.exercises.length;
+    });
+
+    if (exerciseRows.length > 0) {
+      const { error: exError } = await supabase.from("plan_exercises").insert(exerciseRows);
+      if (exError) throw exError;
+    }
   };
 
   const handleSave = async (): Promise<Result<void>> => {
@@ -152,7 +254,7 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
     }
 
     for (const workout of workouts) {
-      if (workout.exercises.some((ex) => !ex.exercise_id)) {
+      if (workout.groups.some(isGroupIncomplete)) {
         return { data: null, error: new Error(`error_exercise_required|${workout.name}`) };
       }
     }
@@ -211,18 +313,7 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
 
         if (workoutError) throw workoutError;
 
-        const exercisesToInsert = wData.exercises.map((ex, exIndex) => ({
-          workout_id: workout.id,
-          exercise_id: ex.exercise_id,
-          sets: ex.sets,
-          reps: ex.reps,
-          load: ex.load,
-          rest_seconds: ex.rest,
-          order_index: exIndex,
-        }));
-
-        const { error: exError } = await supabase.from("plan_exercises").insert(exercisesToInsert);
-        if (exError) throw exError;
+        await persistWorkoutGroups(workout.id, wData.groups);
       }
 
       router.push("/");
@@ -245,12 +336,16 @@ export const usePlanEditor = (): UsePlanEditorReturn => {
     setPlanName,
     expandedWorkouts,
     workouts,
-    setWorkouts,
     addWorkout,
     toggleWorkout,
+    removeWorkout,
+    updateWorkoutName,
+    addGroup,
+    removeGroup,
+    updateGroupField,
     addExercise,
     removeExercise,
-    removeWorkout,
+    updateExercise,
     handleSave,
     editId,
     router,

@@ -33,15 +33,27 @@ export interface Workout {
   created_at: string;
 }
 
+export interface ExerciseGroup {
+  id: string;
+  workout_id: string;
+  label?: string | null;
+  rounds: number;
+  rest_seconds: number;
+  order_index: number;
+  created_at: string;
+}
+
 export interface PlanExercise {
   id: string;
   workout_id: string;
+  group_id: string;
   exercise_id: string;
   sets: number;
   reps: number;
   load: number;
   rest_seconds: number;
   order_index: number;
+  order_in_group: number;
   created_at: string;
 }
 
@@ -69,6 +81,7 @@ export class AppDatabase extends Dexie {
   exercise_master!: Table<ExerciseMaster>;
   plans!: Table<Plan>;
   workouts!: Table<Workout>;
+  exercise_groups!: Table<ExerciseGroup>;
   plan_exercises!: Table<PlanExercise>;
   workout_executions!: Table<WorkoutExecution>;
   session_param_modifications!: Table<SessionParamModification>;
@@ -82,6 +95,10 @@ export class AppDatabase extends Dexie {
       plan_exercises: "id, workout_id, exercise_id",
       workout_executions: "id, student_id, workout_id, started_at",
       session_param_modifications: "id, execution_id, plan_exercise_id"
+    });
+    this.version(3).stores({
+      exercise_groups: "id, workout_id, order_index",
+      plan_exercises: "id, workout_id, group_id, exercise_id"
     });
   }
 }

@@ -129,7 +129,10 @@
       "easy": "Easy",
       "max_effort": "Max Effort",
       "exit_confirm_title": "Exit Workout?",
-      "exit_confirm_msg": "Your progress will be lost if you exit now."
+      "exit_confirm_msg": "Your progress will be lost if you exit now.",
+      "superset": "Superset",
+      "rounds_label": "{count}x rounds",
+      "rest_after": "{seconds}s rest"
     }
   },
   "Session": {
@@ -183,6 +186,14 @@
       "plan_name_placeholder": "e.g. Hypertrophy Phase 1",
       "exercise_label": "Exercise",
       "exercise_placeholder": "Search library...",
+      "reps": "Reps",
+      "load": "Load (kg)",
+      "rounds": "Rounds",
+      "rest_after": "Rest after (s)",
+      "superset": "Superset",
+      "group_label_placeholder": "Group label (optional)",
+      "add_to_group": "Add to group",
+      "add_group": "Add Group",
       "add_exercise": "Add Exercise",
       "add_workout": "Add Workout",
       "save_plan": "Save Plan",

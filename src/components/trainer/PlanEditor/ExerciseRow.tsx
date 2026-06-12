@@ -9,8 +9,8 @@ import { ExerciseRowProps } from "./PlanEditor.types";
 
 export const ExerciseRow = ({
   exercise,
-  eIndex: _eIndex,
   onRemove,
+  canRemove,
   onUpdate,
   exercisesMaster,
   t,
@@ -18,8 +18,8 @@ export const ExerciseRow = ({
 }: ExerciseRowProps): React.JSX.Element => {
   const [videoModalOpen, setVideoModalOpen] = React.useState(false);
   const selectedMasterEx = exercisesMaster.find((m) => m.id === exercise.exercise_id);
-  const { displayName } = selectedMasterEx 
-    ? getLocalizedExercise(selectedMasterEx, locale) 
+  const { displayName } = selectedMasterEx
+    ? getLocalizedExercise(selectedMasterEx, locale)
     : { displayName: "" };
 
   return (
@@ -58,39 +58,30 @@ export const ExerciseRow = ({
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput 
-            label="Sets" 
-            value={exercise.sets} 
-            onChange={(val) => onUpdate("sets", val)} 
+          <NumberInput
+            label={t("reps")}
+            value={exercise.reps}
+            onChange={(val) => onUpdate("reps", val)}
           />
-          <NumberInput 
-            label="Reps" 
-            value={exercise.reps} 
-            onChange={(val) => onUpdate("reps", val)} 
-          />
-          <NumberInput 
-            label="Load (kg)" 
-            value={exercise.load} 
-            onChange={(val) => onUpdate("load", val)} 
-            step={0.5} 
-          />
-          <NumberInput 
-            label="Rest (s)" 
-            value={exercise.rest} 
-            onChange={(val) => onUpdate("rest", val)} 
-            step={5} 
+          <NumberInput
+            label={t("load")}
+            value={exercise.load}
+            onChange={(val) => onUpdate("load", val)}
+            step={0.5}
           />
         </div>
       </div>
 
-      <Button
-        variant="plain"
-        size="none"
-        onClick={onRemove}
-        className="absolute -top-2 -right-2 bg-brand-surface p-1.5 rounded-full text-status-error shadow-card hover:bg-status-error hover:text-white z-10"
-      >
-        <Trash2 className="w-3.5 h-3.5" />
-      </Button>
+      {canRemove && (
+        <Button
+          variant="plain"
+          size="none"
+          onClick={onRemove}
+          className="absolute -top-2 -right-2 bg-brand-surface p-1.5 rounded-full text-status-error shadow-card hover:bg-status-error hover:text-white z-10"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+        </Button>
+      )}
 
       {selectedMasterEx?.media_url && (
         <VideoModal

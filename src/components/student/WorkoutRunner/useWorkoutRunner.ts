@@ -1,17 +1,38 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Result } from "@/lib/types/common.types";
-import { Workout, ExtendedPlanExercise, UseWorkoutRunnerReturn, ExerciseMaster } from "./WorkoutRunner.types";
+import { buildGroups } from "@/lib/utils/groups";
+import { Workout, RunnerGroup, ExtendedPlanExercise, UseWorkoutRunnerReturn, ExerciseMaster } from "./WorkoutRunner.types";
+
+interface RawRunnerExercise {
+  id: string;
+  reps: number;
+  load: number;
+  sets: number;
+  rest_seconds: number;
+  order_in_group: number;
+  exercise: ExerciseMaster | ExerciseMaster[] | null;
+}
+
+interface RawRunnerGroup {
+  id: string;
+  label: string | null;
+  rounds: number;
+  rest_seconds: number;
+  order_index: number;
+  plan_exercises: RawRunnerExercise[] | null;
+}
 
 export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [workout, setWorkout] = useState<Workout | null>(null);
-  const [exercises, setExercises] = useState<ExtendedPlanExercise[]>([]);
+  const [groups, setGroups] = useState<RunnerGroup[]>([]);
+  const exercises = useMemo<ExtendedPlanExercise[]>(() => groups.flatMap((g) => g.exercises), [groups]);
   const [completedExercises, setCompletedExercises] = useState<Record<string, boolean>>({});
   const [showFinishModal, setShowFinishModal] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -60,14 +81,21 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
       .from("workouts")
       .select(`
         name,
-        plan_exercises (
+        exercise_groups (
           id,
-          sets,
-          reps,
-          load,
+          label,
+          rounds,
           rest_seconds,
           order_index,
-          exercise:exercise_master (name, name_pt, instructions, instructions_pt, media_url)
+          plan_exercises (
+            id,
+            sets,
+            reps,
+            load,
+            rest_seconds,
+            order_in_group,
+            exercise:exercise_master (name, name_pt, instructions, instructions_pt, media_url)
+          )
         )
       `)
       .eq("id", workoutId)
@@ -77,26 +105,37 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
       console.error("Error fetching workout:", fetchError);
       setError(fetchError.message);
     } else if (data) {
-      setWorkout(data as unknown as Workout);
-      
-      const rawEx = (data.plan_exercises as unknown as Array<Record<string, unknown>>) || [];
-      const sortedExercises = [...rawEx]
-        .sort((a, b) => ((a.order_index as number) || 0) - ((b.order_index as number) || 0))
-        .map((ex): ExtendedPlanExercise => ({
-          id: ex.id as string,
-          sets: ex.sets as number,
-          reps: ex.reps as number,
-          load: ex.load as number,
-          rest_seconds: ex.rest_seconds as number,
-          order_index: ex.order_index as number,
+      const rawGroups = data.exercise_groups as unknown as RawRunnerGroup[];
+
+      const builtGroups = buildGroups<RawRunnerExercise, RawRunnerGroup, RunnerGroup, ExtendedPlanExercise>(
+        rawGroups,
+        (g, groupExercises) => ({
+          id: g.id,
+          label: g.label,
+          rounds: g.rounds,
+          rest_seconds: g.rest_seconds,
+          order_index: g.order_index,
+          exercises: groupExercises,
+        }),
+        (ex) => ({
+          id: ex.id,
+          sets: ex.sets,
+          reps: ex.reps,
+          load: ex.load,
+          rest_seconds: ex.rest_seconds,
+          order_index: ex.order_in_group,
           exercise: (Array.isArray(ex.exercise) ? ex.exercise[0] : ex.exercise) as ExerciseMaster,
-          actual_sets: ex.sets as number,
-          actual_reps: ex.reps as number,
-          actual_load: ex.load as number,
-          actual_rest: ex.rest_seconds as number,
-        }));
-      setExercises(sortedExercises);
-      if (sortedExercises.length === 0) setError("no_exercises");
+          actual_sets: ex.sets,
+          actual_reps: ex.reps,
+          actual_load: ex.load,
+          actual_rest: ex.rest_seconds,
+        }),
+      );
+
+      setWorkout({ name: data.name as string, groups: builtGroups });
+      setGroups(builtGroups);
+      const exerciseCount = builtGroups.reduce((sum, g) => sum + g.exercises.length, 0);
+      if (exerciseCount === 0) setError("no_exercises");
     }
   }, [supabase, workoutId]);
 
@@ -117,8 +156,11 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
   };
 
   const updateExerciseParam = (exId: string, param: keyof ExtendedPlanExercise, value: number): void => {
-    setExercises((prev) => 
-      prev.map((ex) => (ex.id === exId ? { ...ex, [param]: value } : ex))
+    setGroups((prev) =>
+      prev.map((g) => ({
+        ...g,
+        exercises: g.exercises.map((ex) => (ex.id === exId ? { ...ex, [param]: value } : ex)),
+      })),
     );
   };
 
@@ -184,6 +226,7 @@ export const useWorkoutRunner = (): UseWorkoutRunnerReturn => {
     error,
     actionLoading,
     workout,
+    groups,
     exercises,
     completedExercises,
     showFinishModal,
